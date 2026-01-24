@@ -45,41 +45,41 @@ export function Hero() {
           </p>
         </div>
 
-        {/* Three Pillars - lighter touch */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-3xl mx-auto mb-14">
-          <div className="text-center">
-            <div className="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+        {/* Three Pillars */}
+        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-14">
+          <div className="bg-navy-900/60 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10">
+            <div className="w-12 h-12 bg-gold-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
               <Heart className="w-6 h-6 text-gold-400" />
             </div>
-            <h3 className="font-display text-lg font-semibold text-white mb-1">
+            <h3 className="font-display text-lg font-semibold text-white mb-2">
               Love God
             </h3>
-            <p className="text-white/50 text-sm leading-relaxed">
-              With all your heart, soul,<br />mind, and strength
+            <p className="text-white/60 text-sm">
+              With all your heart, soul, mind, and strength
             </p>
           </div>
 
-          <div className="text-center">
-            <div className="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="bg-navy-900/60 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10">
+            <div className="w-12 h-12 bg-gold-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
               <BookOpen className="w-6 h-6 text-gold-400" />
             </div>
-            <h3 className="font-display text-lg font-semibold text-white mb-1">
+            <h3 className="font-display text-lg font-semibold text-white mb-2">
               Become Disciples
             </h3>
-            <p className="text-white/50 text-sm leading-relaxed">
-              Growing in spiritual maturity<br />modeled on Christ
+            <p className="text-white/60 text-sm">
+              Growing in spiritual maturity modeled on Christ
             </p>
           </div>
 
-          <div className="text-center">
-            <div className="w-14 h-14 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="bg-navy-900/60 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10">
+            <div className="w-12 h-12 bg-gold-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
               <HandHeart className="w-6 h-6 text-gold-400" />
             </div>
-            <h3 className="font-display text-lg font-semibold text-white mb-1">
+            <h3 className="font-display text-lg font-semibold text-white mb-2">
               Serve Others
             </h3>
-            <p className="text-white/50 text-sm leading-relaxed">
-              Expressing divine love<br />through humble service
+            <p className="text-white/60 text-sm">
+              Expressing divine love through humble service
             </p>
           </div>
         </div>
