@@ -8,8 +8,8 @@ export function Hero() {
       {/* Background Image - more visible */}
       <div className="absolute inset-0">
         <Image
-          src="/images/church/interior-worship.jpg"
-          alt="Christ the King Anglican Church worship service"
+          src="/images/church/greeters.jpg"
+          alt="Christ the King Anglican Church community"
           fill
           priority
           className="object-cover opacity-50"
