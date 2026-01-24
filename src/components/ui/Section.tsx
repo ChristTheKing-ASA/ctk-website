@@ -87,11 +87,8 @@ export function PageHeader({
         className
       )}
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(251,191,36,0.3),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(251,191,36,0.2),transparent_50%)]" />
-      </div>
+      {/* Background Pattern - simplified for performance */}
+      <div className="absolute inset-0 bg-gold-500/5" />
 
       {backgroundImage && (
         <div className="absolute inset-0">

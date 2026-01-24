@@ -41,7 +41,7 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-navy-100 shadow-sm">
+    <header className="sticky top-0 z-50 bg-white border-b border-navy-100">
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>

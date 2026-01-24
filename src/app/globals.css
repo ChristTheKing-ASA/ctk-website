@@ -47,12 +47,7 @@
   --font-sans: var(--font-sans), system-ui, sans-serif;
 }
 
-/* Only smooth scroll for anchor links, not regular scrolling */
-@media (prefers-reduced-motion: no-preference) {
-  html:focus-within {
-    scroll-behavior: smooth;
-  }
-}
+/* Disable smooth scrolling entirely - causes jank in some browsers */
 
 body {
   background-color: var(--color-cream-50);
