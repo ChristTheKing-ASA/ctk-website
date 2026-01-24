@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-navy-50: #f0f4f8;
+  --color-navy-100: #d9e2ec;
+  --color-navy-200: #bcccdc;
+  --color-navy-300: #9fb3c8;
+  --color-navy-400: #829ab1;
+  --color-navy-500: #627d98;
+  --color-navy-600: #486581;
+  --color-navy-700: #334e68;
+  --color-navy-800: #243b53;
+  --color-navy-900: #102a43;
+  --color-navy-950: #0a1929;
+
+  --color-gold-50: #fffbeb;
+  --color-gold-100: #fef3c7;
+  --color-gold-200: #fde68a;
+  --color-gold-300: #fcd34d;
+  --color-gold-400: #fbbf24;
+  --color-gold-500: #f59e0b;
+  --color-gold-600: #d97706;
+  --color-gold-700: #b45309;
+  --color-gold-800: #92400e;
+  --color-gold-900: #78350f;
+
+  --color-sage-50: #f6f7f6;
+  --color-sage-100: #e3e7e3;
+  --color-sage-200: #c7d0c7;
+  --color-sage-300: #a3b2a3;
+  --color-sage-400: #7d917d;
+  --color-sage-500: #627562;
+  --color-sage-600: #4d5d4d;
+  --color-sage-700: #404c40;
+  --color-sage-800: #363f36;
+  --color-sage-900: #2f352f;
+
+  --color-cream-50: #fefdfb;
+  --color-cream-100: #fdf9f3;
+  --color-cream-200: #faf3e8;
+  --color-cream-300: #f5e9d5;
+  --color-cream-400: #eddcc0;
+  --color-cream-500: #e2c9a3;
+
+  /* Font families - uses CSS variables from Next.js font optimization */
+  --font-display: var(--font-display), Georgia, serif;
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Only smooth scroll for anchor links, not regular scrolling */
+@media (prefers-reduced-motion: no-preference) {
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  background-color: var(--color-cream-50);
+  color: var(--color-navy-900);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-display;
+}
+
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-gold-500);
+  outline-offset: 2px;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-navy-900);
+  color: white;
+  padding: 8px 16px;
+  z-index: 100;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
