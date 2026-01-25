@@ -53,7 +53,7 @@ export function Header() {
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center gap-3">
               <Image
-                src="/images/logos/ctk logo cross only color_highres.png"
+                src="/images/logos/ctk-logo-cross-optimized.png"
                 alt="Christ the King"
                 width={44}
                 height={56}

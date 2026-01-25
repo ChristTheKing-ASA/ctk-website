@@ -166,7 +166,7 @@ export function Footer() {
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-3">
               <Image
-                src="/images/logos/ctk logo cross only color_highres.png"
+                src="/images/logos/ctk-logo-cross-optimized.png"
                 alt="Christ the King"
                 width={32}
                 height={40}
