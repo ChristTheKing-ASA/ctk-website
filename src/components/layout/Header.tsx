@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Menu, X, Heart } from "lucide-react";
 import { navigation } from "@/data/church";
 import { cn } from "@/lib/utils";
@@ -50,15 +51,19 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-10 h-10 bg-navy-900 rounded-full flex items-center justify-center group-hover:bg-navy-800 transition-colors">
-                <span className="text-gold-400 font-display font-bold text-lg">CTK</span>
-              </div>
+            <Link href="/" className="flex items-center gap-3">
+              <Image
+                src="/images/logos/ctk logo cross only color_highres.png"
+                alt="Christ the King"
+                width={44}
+                height={56}
+                className="h-12 w-auto"
+              />
               <div className="hidden sm:block">
-                <p className="font-display text-navy-900 font-semibold text-lg leading-tight">
+                <p className="font-display text-navy-900 font-semibold text-lg leading-tight tracking-wide">
                   Christ the King
                 </p>
-                <p className="text-navy-600 text-xs">Anglican Church</p>
+                <p className="text-navy-500 text-xs tracking-widest uppercase">Anglican Church</p>
               </div>
             </Link>
           </div>

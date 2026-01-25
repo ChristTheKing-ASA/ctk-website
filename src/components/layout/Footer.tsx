@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { MapPin, Phone, Mail, Clock, Facebook, Youtube, Instagram } from "lucide-react";
 import { churchInfo, navigation } from "@/data/church";
 
@@ -161,12 +162,21 @@ export function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-navy-800">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-2 text-sm text-navy-400">
-            <p>© {new Date().getFullYear()} Christ the King Anglican Church. All rights reserved.</p>
-            <p className="flex items-center gap-1">
-              <span>{churchInfo.scripture.main.text}</span>
-              <span className="text-navy-500">— {churchInfo.scripture.main.reference}</span>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-3">
+              <Image
+                src="/images/logos/ctk logo cross only color_highres.png"
+                alt="Christ the King"
+                width={32}
+                height={40}
+                className="h-10 w-auto opacity-80"
+              />
+              <p className="text-sm text-navy-400">© {new Date().getFullYear()} Christ the King Anglican Church</p>
+            </div>
+            <p className="text-sm text-navy-400 italic">
+              {churchInfo.scripture.main.text}
+              <span className="text-navy-500 ml-1">— {churchInfo.scripture.main.reference}</span>
             </p>
           </div>
         </div>

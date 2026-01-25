@@ -47,38 +47,38 @@ export function Hero() {
 
         {/* Three Pillars */}
         <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-14">
-          <div className="bg-navy-900/60 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10">
-            <div className="w-12 h-12 bg-gold-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Heart className="w-6 h-6 text-gold-400" />
+          <div className="bg-white/20 backdrop-blur-md rounded-xl p-6 text-center border border-white/30 shadow-lg">
+            <div className="w-12 h-12 bg-gold-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Heart className="w-6 h-6 text-gold-300" />
             </div>
             <h3 className="font-display text-lg font-semibold text-white mb-2">
               Love God
             </h3>
-            <p className="text-white/60 text-sm">
+            <p className="text-white/80 text-sm">
               With all your heart, soul, mind, and strength
             </p>
           </div>
 
-          <div className="bg-navy-900/60 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10">
-            <div className="w-12 h-12 bg-gold-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <BookOpen className="w-6 h-6 text-gold-400" />
+          <div className="bg-white/20 backdrop-blur-md rounded-xl p-6 text-center border border-white/30 shadow-lg">
+            <div className="w-12 h-12 bg-gold-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
+              <BookOpen className="w-6 h-6 text-gold-300" />
             </div>
             <h3 className="font-display text-lg font-semibold text-white mb-2">
               Become Disciples
             </h3>
-            <p className="text-white/60 text-sm">
+            <p className="text-white/80 text-sm">
               Growing in spiritual maturity modeled on Christ
             </p>
           </div>
 
-          <div className="bg-navy-900/60 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10">
-            <div className="w-12 h-12 bg-gold-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <HandHeart className="w-6 h-6 text-gold-400" />
+          <div className="bg-white/20 backdrop-blur-md rounded-xl p-6 text-center border border-white/30 shadow-lg">
+            <div className="w-12 h-12 bg-gold-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
+              <HandHeart className="w-6 h-6 text-gold-300" />
             </div>
             <h3 className="font-display text-lg font-semibold text-white mb-2">
               Serve Others
             </h3>
-            <p className="text-white/60 text-sm">
+            <p className="text-white/80 text-sm">
               Expressing divine love through humble service
             </p>
           </div>

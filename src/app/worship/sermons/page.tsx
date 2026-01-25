@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
+import { LatestSermon } from "@/components/LatestSermon";
 import { churchInfo } from "@/data/church";
 import { Video, Podcast, Smartphone } from "lucide-react";
 
@@ -26,18 +27,9 @@ export default function SermonsPage() {
 
       <Section background="white">
         <div className="max-w-4xl mx-auto">
-          {/* YouTube Embed */}
-          <div className="aspect-video bg-navy-900 rounded-xl overflow-hidden mb-12">
-            <iframe
-              width="100%"
-              height="100%"
-              src="https://www.youtube.com/embed/videoseries?list=UU"
-              title="CTK Sermon Archive"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full"
-            />
+          {/* Latest Sermon */}
+          <div className="mb-12">
+            <LatestSermon />
           </div>
 
           {/* Ways to Watch */}
