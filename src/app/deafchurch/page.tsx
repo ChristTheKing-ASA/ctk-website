@@ -3,6 +3,7 @@ import Image from "next/image";
 import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
+import { DeafChurchVideo } from "@/components/DeafChurchVideo";
 import { deafChurch } from "@/data/church";
 import {
   HandHeart,
@@ -202,24 +203,19 @@ export default function DeafChurchPage() {
             description="Experience Anglican liturgy in American Sign Language, streaming live on YouTube."
           />
 
-          {/* YouTube Embed Placeholder */}
-          <div className="aspect-video bg-navy-100 rounded-xl mb-8 flex items-center justify-center">
-            <div className="text-center">
-              <Video className="w-16 h-16 text-navy-400 mx-auto mb-4" />
-              <p className="text-navy-600">
-                YouTube livestream player would appear here
-              </p>
-            </div>
+          {/* YouTube Embed */}
+          <div className="mb-8">
+            <DeafChurchVideo />
           </div>
 
           <Button
-            href="https://www.youtube.com/@deafchurchtogether"
+            href="https://www.youtube.com/@deafchurchtogether/videos"
             external
             variant="primary"
             size="lg"
           >
             <Video className="w-4 h-4" />
-            Watch on YouTube
+            View All Services on YouTube
           </Button>
         </div>
       </Section>
