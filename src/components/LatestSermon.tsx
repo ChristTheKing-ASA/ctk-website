@@ -15,6 +15,21 @@ interface VideoInfo {
   publishedAt: string;
   viewerCount?: string;
   thumbnail?: string;
+  isShort?: boolean;
+}
+
+// Check if a video is a Short using YouTube's oEmbed endpoint
+// Shorts URLs return valid oEmbed data, regular videos at /shorts/ URL return errors
+async function checkIfShort(videoId: string): Promise<boolean> {
+  try {
+    const response = await fetch(
+      `https://www.youtube.com/oembed?url=https://www.youtube.com/shorts/${videoId}&format=json`
+    );
+    // If oEmbed returns 200, it's a valid Short
+    return response.ok;
+  } catch {
+    return false;
+  }
 }
 
 export function LatestSermon() {
@@ -52,79 +67,37 @@ export function LatestSermon() {
           return;
         }
 
-        // Get recent videos with duration info (fetch more to find actual sermons)
+        // Get recent videos
         const searchResponse = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&order=date&type=video&maxResults=25&key=${YOUTUBE_API_KEY}`
+          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&order=date&type=video&maxResults=20&key=${YOUTUBE_API_KEY}`
         );
         const searchData = await searchResponse.json();
 
         if (searchData.items && searchData.items.length > 0) {
-          const videoIds = searchData.items.map((v: any) => v.id.videoId).join(",");
+          const videos = searchData.items.map((v: any) => ({
+            id: v.id.videoId,
+            title: v.snippet.title,
+            isLive: false,
+            isUpcoming: false,
+            publishedAt: v.snippet.publishedAt,
+            thumbnail: v.snippet.thumbnails?.medium?.url || v.snippet.thumbnails?.default?.url,
+          }));
 
-          // Get video details including dimensions
-          const detailsResponse = await fetch(
-            `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,player&id=${videoIds}&key=${YOUTUBE_API_KEY}`
+          // Check each video to see if it's a Short
+          const shortChecks = await Promise.all(
+            videos.map(async (video: VideoInfo) => {
+              const isShort = await checkIfShort(video.id);
+              return { ...video, isShort };
+            })
           );
-          const detailsData = await detailsResponse.json();
 
-          const fullVideos: VideoInfo[] = [];
-          const shortVideos: VideoInfo[] = [];
-
-          detailsData.items?.forEach((video: any) => {
-            const duration = video.contentDetails.duration;
-            const title = video.snippet.title;
-            const titleLower = title.toLowerCase();
-            const description = (video.snippet.description || "").toLowerCase();
-            const thumbnails = video.snippet.thumbnails;
-
-            // Parse duration
-            const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-            const hours = parseInt(match?.[1] || "0");
-            const minutes = parseInt(match?.[2] || "0");
-            const seconds = parseInt(match?.[3] || "0");
-            const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-
-            // Detect shorts by multiple signals:
-            // 1. Duration under 60 seconds (Shorts max length)
-            const isShortDuration = totalSeconds <= 60 && totalSeconds > 0;
-
-            // 2. Has #shorts hashtag
-            const hasShortHashtag = titleLower.includes('#short') || description.includes('#short');
-
-            // 3. Title patterns common in Shorts (very short titles, single phrases)
-            const isShortTitlePattern = title.length < 50 && !titleLower.includes('sermon') &&
-              !titleLower.includes('service') && !titleLower.includes('worship') &&
-              !titleLower.includes('sunday') && !titleLower.includes('message');
-
-            // 4. Shorts are typically under 60 seconds with no hours/minutes format
-            const hasOnlySeconds = !match?.[1] && !match?.[2] && totalSeconds > 0;
-
-            const videoInfo: VideoInfo = {
-              id: video.id,
-              title: video.snippet.title,
-              isLive: false,
-              isUpcoming: false,
-              publishedAt: video.snippet.publishedAt,
-              thumbnail: thumbnails?.medium?.url || thumbnails?.default?.url,
-            };
-
-            // Classify as short if: under 60 seconds OR has hashtag
-            // But NOT if it has sermon-related keywords (short sermon clips are still sermons)
-            const hasSermomKeywords = titleLower.includes('sermon') || titleLower.includes('service') ||
-              titleLower.includes('worship') || titleLower.includes('sunday') || titleLower.includes('message') ||
-              titleLower.includes('lord') || titleLower.includes('because of what');
-
-            if ((isShortDuration || hasShortHashtag) && !hasSermomKeywords) {
-              shortVideos.push(videoInfo);
-            } else {
-              fullVideos.push(videoInfo);
-            }
-          });
+          const fullVideos = shortChecks.filter((v: VideoInfo) => !v.isShort);
+          const shortVideos = shortChecks.filter((v: VideoInfo) => v.isShort);
 
           if (fullVideos.length > 0) {
             setSermon(fullVideos[0]);
           }
-          setShorts(shortVideos.slice(0, 4)); // Show up to 4 shorts
+          setShorts(shortVideos.slice(0, 4));
         }
       } catch (err) {
         console.error("Failed to fetch YouTube data:", err);
