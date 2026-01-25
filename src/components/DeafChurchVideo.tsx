@@ -4,9 +4,8 @@ import { useState, useEffect } from "react";
 import { Radio, Play } from "lucide-react";
 
 const YOUTUBE_API_KEY = "AIzaSyA6Syni8N0wQp6chAP3Q5zR1liM4xuSR58";
+const DEAFCHURCH_CHANNEL_ID = "UCf9-EmGUJJZcwYqJeyO67xw";
 const DEAFCHURCH_CHANNEL_URL = "https://www.youtube.com/@deafchurchtogether";
-
-// We'll resolve the channel ID from the handle at runtime
 
 interface VideoInfo {
   id: string;
@@ -36,24 +35,9 @@ export function DeafChurchVideo() {
   useEffect(() => {
     async function fetchVideos() {
       try {
-        // First, resolve the channel ID from the handle
-        const channelResponse = await fetch(
-          `https://www.googleapis.com/youtube/v3/channels?part=id&forHandle=deafchurchtogether&key=${YOUTUBE_API_KEY}`
-        );
-        const channelData = await channelResponse.json();
-
-        if (!channelData.items || channelData.items.length === 0) {
-          console.error("Could not find DeafChurch channel");
-          setError(true);
-          setLoading(false);
-          return;
-        }
-
-        const channelId = channelData.items[0].id;
-
         // Check for live streams
         const liveResponse = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&eventType=live&type=video&key=${YOUTUBE_API_KEY}`
+          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${DEAFCHURCH_CHANNEL_ID}&eventType=live&type=video&key=${YOUTUBE_API_KEY}`
         );
         const liveData = await liveResponse.json();
 
@@ -78,7 +62,7 @@ export function DeafChurchVideo() {
 
         // Get recent videos (not Shorts)
         const searchResponse = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&type=video&maxResults=10&key=${YOUTUBE_API_KEY}`
+          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${DEAFCHURCH_CHANNEL_ID}&order=date&type=video&maxResults=10&key=${YOUTUBE_API_KEY}`
         );
         const searchData = await searchResponse.json();
 
