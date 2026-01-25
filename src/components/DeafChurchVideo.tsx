@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Radio, Play } from "lucide-react";
+import { Radio } from "lucide-react";
 
 const YOUTUBE_API_KEY = "AIzaSyA6Syni8N0wQp6chAP3Q5zR1liM4xuSR58";
 const DEAFCHURCH_CHANNEL_ID = "UCf9-EmGUJJZcwYqJeyO67xw";
-const DEAFCHURCH_CHANNEL_URL = "https://www.youtube.com/@deafchurchtogether";
 
 interface VideoInfo {
   id: string;
@@ -29,8 +28,8 @@ async function checkIfShort(videoId: string): Promise<boolean> {
 
 export function DeafChurchVideo() {
   const [video, setVideo] = useState<VideoInfo | null>(null);
+  const [isLive, setIsLive] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function fetchVideos() {
@@ -43,19 +42,13 @@ export function DeafChurchVideo() {
 
         if (liveData.items && liveData.items.length > 0) {
           const liveVideo = liveData.items[0];
-          const statsResponse = await fetch(
-            `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${liveVideo.id.videoId}&key=${YOUTUBE_API_KEY}`
-          );
-          const statsData = await statsResponse.json();
-          const viewerCount = statsData.items?.[0]?.liveStreamingDetails?.concurrentViewers;
-
           setVideo({
             id: liveVideo.id.videoId,
             title: liveVideo.snippet.title,
             isLive: true,
             publishedAt: liveVideo.snippet.publishedAt,
-            viewerCount,
           });
+          setIsLive(true);
           setLoading(false);
           return;
         }
@@ -83,7 +76,7 @@ export function DeafChurchVideo() {
         }
       } catch (err) {
         console.error("Failed to fetch DeafChurch YouTube data:", err);
-        setError(true);
+        // Don't set error - we'll fall back to channel embed
       }
       setLoading(false);
     }
@@ -107,51 +100,52 @@ export function DeafChurchVideo() {
     );
   }
 
-  if (error || !video) {
+  // If we have a specific video, show it
+  if (video) {
     return (
-      <a
-        href={DEAFCHURCH_CHANNEL_URL + "/videos"}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block aspect-video bg-navy-900 rounded-xl overflow-hidden relative group"
-      >
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-red-700 transition-colors">
-              <Play className="w-8 h-8 text-white ml-1" fill="currentColor" />
-            </div>
-            <p className="text-white font-semibold">Watch on YouTube</p>
+      <div>
+        {video.isLive && (
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <span className="flex items-center gap-1.5 bg-red-600 text-white text-sm font-bold px-3 py-1.5 rounded">
+              <Radio className="w-4 h-4 animate-pulse" />
+              LIVE NOW
+            </span>
           </div>
+        )}
+        {!video.isLive && (
+          <div className="text-center mb-4">
+            <p className="text-navy-600 font-medium">{video.title}</p>
+            <p className="text-navy-400 text-sm">{formatDate(video.publishedAt)}</p>
+          </div>
+        )}
+        <div className={`aspect-video rounded-xl overflow-hidden shadow-xl ${video.isLive ? 'ring-4 ring-red-500' : ''}`}>
+          <iframe
+            width="100%"
+            height="100%"
+            src={`https://www.youtube.com/embed/${video.id}${video.isLive ? '?autoplay=1' : ''}`}
+            title={video.title}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="w-full h-full"
+          />
         </div>
-      </a>
+      </div>
     );
   }
 
+  // Fallback: embed using the channel's uploads playlist (UC -> UU)
+  // YouTube automatically creates an uploads playlist by replacing UC with UU in channel ID
+  const uploadsPlaylistId = DEAFCHURCH_CHANNEL_ID.replace('UC', 'UU');
+
   return (
     <div>
-      {video.isLive && (
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <span className="flex items-center gap-1.5 bg-red-600 text-white text-sm font-bold px-3 py-1.5 rounded">
-            <Radio className="w-4 h-4 animate-pulse" />
-            LIVE NOW
-          </span>
-          {video.viewerCount && (
-            <span className="text-navy-600">{video.viewerCount} watching</span>
-          )}
-        </div>
-      )}
-      {!video.isLive && (
-        <div className="text-center mb-4">
-          <p className="text-navy-600 font-medium">{video.title}</p>
-          <p className="text-navy-400 text-sm">{formatDate(video.publishedAt)}</p>
-        </div>
-      )}
-      <div className={`aspect-video rounded-xl overflow-hidden shadow-xl ${video.isLive ? 'ring-4 ring-red-500' : ''}`}>
+      <div className="aspect-video rounded-xl overflow-hidden shadow-xl">
         <iframe
           width="100%"
           height="100%"
-          src={`https://www.youtube.com/embed/${video.id}${video.isLive ? '?autoplay=1' : ''}`}
-          title={video.title}
+          src={`https://www.youtube.com/embed/videoseries?list=${uploadsPlaylistId}`}
+          title="DeafChurch Together - Latest Service"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
