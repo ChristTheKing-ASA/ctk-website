@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { PartnerCard } from "@/components/ui/Card";

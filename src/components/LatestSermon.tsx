@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Radio, Play } from "lucide-react";
 
 const YOUTUBE_API_KEY = "AIzaSyA6Syni8N0wQp6chAP3Q5zR1liM4xuSR58";
@@ -74,7 +75,7 @@ export function LatestSermon() {
         const searchData = await searchResponse.json();
 
         if (searchData.items && searchData.items.length > 0) {
-          const videos = searchData.items.map((v: any) => ({
+          const videos = searchData.items.map((v: { id: { videoId: string }; snippet: { title: string; publishedAt: string; thumbnails?: { medium?: { url: string }; default?: { url: string } } } }) => ({
             id: v.id.videoId,
             title: v.snippet.title,
             isLive: false,
@@ -236,10 +237,11 @@ export function LatestSermon() {
                 className="group relative aspect-[9/16] bg-navy-100 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow"
               >
                 {short.thumbnail && (
-                  <img
+                  <Image
                     src={short.thumbnail}
                     alt={short.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
                   />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />

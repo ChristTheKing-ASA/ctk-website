@@ -159,7 +159,7 @@ export default function VisitPage() {
             <p className="text-navy-600 text-sm leading-relaxed">
               We celebrate Holy Eucharist (Communion) every Sunday. All
               baptized Christians who love the Lord are welcome to receive.
-              If you're not ready to receive, you're welcome to come forward
+              If you&apos;re not ready to receive, you&apos;re welcome to come forward
               for a blessing.
             </p>
           </div>
@@ -174,7 +174,7 @@ export default function VisitPage() {
             <p className="text-navy-600 text-sm leading-relaxed">
               Come as you are! Any attire is welcome, from &quot;Sunday
               best&quot; to jeans and t-shirts to shorts and flip flops.
-              We're just glad you're here.
+              We&apos;re just glad you&apos;re here.
             </p>
           </div>
         </div>
@@ -200,7 +200,7 @@ export default function VisitPage() {
               Children & Youth
             </h2>
             <p className="text-navy-600 mb-6 leading-relaxed">
-              We love having kids in worship! Here's what we offer for
+              We love having kids in worship! Here&apos;s what we offer for
               families:
             </p>
 
@@ -265,7 +265,7 @@ export default function VisitPage() {
           </h2>
           <p className="text-navy-600 text-lg mb-8">
             After the service, we invite you to stay for refreshments and
-            fellowship. It's a great time to meet people, ask questions, and
+            fellowship. It&apos;s a great time to meet people, ask questions, and
             learn more about the CTK community.
           </p>
           <Button href="/connect" variant="primary" size="lg">
@@ -281,7 +281,7 @@ export default function VisitPage() {
             Ready to Take the Next Step?
           </h2>
           <p className="text-navy-200 text-lg mb-8 max-w-2xl mx-auto">
-            If you're interested in learning more about the Anglican faith or
+            If you&apos;re interested in learning more about the Anglican faith or
             becoming a member, we offer a 9-week Catechism class for new
             believers and those exploring.
           </p>

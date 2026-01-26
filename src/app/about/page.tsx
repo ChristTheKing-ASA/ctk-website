@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Link from "next/link";
 import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard, TeamCard } from "@/components/ui/Card";

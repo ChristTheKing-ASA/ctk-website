@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
@@ -66,12 +67,14 @@ export default async function TeamMemberPage({ params }: PageProps) {
             {/* Sidebar */}
             <div className="lg:col-span-1">
               {/* Photo */}
-              <div className="aspect-[4/5] bg-navy-100 rounded-xl overflow-hidden mb-6">
+              <div className="aspect-[4/5] bg-navy-100 rounded-xl overflow-hidden mb-6 relative">
                 {member.image ? (
-                  <img
+                  <Image
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                    className="object-cover"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-navy-200 to-navy-300">

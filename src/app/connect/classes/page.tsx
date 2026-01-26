@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
-import { Button } from "@/components/ui/Button";
 import { churchInfo } from "@/data/church";
 import { BookOpen, Clock, Users, Check, Phone } from "lucide-react";
 

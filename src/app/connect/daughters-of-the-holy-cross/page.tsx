@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
-import { Button } from "@/components/ui/Button";
 import { Heart, BookOpen, Users, Megaphone, Mail, Phone, ExternalLink } from "lucide-react";
 
 export const metadata: Metadata = {

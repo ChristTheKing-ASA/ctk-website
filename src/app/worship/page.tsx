@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { churchInfo, weeklyActivities } from "@/data/church";
+import { churchInfo } from "@/data/church";
 import { Calendar, Clock, MapPin, Video, BookOpen, Users, Mail } from "lucide-react";
 
 export const metadata: Metadata = {

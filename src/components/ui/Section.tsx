@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
 import { type ReactNode } from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 interface SectionProps {
   children: ReactNode;
@@ -92,10 +94,11 @@ export function PageHeader({
 
       {backgroundImage && (
         <div className="absolute inset-0">
-          <img
+          <Image
             src={backgroundImage}
             alt=""
-            className="w-full h-full object-cover opacity-20"
+            fill
+            className="object-cover opacity-20"
           />
           <div className="absolute inset-0 bg-navy-900/80" />
         </div>
@@ -107,9 +110,9 @@ export function PageHeader({
           <nav className="mb-6" aria-label="Breadcrumb">
             <ol className="flex items-center gap-2 text-sm text-navy-300">
               <li>
-                <a href="/" className="hover:text-white transition-colors">
+                <Link href="/" className="hover:text-white transition-colors">
                   Home
-                </a>
+                </Link>
               </li>
               {breadcrumb.map((item, index) => (
                 <li key={item.href} className="flex items-center gap-2">
