@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { DeafChurchVideo } from "@/components/DeafChurchVideo";
-import { deafChurch } from "@/data/church";
+import { getDeafChurchInfo } from "@/lib/content";
 import {
   HandHeart,
   Users,
@@ -23,7 +23,18 @@ export const metadata: Metadata = {
     "DeafChurch First Coast - bringing Anglican worship to the Deaf community in American Sign Language. Christ the King is an anchor church for this regional ministry.",
 };
 
-export default function DeafChurchPage() {
+export default async function DeafChurchPage() {
+  const deafChurchData = await getDeafChurchInfo();
+
+  const deafChurch = {
+    tagline: deafChurchData?.tagline || "",
+    founderName: deafChurchData?.founderName || "",
+    founderEmail: deafChurchData?.founderEmail || "",
+    familyInfo: deafChurchData?.familyInfo || "",
+    publicationTitle: deafChurchData?.publicationTitle || "",
+    videoId: deafChurchData?.featuredVideoId || "",
+  };
+
   return (
     <>
       <PageHeader
@@ -142,7 +153,7 @@ export default function DeafChurchPage() {
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             <div className="bg-white p-6 rounded-xl border border-cream-200">
               <h3 className="font-display text-xl font-semibold text-navy-900 mb-4">
-                {deafChurch.founders.primary}
+                {deafChurch.founderName}
               </h3>
               <p className="text-navy-600 leading-relaxed mb-4">
                 Fr. Bob is the founding pastor of DeafChurch Together. He and his
@@ -186,7 +197,7 @@ export default function DeafChurchPage() {
                   <h4 className="font-semibold text-navy-900">Publication</h4>
                 </div>
                 <p className="text-navy-600 text-sm italic">
-                  &quot;{deafChurch.publication.title}&quot;
+                  &quot;{deafChurch.publicationTitle}&quot;
                 </p>
               </div>
             </div>
@@ -205,7 +216,7 @@ export default function DeafChurchPage() {
 
           {/* YouTube Embed */}
           <div className="mb-8">
-            <DeafChurchVideo />
+            <DeafChurchVideo videoId={deafChurch.videoId} />
           </div>
 
           <Button
@@ -234,14 +245,14 @@ export default function DeafChurchPage() {
           <div className="bg-navy-800 p-8 rounded-xl inline-block">
             <h3 className="text-gold-400 font-semibold mb-4">Contact</h3>
             <p className="text-white font-display text-lg mb-2">
-              {deafChurch.founders.primary}
+              {deafChurch.founderName}
             </p>
             <a
-              href={`mailto:${deafChurch.founders.email}`}
+              href={`mailto:${deafChurch.founderEmail}`}
               className="inline-flex items-center gap-2 text-gold-400 hover:text-gold-300"
             >
               <Mail className="w-4 h-4" />
-              {deafChurch.founders.email}
+              {deafChurch.founderEmail}
             </a>
           </div>
         </div>

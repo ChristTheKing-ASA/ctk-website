@@ -5,62 +5,50 @@ import Link from "next/link";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { missionPartners } from "@/data/church";
+import { getAllMissionPartners, getMissionPartnerBySlug } from "@/lib/content";
 import { ArrowLeft, MapPin, Globe, Building } from "lucide-react";
-
-interface MissionPartner {
-  slug: string;
-  name: string;
-  category: string;
-  shortDescription: string;
-  fullDescription: string;
-  subtitle?: string;
-}
-
-const allPartners: MissionPartner[] = [
-  ...missionPartners.local,
-  ...missionPartners.national,
-  ...missionPartners.global,
-].map((p) => ({
-  slug: p.slug,
-  name: p.name,
-  category: p.category,
-  shortDescription: p.shortDescription,
-  fullDescription: p.fullDescription,
-  subtitle: "subtitle" in p ? String(p.subtitle) : undefined,
-}));
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return allPartners.map((partner) => ({
+  const partners = await getAllMissionPartners();
+  return partners.map((partner) => ({
     slug: partner.slug,
   }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const partner = allPartners.find((p) => p.slug === slug);
+  const partnerData = await getMissionPartnerBySlug(slug);
 
-  if (!partner) {
+  if (!partnerData) {
     return { title: "Partner Not Found" };
   }
 
   return {
-    title: partner.name,
-    description: partner.shortDescription,
+    title: partnerData.name?.name || "",
+    description: partnerData.shortDescription || "",
   };
 }
 
 export default async function PartnerPage({ params }: PageProps) {
   const { slug } = await params;
-  const partner = allPartners.find((p) => p.slug === slug);
+  const partnerData = await getMissionPartnerBySlug(slug);
 
-  if (!partner) {
+  if (!partnerData) {
     return notFound();
   }
+
+  const partner = {
+    slug,
+    name: partnerData.name?.name || "",
+    subtitle: partnerData.subtitle || undefined,
+    category: partnerData.category || "Local",
+    shortDescription: partnerData.shortDescription || "",
+    fullDescription: partnerData.fullDescription || "",
+  };
 
   const categoryIcon: Record<string, React.ReactNode> = {
     Local: <MapPin className="w-4 h-4" />,

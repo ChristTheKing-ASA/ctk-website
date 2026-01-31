@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { TeamCard } from "@/components/ui/Card";
-import { clergy } from "@/data/church";
+import { getAllClergy } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Our Team",
@@ -10,7 +10,9 @@ export const metadata: Metadata = {
     "Meet the clergy of Christ the King Anglican Church in St. Augustine, FL.",
 };
 
-export default function TeamPage() {
+export default async function TeamPage() {
+  const clergy = await getAllClergy();
+
   return (
     <>
       <PageHeader
@@ -28,10 +30,10 @@ export default function TeamPage() {
           {clergy.map((member) => (
             <TeamCard
               key={member.slug}
-              name={member.name}
-              title={member.title}
-              image={member.image}
-              shortBio={member.shortBio}
+              name={member.name?.name || ""}
+              title={member.title || ""}
+              image={member.image || undefined}
+              shortBio={member.shortBio || ""}
               href={`/about/team/${member.slug}`}
             />
           ))}

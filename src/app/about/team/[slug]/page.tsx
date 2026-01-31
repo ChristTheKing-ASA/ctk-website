@@ -5,7 +5,7 @@ import Image from "next/image";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { clergy } from "@/data/church";
+import { getAllClergy, getClergyBySlug } from "@/lib/content";
 import { Mail, Phone, BookOpen, Users, ArrowLeft, Quote } from "lucide-react";
 
 interface PageProps {
@@ -13,6 +13,7 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
+  const clergy = await getAllClergy();
   return clergy.map((member) => ({
     slug: member.slug,
   }));
@@ -20,21 +21,41 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const member = clergy.find((c) => c.slug === slug);
+  const member = await getClergyBySlug(slug);
 
   if (!member) {
     return { title: "Team Member Not Found" };
   }
 
   return {
-    title: member.name,
-    description: member.shortBio,
+    title: member.name?.name || "",
+    description: member.shortBio || "",
   };
 }
 
 export default async function TeamMemberPage({ params }: PageProps) {
   const { slug } = await params;
-  const member = clergy.find((c) => c.slug === slug);
+  const memberData = await getClergyBySlug(slug);
+
+  if (!memberData) {
+    notFound();
+  }
+
+  // Transform CMS data to expected format
+  const member = {
+    slug,
+    name: memberData.name?.name || "",
+    title: memberData.title || "",
+    email: memberData.email || "",
+    phone: memberData.phone || "",
+    image: memberData.image || "",
+    shortBio: memberData.shortBio || "",
+    fullBio: memberData.fullBio || "",
+    family: memberData.family || "",
+    education: memberData.education || [],
+    quote: null as { text: string; source: string } | null,
+    publications: [] as string[],
+  };
 
   if (!member) {
     notFound();
