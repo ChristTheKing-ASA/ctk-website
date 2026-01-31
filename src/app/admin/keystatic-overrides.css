@@ -1,0 +1,34 @@
+/* Override Keystatic branding with CTK logo */
+
+/* Target the brand container - hide the SVG */
+[class*="css-"][class*="reset"] svg[viewBox="0 0 32 32"] {
+  display: none !important;
+}
+
+/* Target the span containing "Keystatic" text and replace it */
+span[title="Keystatic"] {
+  font-size: 0 !important;
+  visibility: hidden;
+}
+
+span[title="Keystatic"]::after {
+  content: "CTK Admin";
+  font-size: 14px !important;
+  font-weight: 600;
+  visibility: visible;
+}
+
+/* Add CTK logo before the brand text */
+span[title="Keystatic"]::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 26px;
+  background-image: url("/images/logos/ctk-logo-cross-optimized.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 8px;
+  vertical-align: middle;
+  visibility: visible;
+}
