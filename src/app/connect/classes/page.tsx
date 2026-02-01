@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
-import { churchInfo } from "@/data/church";
+import { getChurchInfo } from "@/lib/content";
 import { BookOpen, Clock, Users, Check, Phone } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -10,7 +10,9 @@ export const metadata: Metadata = {
     "Catechism and inquirer classes at Christ the King for new believers and those exploring Anglicanism.",
 };
 
-export default function ClassesPage() {
+export default async function ClassesPage() {
+  const churchInfo = await getChurchInfo();
+
   return (
     <>
       <PageHeader

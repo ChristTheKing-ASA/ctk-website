@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { LatestSermon } from "@/components/LatestSermon";
-import { churchInfo } from "@/data/church";
+import { getChurchInfo } from "@/lib/content";
 import { Video, Podcast, Smartphone } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -12,7 +12,9 @@ export const metadata: Metadata = {
     "Watch and listen to sermons from Christ the King Anglican Church.",
 };
 
-export default function SermonsPage() {
+export default async function SermonsPage() {
+  const churchInfo = await getChurchInfo();
+
   return (
     <>
       <PageHeader

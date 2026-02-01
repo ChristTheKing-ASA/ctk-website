@@ -3,7 +3,8 @@ import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard, TeamCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { churchInfo, clergy, beliefs } from "@/data/church";
+import { getChurchInfo, getAllClergy } from "@/lib/content";
+import { beliefs } from "@/data/church";
 import { Book, Users, Church, Cross } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -12,7 +13,19 @@ export const metadata: Metadata = {
     "Learn about Christ the King Anglican Church - our story, beliefs, clergy, and what it means to be Anglican.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const churchInfo = await getChurchInfo();
+  const clergyData = await getAllClergy();
+
+  // Transform clergy data
+  const clergy = clergyData.map((c) => ({
+    slug: c.slug,
+    name: c.name?.name || "",
+    title: c.title || "",
+    image: c.image || "",
+    shortBio: c.shortBio || "",
+  }));
+
   return (
     <>
       <PageHeader

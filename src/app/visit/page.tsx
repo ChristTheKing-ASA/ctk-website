@@ -3,7 +3,7 @@ import Image from "next/image";
 import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { churchInfo } from "@/data/church";
+import { getChurchInfo } from "@/lib/content";
 import {
   MapPin,
   Clock,
@@ -22,7 +22,9 @@ export const metadata: Metadata = {
     "Plan your first visit to Christ the King Anglican Church in St. Augustine, FL. Service times, location, what to expect, and more.",
 };
 
-export default function VisitPage() {
+export default async function VisitPage() {
+  const churchInfo = await getChurchInfo();
+
   return (
     <>
       <PageHeader

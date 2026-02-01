@@ -3,9 +3,104 @@ import keystaticConfig from "../../keystatic.config";
 
 export const reader = createReader(process.cwd(), keystaticConfig);
 
+// Helper type for transformed church info
+export interface ChurchInfoTransformed {
+  name: string;
+  shortName: string;
+  phone: string;
+  email: string;
+  adminEmail: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    mailing: string;
+  };
+  serviceTime: string;
+  social: {
+    facebook: string;
+    youtube: string;
+    instagram: string;
+  };
+  giving: {
+    url: string;
+    appUrl: string;
+  };
+  diocese: {
+    name: string;
+    url: string;
+    bishop: string;
+  };
+  denomination: {
+    name: string;
+    shortName: string;
+    url: string;
+  };
+  scripture: {
+    main: {
+      text: string;
+      reference: string;
+    };
+    about: {
+      text: string;
+      reference: string;
+    };
+  };
+}
+
 // Helper functions for reading content
-export async function getChurchInfo() {
-  return await reader.singletons.churchInfo.read();
+export async function getChurchInfo(): Promise<ChurchInfoTransformed> {
+  const data = await reader.singletons.churchInfo.read();
+
+  // Transform flat CMS structure to nested structure expected by components
+  return {
+    name: data?.name || "",
+    shortName: data?.shortName || "",
+    phone: data?.phone || "",
+    email: data?.email || "",
+    adminEmail: data?.adminEmail || "",
+    address: {
+      street: data?.street || "",
+      city: data?.city || "",
+      state: data?.state || "",
+      zip: data?.zip || "",
+      mailing: data?.mailingAddress || "",
+    },
+    serviceTime: data?.serviceTime || "",
+    social: {
+      facebook: data?.facebookUrl || "",
+      youtube: data?.youtubeUrl || "",
+      instagram: data?.instagramUrl || "",
+    },
+    giving: {
+      url: data?.givingUrl || "",
+      appUrl: data?.appUrl || "",
+    },
+    diocese: {
+      name: data?.dioceseName || "",
+      url: data?.dioceseUrl || "",
+      bishop: data?.dioceseBishop || "",
+    },
+    denomination: {
+      name: data?.denominationName || "",
+      shortName: data?.denominationShortName || "",
+      url: data?.denominationUrl || "",
+    },
+    scripture: {
+      main: {
+        text: data?.scriptureText || "",
+        reference: data?.scriptureReference || "",
+      },
+      about: {
+        text: "Jesus replied: 'Love the Lord your God with all your heart and with all your soul and with all your mind.' This is the first and greatest commandment.",
+        reference: "Matthew 22:37-38",
+      },
+    },
+    mission: {
+      vision: "To be co-workers with Christ in the Kingdom of God",
+    },
+  };
 }
 
 export async function getDeafChurchInfo() {

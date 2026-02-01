@@ -14,5 +14,13 @@
   "youtubeUrl": "https://youtube.com/@christthekinganglicanstaugustine",
   "instagramUrl": "https://instagram.com/ctkasa",
   "givingUrl": "https://kindridgiving.com/app/giving/ctkasa",
-  "appUrl": "https://kindrid.ministryone.com/landing/pEOq"
+  "appUrl": "https://kindrid.ministryone.com/landing/pEOq",
+  "dioceseName": "Gulf Atlantic Diocese",
+  "dioceseUrl": "https://gulfatlanticdiocese.org/",
+  "dioceseBishop": "The Right Reverend Alex Farmer",
+  "denominationName": "Anglican Church in North America",
+  "denominationShortName": "ACNA",
+  "denominationUrl": "https://anglicanchurch.net/",
+  "scriptureText": "The grace of our Lord Jesus Christ be with you.",
+  "scriptureReference": "1 Thessalonians 5:28"
 }

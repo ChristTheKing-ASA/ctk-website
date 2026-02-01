@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { churchInfo } from "@/data/church";
+import { getChurchInfo } from "@/lib/content";
 import { Book, Church, Globe, Heart } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -11,7 +11,9 @@ export const metadata: Metadata = {
     "Learn what it means to be Anglican - our heritage, worship, and place in the global Christian family.",
 };
 
-export default function AnglicanFaithPage() {
+export default async function AnglicanFaithPage() {
+  const churchInfo = await getChurchInfo();
+
   return (
     <>
       <PageHeader

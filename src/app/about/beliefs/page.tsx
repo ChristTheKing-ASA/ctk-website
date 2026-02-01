@@ -2,7 +2,8 @@ import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { beliefs, churchInfo } from "@/data/church";
+import { getChurchInfo } from "@/lib/content";
+import { beliefs } from "@/data/church";
 import { Check } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -11,7 +12,9 @@ export const metadata: Metadata = {
     "The theological foundations of Christ the King Anglican Church, rooted in Scripture and the historic Anglican tradition.",
 };
 
-export default function BeliefsPage() {
+export default async function BeliefsPage() {
+  const churchInfo = await getChurchInfo();
+
   return (
     <>
       <PageHeader

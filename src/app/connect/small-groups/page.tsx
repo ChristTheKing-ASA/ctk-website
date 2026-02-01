@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
-import { churchInfo } from "@/data/church";
+import { getChurchInfo } from "@/lib/content";
 import { Users, MapPin, Heart, BookOpen, UtensilsCrossed, Phone } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -9,7 +9,9 @@ export const metadata: Metadata = {
   description: "Join a small group at Christ the King for fellowship, prayer, and study.",
 };
 
-export default function SmallGroupsPage() {
+export default async function SmallGroupsPage() {
+  const churchInfo = await getChurchInfo();
+
   return (
     <>
       <PageHeader

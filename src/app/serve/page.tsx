@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { churchInfo } from "@/data/church";
+import { getChurchInfo } from "@/lib/content";
 import {
   Shield,
   Phone,
@@ -52,7 +52,9 @@ const volunteerAreas = [
   },
 ];
 
-export default function ServePage() {
+export default async function ServePage() {
+  const churchInfo = await getChurchInfo();
+
   return (
     <>
       <PageHeader

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
-import { weeklyActivities } from "@/data/church";
+import { getAllActivities } from "@/lib/content";
 import { Clock, MapPin, Mail, Phone } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -10,7 +10,27 @@ export const metadata: Metadata = {
     "Weekly prayer and Bible study opportunities at Christ the King Anglican Church.",
 };
 
-export default function WeeklyPage() {
+export default async function WeeklyPage() {
+  const activitiesData = await getAllActivities();
+
+  // Transform to expected format
+  const weeklyActivities = activitiesData.map((a) => ({
+    title: a.title?.name || "",
+    day: a.day || "",
+    time: a.time || "",
+    description: a.description || "",
+    location: a.location || "",
+    contacts: a.contactName
+      ? [
+          {
+            name: a.contactName,
+            phone: a.contactPhone || undefined,
+            email: a.contactEmail || undefined,
+          },
+        ]
+      : undefined,
+  }));
+
   return (
     <>
       <PageHeader

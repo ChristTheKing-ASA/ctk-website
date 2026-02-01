@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
-import { churchInfo } from "@/data/church";
+import { getChurchInfo } from "@/lib/content";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -9,7 +9,9 @@ export const metadata: Metadata = {
   description: "Get in touch with Christ the King Anglican Church.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const churchInfo = await getChurchInfo();
+
   return (
     <>
       <PageHeader

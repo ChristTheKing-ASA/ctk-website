@@ -1,13 +1,21 @@
 import Image from "next/image";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { clergy } from "@/data/church";
+import { getClergyBySlug } from "@/lib/content";
 import { Quote } from "lucide-react";
 
-export function RectorWelcome() {
-  const rector = clergy.find((c) => c.slug === "craig-sanders");
+export async function RectorWelcome() {
+  const rectorData = await getClergyBySlug("craig-sanders");
 
-  if (!rector) return null;
+  if (!rectorData) return null;
+
+  const rector = {
+    slug: "craig-sanders",
+    name: rectorData.name?.name || "",
+    title: rectorData.title || "",
+    image: rectorData.image || "",
+    quote: "I wanted to eat, sleep, and breathe the Bible. The Anglican tradition provided a trustworthy model for patterning my life around Scripture, forming in me Bible-shaped worship and prayer.",
+  };
 
   return (
     <Section background="cream">
@@ -42,8 +50,7 @@ export function RectorWelcome() {
           <div className="relative mb-6">
             <Quote className="absolute -top-2 -left-4 w-8 h-8 text-gold-300" />
             <blockquote className="font-display text-2xl sm:text-3xl text-navy-900 leading-relaxed pl-6 italic">
-              {rector.quote?.text ||
-                "I wanted to eat, sleep, and breathe the Bible. The Anglican tradition provided a trustworthy model for patterning my life around Scripture, forming in me Bible-shaped worship and prayer."}
+              {rector.quote}
             </blockquote>
           </div>
 

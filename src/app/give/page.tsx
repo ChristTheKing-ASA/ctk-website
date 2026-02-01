@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { churchInfo } from "@/data/church";
+import { getChurchInfo } from "@/lib/content";
 import { Heart, Globe, Users, Home, ExternalLink, Shield } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -11,7 +11,9 @@ export const metadata: Metadata = {
     "Support the ministry of Christ the King Anglican Church through online giving.",
 };
 
-export default function GivePage() {
+export default async function GivePage() {
+  const churchInfo = await getChurchInfo();
+
   return (
     <>
       <PageHeader

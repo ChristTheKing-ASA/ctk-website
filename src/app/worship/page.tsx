@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { churchInfo } from "@/data/church";
+import { getChurchInfo } from "@/lib/content";
 import { Calendar, Clock, MapPin, Video, BookOpen, Users, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -13,7 +13,9 @@ export const metadata: Metadata = {
     "Join Christ the King for worship - Sunday services, weekly prayer, Bible study, and sermon archive.",
 };
 
-export default function WorshipPage() {
+export default async function WorshipPage() {
+  const churchInfo = await getChurchInfo();
+
   return (
     <>
       <PageHeader

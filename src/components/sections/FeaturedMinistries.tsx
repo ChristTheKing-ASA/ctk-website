@@ -1,9 +1,16 @@
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { deafChurch } from "@/data/church";
+import { getDeafChurchInfo } from "@/lib/content";
 import { HandHeart, ArrowRight, Users, Globe } from "lucide-react";
 
-export function FeaturedMinistries() {
+export async function FeaturedMinistries() {
+  const deafChurchData = await getDeafChurchInfo();
+
+  const deafChurch = {
+    name: deafChurchData?.name || "DeafChurch First Coast",
+    tagline: deafChurchData?.tagline || "Bringing Anglican worship to the Deaf community in American Sign Language",
+  };
+
   return (
     <Section background="gradient">
       <SectionHeader
