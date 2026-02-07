@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Open_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
+
+const hasClerkKey = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 export const openSans = Open_Sans({
   subsets: ["latin"],
@@ -74,11 +77,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
+  const content = (
     <html lang="en" className={`${openSans.variable} ${playfairDisplay.variable}`}>
       <body className="antialiased font-sans">
         {children}
       </body>
     </html>
   );
+
+  if (!hasClerkKey) return content;
+  return <ClerkProvider>{content}</ClerkProvider>;
 }
