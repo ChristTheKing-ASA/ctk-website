@@ -21,7 +21,7 @@ import {
 export const metadata: Metadata = {
   title: "Serve",
   description:
-    "Find your place to serve at Christ the King - volunteer opportunities, missions, and outreach.",
+    "Find your place to serve at Christ The King - volunteer opportunities, missions, and outreach.",
 };
 
 const volunteerAreas = [

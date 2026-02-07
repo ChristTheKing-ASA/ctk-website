@@ -1,10 +1,10 @@
 import type { NextConfig } from "next";
 
+const isStaticExport = process.env.STATIC_EXPORT === "true";
+
 const nextConfig: NextConfig = {
-  // Only use static export in production builds
-  // Dev mode needs dynamic routes for Keystatic admin
-  ...(process.env.NODE_ENV === 'production' && {
-    output: 'export',
+  ...(isStaticExport && {
+    output: "export",
   }),
   images: {
     unoptimized: true,

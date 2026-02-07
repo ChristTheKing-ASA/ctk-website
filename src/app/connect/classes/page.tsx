@@ -7,7 +7,7 @@ import { BookOpen, Clock, Users, Check, Phone } from "lucide-react";
 export const metadata: Metadata = {
   title: "Classes",
   description:
-    "Catechism and inquirer classes at Christ the King for new believers and those exploring Anglicanism.",
+    "Catechism and inquirer classes at Christ The King for new believers and those exploring Anglicanism.",
 };
 
 export default async function ClassesPage() {

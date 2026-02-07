@@ -29,6 +29,37 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Admin Panel Authentication
+
+The Keystatic admin panel at `/admin` is protected by a password gate. This works with static export (no server required).
+
+### Setting up admin access
+
+1. Copy `.env.example` to `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. Edit `.env.local` and set a secure password:
+   ```
+   NEXT_PUBLIC_ADMIN_PASSWORD=your-secure-password-here
+   ```
+
+3. Rebuild the site (the password is embedded at build time):
+   ```bash
+   npm run build
+   ```
+
+### For production deployment
+
+Set the `NEXT_PUBLIC_ADMIN_PASSWORD` environment variable in your hosting platform (Vercel, Netlify, etc.) before building.
+
+**Important notes:**
+- The password is embedded in the client-side JavaScript at build time
+- Sessions expire after 24 hours (configurable in `AdminAuthGate.tsx`)
+- To change the password, update the environment variable and rebuild
+- This is a simple protection layer - for highly sensitive admin panels, consider additional server-side authentication
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.

@@ -47,6 +47,9 @@ export interface ChurchInfoTransformed {
       reference: string;
     };
   };
+  mission: {
+    vision: string;
+  };
 }
 
 // Helper functions for reading content

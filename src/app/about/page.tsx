@@ -10,7 +10,7 @@ import { Book, Users, Church, Cross } from "lucide-react";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about Christ the King Anglican Church - our story, beliefs, clergy, and what it means to be Anglican.",
+    "Learn about Christ The King Anglican Church - our story, beliefs, clergy, and what it means to be Anglican.",
 };
 
 export default async function AboutPage() {
@@ -20,7 +20,7 @@ export default async function AboutPage() {
   // Transform clergy data
   const clergy = clergyData.map((c) => ({
     slug: c.slug,
-    name: c.name?.name || "",
+    name: c.name || "",
     title: c.title || "",
     image: c.image || "",
     shortBio: c.shortBio || "",
@@ -29,7 +29,7 @@ export default async function AboutPage() {
   return (
     <>
       <PageHeader
-        title="About Christ the King"
+        title="About Christ The King"
         subtitle="Our Story"
         description="A welcoming Anglican community rooted in Scripture, shaped by liturgy, and committed to serving St. Augustine and beyond."
         breadcrumb={[{ label: "About", href: "/about" }]}
@@ -46,7 +46,7 @@ export default async function AboutPage() {
               Love God. Become Disciples. Serve Others.
             </h2>
             <p className="text-navy-600 text-lg mb-6 leading-relaxed">
-              Christ the King is a member of the Gulf Atlantic Diocese in the
+              Christ The King is a member of the Gulf Atlantic Diocese in the
               Anglican Church in North America (ACNA), under the leadership of
               The Right Reverend {churchInfo.diocese.bishop.replace("The Right Reverend ", "")}.
             </p>
@@ -91,7 +91,7 @@ export default async function AboutPage() {
       <Section background="cream">
         <SectionHeader
           title="Learn More"
-          description="Explore what makes Christ the King who we are."
+          description="Explore what makes Christ The King who we are."
         />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -115,7 +115,7 @@ export default async function AboutPage() {
           />
           <FeatureCard
             title="Our Story"
-            description="The history of Christ the King in St. Augustine."
+            description="The history of Christ The King in St. Augustine."
             icon={<Cross className="w-6 h-6" />}
             href="/about/story"
           />
@@ -163,7 +163,7 @@ export default async function AboutPage() {
         <SectionHeader
           subtitle="Our Team"
           title="Meet Our Clergy"
-          description="Faithful shepherds serving Christ the King."
+          description="Faithful shepherds serving Christ The King."
         />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -193,7 +193,7 @@ export default async function AboutPage() {
             Come See for Yourself
           </h2>
           <p className="text-navy-200 text-lg mb-8 max-w-2xl mx-auto">
-            The best way to learn about Christ the King is to experience it.
+            The best way to learn about Christ The King is to experience it.
             Join us this Sunday for worship.
           </p>
           <Button href="/visit" variant="secondary" size="lg">

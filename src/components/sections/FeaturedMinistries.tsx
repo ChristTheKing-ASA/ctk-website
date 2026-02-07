@@ -36,7 +36,7 @@ export async function FeaturedMinistries() {
             </h3>
 
             <p className="text-navy-200 mb-6 leading-relaxed">
-              {deafChurch.tagline}. Christ the King serves as an Anchor Church,
+              {deafChurch.tagline}. Christ The King serves as an Anchor Church,
               helping establish in-person community for the Deaf across Northeast Florida.
             </p>
 

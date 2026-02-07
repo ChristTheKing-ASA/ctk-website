@@ -7,7 +7,7 @@ import { Clock, MapPin, Mail, Phone } from "lucide-react";
 export const metadata: Metadata = {
   title: "Weekly Gatherings",
   description:
-    "Weekly prayer and Bible study opportunities at Christ the King Anglican Church.",
+    "Weekly prayer and Bible study opportunities at Christ The King Anglican Church.",
 };
 
 export default async function WeeklyPage() {
@@ -15,7 +15,7 @@ export default async function WeeklyPage() {
 
   // Transform to expected format
   const weeklyActivities = activitiesData.map((a) => ({
-    title: a.title?.name || "",
+    title: a.title || "",
     day: a.day || "",
     time: a.time || "",
     description: a.description || "",

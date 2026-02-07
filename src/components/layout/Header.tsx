@@ -54,14 +54,14 @@ export function Header() {
             <Link href="/" className="flex items-center gap-3">
               <Image
                 src="/images/logos/ctk-logo-cross-optimized.png"
-                alt="Christ the King"
+                alt="Christ The King"
                 width={44}
                 height={56}
                 className="h-12 w-auto"
               />
               <div className="hidden sm:block">
                 <p className="font-display text-navy-900 font-semibold text-lg leading-tight tracking-wide">
-                  Christ the King
+                  Christ The King
                 </p>
                 <p className="text-navy-500 text-xs tracking-widest uppercase">Anglican Church</p>
               </div>

@@ -8,7 +8,7 @@ import { Heart, Globe, Users, Home, ExternalLink, Shield } from "lucide-react";
 export const metadata: Metadata = {
   title: "Give",
   description:
-    "Support the ministry of Christ the King Anglican Church through online giving.",
+    "Support the ministry of Christ The King Anglican Church through online giving.",
 };
 
 export default async function GivePage() {

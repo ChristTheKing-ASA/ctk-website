@@ -9,7 +9,7 @@ import { Check } from "lucide-react";
 export const metadata: Metadata = {
   title: "What We Believe",
   description:
-    "The theological foundations of Christ the King Anglican Church, rooted in Scripture and the historic Anglican tradition.",
+    "The theological foundations of Christ The King Anglican Church, rooted in Scripture and the historic Anglican tradition.",
 };
 
 export default async function BeliefsPage() {
@@ -20,7 +20,7 @@ export default async function BeliefsPage() {
       <PageHeader
         title="What We Believe"
         subtitle="Our Faith"
-        description="Christ the King holds to the historic Anglican faith as expressed in Scripture, the Creeds, and the formularies of the Church of England."
+        description="Christ The King holds to the historic Anglican faith as expressed in Scripture, the Creeds, and the formularies of the Church of England."
         breadcrumb={[
           { label: "About", href: "/about" },
           { label: "Beliefs", href: "/about/beliefs" },

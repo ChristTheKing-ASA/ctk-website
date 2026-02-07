@@ -7,7 +7,7 @@ import { getAllClergy } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Our Team",
   description:
-    "Meet the clergy of Christ the King Anglican Church in St. Augustine, FL.",
+    "Meet the clergy of Christ The King Anglican Church in St. Augustine, FL.",
 };
 
 export default async function TeamPage() {
@@ -30,7 +30,7 @@ export default async function TeamPage() {
           {clergy.map((member) => (
             <TeamCard
               key={member.slug}
-              name={member.name?.name || ""}
+              name={member.name || ""}
               title={member.title || ""}
               image={member.image || undefined}
               shortBio={member.shortBio || ""}

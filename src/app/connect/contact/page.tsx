@@ -2,11 +2,12 @@ import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { getChurchInfo } from "@/lib/content";
+import { ContactForm } from "@/components/ContactForm";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description: "Get in touch with Christ the King Anglican Church.",
+  description: "Get in touch with Christ The King Anglican Church.",
 };
 
 export default async function ContactPage() {
@@ -119,29 +120,49 @@ export default async function ContactPage() {
             </div>
           </div>
 
-          {/* Map */}
+          {/* Contact Form */}
           <div>
-            <div className="rounded-xl overflow-hidden shadow-lg h-[500px]">
-              <iframe
-                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(
-                  `Christ the King Anglican Church, ${churchInfo.address.street}, ${churchInfo.address.city}, ${churchInfo.address.state}`
-                )}`}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Church Location Map"
-              />
+            <div className="bg-cream-50 rounded-xl p-6 lg:p-8 shadow-sm">
+              <h2 className="font-display text-2xl font-bold text-navy-900 mb-2">
+                Send Us a Message
+              </h2>
+              <p className="text-navy-600 mb-6">
+                Have a question or want to learn more? Fill out the form below and we&apos;ll get back to you soon.
+              </p>
+              <ContactForm />
             </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Map Section */}
+      <Section background="cream">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="font-display text-2xl font-bold text-navy-900 mb-6 text-center">
+            Find Us
+          </h2>
+          <div className="rounded-xl overflow-hidden shadow-lg h-[400px]">
+            <iframe
+              src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(
+                `Christ The King Anglican Church, ${churchInfo.address.street}, ${churchInfo.address.city}, ${churchInfo.address.state}`
+              )}`}
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Church Location Map"
+            />
+          </div>
+          <div className="text-center mt-4">
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                 `${churchInfo.address.street}, ${churchInfo.address.city}, ${churchInfo.address.state} ${churchInfo.address.zip}`
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-4 text-gold-600 hover:text-gold-700 font-medium"
+              className="inline-flex items-center gap-2 text-gold-600 hover:text-gold-700 font-medium"
             >
               <MapPin className="w-4 h-4" />
               Get Directions in Google Maps

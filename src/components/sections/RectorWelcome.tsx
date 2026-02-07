@@ -11,7 +11,7 @@ export async function RectorWelcome() {
 
   const rector = {
     slug: "craig-sanders",
-    name: rectorData.name?.name || "",
+    name: rectorData.name || "",
     title: rectorData.title || "",
     image: rectorData.image || "",
     quote: "I wanted to eat, sleep, and breathe the Bible. The Anglican tradition provided a trustworthy model for patterning my life around Scripture, forming in me Bible-shaped worship and prayer.",
@@ -62,7 +62,7 @@ export async function RectorWelcome() {
           </div>
 
           <p className="text-navy-600 mb-8 leading-relaxed">
-            At Christ the King, we believe the Anglican tradition offers a beautiful path
+            At Christ The King, we believe the Anglican tradition offers a beautiful path
             for following Jesus—one that is rooted in Scripture, shaped by liturgy, and
             lived out in community. Whether you&apos;re new to faith or have walked with
             Christ for years, we invite you to journey with us.

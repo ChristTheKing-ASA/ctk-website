@@ -9,7 +9,7 @@ import { Video, Podcast, Smartphone } from "lucide-react";
 export const metadata: Metadata = {
   title: "Sermons",
   description:
-    "Watch and listen to sermons from Christ the King Anglican Church.",
+    "Watch and listen to sermons from Christ The King Anglican Church.",
 };
 
 export default async function SermonsPage() {

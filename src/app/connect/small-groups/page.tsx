@@ -6,7 +6,7 @@ import { Users, MapPin, Heart, BookOpen, UtensilsCrossed, Phone } from "lucide-r
 
 export const metadata: Metadata = {
   title: "Small Groups",
-  description: "Join a small group at Christ the King for fellowship, prayer, and study.",
+  description: "Join a small group at Christ The King for fellowship, prayer, and study.",
 };
 
 export default async function SmallGroupsPage() {

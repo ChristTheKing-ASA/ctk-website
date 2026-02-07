@@ -9,7 +9,7 @@ export function Hero() {
       <div className="absolute inset-0">
         <Image
           src="/images/church/greeters.jpg"
-          alt="Christ the King Anglican Church community"
+          alt="Christ The King Anglican Church community"
           fill
           priority
           className="object-cover opacity-50"
@@ -24,7 +24,7 @@ export function Hero() {
         <div className="text-center mb-16 lg:mb-20">
           <h1 className="font-display font-bold text-white">
             <span className="block text-5xl sm:text-6xl lg:text-7xl tracking-tight">
-              Christ the King
+              Christ The King
             </span>
             <span className="block text-xl sm:text-2xl lg:text-3xl text-gold-400 font-normal mt-3 tracking-wide">
               Anglican Church

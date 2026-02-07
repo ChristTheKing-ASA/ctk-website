@@ -6,7 +6,7 @@ import { Heart, BookOpen, Users, Megaphone, Mail, Phone, ExternalLink } from "lu
 export const metadata: Metadata = {
   title: "Daughters of the Holy Cross",
   description:
-    "The Faith Chapter of the Daughters of the Holy Cross at Christ the King Anglican Church.",
+    "The Faith Chapter of the Daughters of the Holy Cross at Christ The King Anglican Church.",
 };
 
 export default function DaughtersPage() {

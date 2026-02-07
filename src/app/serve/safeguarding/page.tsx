@@ -6,7 +6,7 @@ import { Shield, Check, Users, BookOpen } from "lucide-react";
 export const metadata: Metadata = {
   title: "Safeguarding",
   description:
-    "Learn about child safety and safeguarding policies at Christ the King Anglican Church.",
+    "Learn about child safety and safeguarding policies at Christ The King Anglican Church.",
 };
 
 export default function SafeguardingPage() {
@@ -45,7 +45,7 @@ export default function SafeguardingPage() {
               Our Commitment
             </h2>
             <p className="text-navy-600 leading-relaxed mb-6">
-              At Christ the King, the safety of children, youth, and vulnerable
+              At Christ The King, the safety of children, youth, and vulnerable
               adults is paramount. We take proactive steps to create a safe
               environment where everyone can worship, learn, and grow.
             </p>

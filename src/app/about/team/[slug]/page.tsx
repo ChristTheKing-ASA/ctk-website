@@ -12,6 +12,9 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+// Disable dynamic params - only use pre-generated paths
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const clergy = await getAllClergy();
   return clergy.map((member) => ({
@@ -28,7 +31,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: member.name?.name || "",
+    title: member.name || "",
     description: member.shortBio || "",
   };
 }
@@ -44,7 +47,7 @@ export default async function TeamMemberPage({ params }: PageProps) {
   // Transform CMS data to expected format
   const member = {
     slug,
-    name: memberData.name?.name || "",
+    name: memberData.name || "",
     title: memberData.title || "",
     email: memberData.email || "",
     phone: memberData.phone || "",

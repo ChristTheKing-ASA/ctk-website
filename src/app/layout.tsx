@@ -18,8 +18,8 @@ export const playfairDisplay = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "Christ the King Anglican Church | St. Augustine, FL",
-    template: "%s | Christ the King Anglican Church",
+    default: "Christ The King Anglican Church | St. Augustine, FL",
+    template: "%s | Christ The King Anglican Church",
   },
   description:
     "A welcoming Anglican community in St. Augustine, Florida. Join us for worship Sundays at 10:00 AM. Love God. Become Disciples. Serve Others.",
@@ -33,14 +33,14 @@ export const metadata: Metadata = {
     "DeafChurch",
     "ACNA",
   ],
-  authors: [{ name: "Christ the King Anglican Church" }],
-  creator: "Christ the King Anglican Church",
+  authors: [{ name: "Christ The King Anglican Church" }],
+  creator: "Christ The King Anglican Church",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://ctkasa.com",
-    siteName: "Christ the King Anglican Church",
-    title: "Christ the King Anglican Church | St. Augustine, FL",
+    siteName: "Christ The King Anglican Church",
+    title: "Christ The King Anglican Church | St. Augustine, FL",
     description:
       "A welcoming Anglican community in St. Augustine, Florida. Join us for worship Sundays at 10:00 AM.",
     images: [
@@ -48,13 +48,13 @@ export const metadata: Metadata = {
         url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Christ the King Anglican Church",
+        alt: "Christ The King Anglican Church",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Christ the King Anglican Church",
+    title: "Christ The King Anglican Church",
     description:
       "A welcoming Anglican community in St. Augustine, Florida. Join us for worship Sundays at 10:00 AM.",
   },

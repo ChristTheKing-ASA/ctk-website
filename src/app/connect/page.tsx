@@ -8,7 +8,7 @@ import { Users, BookOpen, Heart, UserPlus, Mail } from "lucide-react";
 export const metadata: Metadata = {
   title: "Connect",
   description:
-    "Get connected at Christ the King - small groups, classes, membership, and more.",
+    "Get connected at Christ The King - small groups, classes, membership, and more.",
 };
 
 export default function ConnectPage() {
@@ -50,7 +50,7 @@ export default function ConnectPage() {
           />
           <FeatureCard
             title="Membership"
-            description="Learn about becoming a member of Christ the King."
+            description="Learn about becoming a member of Christ The King."
             icon={<UserPlus className="w-6 h-6" />}
             href="/connect/membership"
           />

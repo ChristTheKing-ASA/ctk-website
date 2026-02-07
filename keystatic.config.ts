@@ -4,9 +4,6 @@ export default config({
   storage: {
     kind: "local",
   },
-  ui: {
-    basePath: "/admin",
-  },
   singletons: {
     churchInfo: singleton({
       label: "Church Info",
@@ -58,8 +55,9 @@ export default config({
       label: "Clergy & Staff",
       slugField: "name",
       path: "src/content/clergy/*",
+      format: { data: "json" },
       schema: {
-        name: fields.slug({ name: { label: "Name" } }),
+        name: fields.text({ label: "Name" }),
         title: fields.text({ label: "Title/Role" }),
         email: fields.text({ label: "Email" }),
         phone: fields.text({ label: "Phone" }),
@@ -81,8 +79,9 @@ export default config({
       label: "Mission Partners",
       slugField: "name",
       path: "src/content/missions/*",
+      format: { data: "json" },
       schema: {
-        name: fields.slug({ name: { label: "Name" } }),
+        name: fields.text({ label: "Name" }),
         subtitle: fields.text({ label: "Subtitle (optional)" }),
         category: fields.select({
           label: "Category",
@@ -102,8 +101,9 @@ export default config({
       label: "Weekly Activities",
       slugField: "title",
       path: "src/content/activities/*",
+      format: { data: "json" },
       schema: {
-        title: fields.slug({ name: { label: "Title" } }),
+        title: fields.text({ label: "Title" }),
         day: fields.text({ label: "Day (e.g., Sundays)" }),
         time: fields.text({ label: "Time (e.g., 10:00 AM)" }),
         description: fields.text({ label: "Description", multiline: true }),
@@ -117,8 +117,9 @@ export default config({
       label: "Announcements",
       slugField: "title",
       path: "src/content/announcements/*",
+      format: { data: "json" },
       schema: {
-        title: fields.slug({ name: { label: "Title" } }),
+        title: fields.text({ label: "Title" }),
         date: fields.date({ label: "Date" }),
         content: fields.text({ label: "Content", multiline: true }),
         expiresAt: fields.date({ label: "Expires At (optional)" }),

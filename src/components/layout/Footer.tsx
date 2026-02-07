@@ -167,12 +167,12 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <Image
                 src="/images/logos/ctk-logo-cross-optimized.png"
-                alt="Christ the King"
+                alt="Christ The King"
                 width={32}
                 height={40}
                 className="h-10 w-auto opacity-80"
               />
-              <p className="text-sm text-navy-400">© {new Date().getFullYear()} Christ the King Anglican Church</p>
+              <p className="text-sm text-navy-400">© {new Date().getFullYear()} Christ The King Anglican Church</p>
             </div>
             <p className="text-sm text-navy-400 italic">
               {churchInfo.scripture.main.text}

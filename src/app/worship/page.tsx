@@ -10,7 +10,7 @@ import { Calendar, Clock, MapPin, Video, BookOpen, Users, Mail } from "lucide-re
 export const metadata: Metadata = {
   title: "Worship",
   description:
-    "Join Christ the King for worship - Sunday services, weekly prayer, Bible study, and sermon archive.",
+    "Join Christ The King for worship - Sunday services, weekly prayer, Bible study, and sermon archive.",
 };
 
 export default async function WorshipPage() {

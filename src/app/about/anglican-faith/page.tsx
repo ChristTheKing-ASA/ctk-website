@@ -135,7 +135,7 @@ export default async function AnglicanFaithPage() {
                 {churchInfo.diocese.name}
               </h3>
               <p className="text-navy-600 mb-4">
-                Christ the King is a member parish of the Gulf Atlantic Diocese,
+                Christ The King is a member parish of the Gulf Atlantic Diocese,
                 under the leadership of {churchInfo.diocese.bishop}.
               </p>
               <a

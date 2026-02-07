@@ -12,6 +12,9 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+// Disable dynamic params - only use pre-generated paths
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const partners = await getAllMissionPartners();
   return partners.map((partner) => ({
@@ -28,7 +31,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: partnerData.name?.name || "",
+    title: partnerData.name || "",
     description: partnerData.shortDescription || "",
   };
 }
@@ -43,7 +46,7 @@ export default async function PartnerPage({ params }: PageProps) {
 
   const partner = {
     slug,
-    name: partnerData.name?.name || "",
+    name: partnerData.name || "",
     subtitle: partnerData.subtitle || undefined,
     category: partnerData.category || "Local",
     shortDescription: partnerData.shortDescription || "",

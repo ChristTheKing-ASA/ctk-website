@@ -14,7 +14,7 @@ export default async function MissionsPage() {
   // Transform CMS data to expected format
   const partners = cmsPartners.map((p) => ({
     slug: p.slug,
-    name: p.name?.name || "",
+    name: p.name || "",
     subtitle: p.subtitle || undefined,
     category: p.category || "Local",
     shortDescription: p.shortDescription || "",

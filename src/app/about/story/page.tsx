@@ -7,7 +7,7 @@ import { getChurchInfo } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Our Story",
   description:
-    "The history of Christ the King Anglican Church in St. Augustine, Florida.",
+    "The history of Christ The King Anglican Church in St. Augustine, Florida.",
 };
 
 export default async function StoryPage() {
@@ -18,7 +18,7 @@ export default async function StoryPage() {
       <PageHeader
         title="Our Story"
         subtitle="Our History"
-        description="The journey of Christ the King Anglican Church in the nation's oldest city."
+        description="The journey of Christ The King Anglican Church in the nation's oldest city."
         breadcrumb={[
           { label: "About", href: "/about" },
           { label: "Story", href: "/about/story" },
@@ -29,7 +29,7 @@ export default async function StoryPage() {
         <div className="max-w-3xl mx-auto">
           <div className="prose prose-lg prose-navy max-w-none">
             <p className="text-xl text-navy-700 leading-relaxed mb-8">
-              Christ the King Anglican Church has been serving the St. Augustine
+              Christ The King Anglican Church has been serving the St. Augustine
               community with a commitment to Scripture, liturgy, and love.
             </p>
 
@@ -53,7 +53,7 @@ export default async function StoryPage() {
               Part of a Larger Story
             </h2>
             <p className="text-navy-600 leading-relaxed mb-6">
-              Christ the King is a member of the {churchInfo.diocese.name} in the{" "}
+              Christ The King is a member of the {churchInfo.diocese.name} in the{" "}
               {churchInfo.denomination.name} (ACNA). We are connected to
               Anglicans around the world who share our commitment to the
               authority of Scripture and the historic faith once delivered to

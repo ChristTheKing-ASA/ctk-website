@@ -6,7 +6,7 @@ import { Check, Users, Vote, Heart, Star, ArrowRight, Mail, Phone } from "lucide
 
 export const metadata: Metadata = {
   title: "Membership",
-  description: "Learn about becoming a member of Christ the King Anglican Church.",
+  description: "Learn about becoming a member of Christ The King Anglican Church.",
 };
 
 const benefits = [
@@ -38,7 +38,7 @@ export default function MembershipPage() {
       <PageHeader
         title="Membership"
         subtitle="Belong"
-        description="Membership at Christ the King is about more than attending—it's about belonging, growing, and serving together."
+        description="Membership at Christ The King is about more than attending—it's about belonging, growing, and serving together."
         breadcrumb={[
           { label: "Connect", href: "/connect" },
           { label: "Membership", href: "/connect/membership" },

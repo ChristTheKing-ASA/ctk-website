@@ -19,7 +19,7 @@ import {
 export const metadata: Metadata = {
   title: "Visit Us",
   description:
-    "Plan your first visit to Christ the King Anglican Church in St. Augustine, FL. Service times, location, what to expect, and more.",
+    "Plan your first visit to Christ The King Anglican Church in St. Augustine, FL. Service times, location, what to expect, and more.",
 };
 
 export default async function VisitPage() {
@@ -113,7 +113,7 @@ export default async function VisitPage() {
           <div className="rounded-xl overflow-hidden shadow-lg h-[400px] lg:h-auto">
             <iframe
               src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(
-                `Christ the King Anglican Church, ${churchInfo.address.street}, ${churchInfo.address.city}, ${churchInfo.address.state}`
+                `Christ The King Anglican Church, ${churchInfo.address.street}, ${churchInfo.address.city}, ${churchInfo.address.state}`
               )}`}
               width="100%"
               height="100%"

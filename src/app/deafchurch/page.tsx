@@ -20,7 +20,7 @@ import {
 export const metadata: Metadata = {
   title: "DeafChurch First Coast",
   description:
-    "DeafChurch First Coast - bringing Anglican worship to the Deaf community in American Sign Language. Christ the King is an anchor church for this regional ministry.",
+    "DeafChurch First Coast - bringing Anglican worship to the Deaf community in American Sign Language. Christ The King is an anchor church for this regional ministry.",
 };
 
 export default async function DeafChurchPage() {
@@ -59,7 +59,7 @@ export default async function DeafChurchPage() {
 
             <p className="text-navy-600 text-lg mb-6 leading-relaxed">
               DeafChurch First Coast is a church plant serving the Deaf Community
-              across Northeast Florida. Christ the King serves as an Anchor Church
+              across Northeast Florida. Christ The King serves as an Anchor Church
               in the DeafChurch Together movement, helping establish in-person
               community in addition to online worship.
             </p>

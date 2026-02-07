@@ -1,7 +1,7 @@
 // Church information and content data
 
 export const churchInfo = {
-  name: "Christ the King Anglican Church",
+  name: "Christ The King Anglican Church",
   shortName: "CTK",
   phone: "904.460.2318",
   email: "craig@ctkasa.com",
@@ -82,35 +82,24 @@ export const clergy = [
     title: "Rector",
     email: "craig@ctkasa.com",
     image: "/images/team/staff-photo.jpeg",
-    shortBio: "Leading CTK with a passion for Scripture and Anglican tradition.",
-    fullBio: `Fr. Craig moved from Loganville, Georgia, where he served at Holy Cross Anglican Cathedral. He was previously ordained in the Diocese of the Rocky Mountains and holds a PhD in Christian Theology from Saint Louis University.
-
-His journey to Anglicanism was shaped by a deep love for Scripture. As he writes: "I wanted to eat, sleep, and breathe the Bible. The Anglican tradition provided a trustworthy model for patterning my life around Scripture, forming in me Bible-shaped worship and prayer."
-
-Fr. Craig's grandmother, his "MawMaw" Hazel Sanders Ridgeway, was instrumental in his faith formation. Her gift of an Apologetics Study Bible during his senior year of high school set him on a lifelong journey to inhabit Scripture.`,
-    family: "Married to Kaitlyn with children Auggie and Elowyn",
+    shortBio: "Rector at Christ The King Anglican Church.",
+    fullBio: `Fr. Craig Sanders is the rector at Christ The King Anglican Church. Craig, his wife Kaitlyn, and their children Auggie and Elowyn moved to St. Augustine, FL, from Loganville, GA, where Fr. Craig served on staff at Holy Cross Anglican Cathedral. He was ordained a priest in the Diocese of the Rocky Mountains. Fr. Craig earned his PhD in Christian Theology from Saint Louis University.`,
+    family: "Wife Kaitlyn and children Auggie and Elowyn",
     education: ["PhD in Christian Theology, Saint Louis University"],
-    quote: {
-      text: "I wanted to eat, sleep, and breathe the Bible. The Anglican tradition provided a trustworthy model for patterning my life around Scripture, forming in me Bible-shaped worship and prayer.",
-      source: "Heaven in Ordinary newsletter",
-    },
   },
   {
     slug: "bob-ayres",
     name: "The Rev. Dr. Bob Ayres",
-    title: "Assisting Priest | Founder, DeafChurch Together",
+    title: "Assisting Priest",
     email: "bob.ayres@deafchurchtogether.com",
     image: "/images/team/revs-kathy-bob-ayres.jpg",
-    shortBio: "Pioneering Deaf ministry through DeafChurch Together.",
-    fullBio: `Fr. Bob is the founding pastor of DeafChurch Together, an online liturgical expression of the Christian faith in the Anglican tradition serving the Deaf community.
+    shortBio: "Founding pastor/priest of DeafChurch Together movement.",
+    fullBio: `The Rev. Dr. Bob Ayres is the founding pastor/priest of DeafChurch Together movement. He has published two books on Deaf ministry including Deaf Diaspora: The Third Wave of Deaf Ministry and DEAFCHURCH 21: Vision for a New Generation. God stirred up a vision in Fr. Bob's heart for establishing a Deaf Liturgical Church movements based on the model of multiple home and community congregations a part of a regional parish connected by online weekly liturgical services in American Sign Language.
 
-He and his wife Deacon Kathy have been involved in Deaf ministry since the mid-1980s. In 2000, they established Deaf Teen Quest (DTQ), now a national ministry model for Youth For Christ USA.
-
-Fr. Bob has published two books on Deaf ministry including "DEAFCHURCH 21: Vision for a New Generation." In May 2020, he launched an online weekly liturgical service in American Sign Language.
-
-God has stirred up a vision in Fr. Bob's heart for establishing a regional Deaf Liturgical Church movement based on the model of multiple sites as part of a single parish. CTK serves as an Anchor Church in this movement.`,
-    family: "Six adopted adult children (two of whom are Deaf) and twelve grandchildren",
-    publications: ["DEAFCHURCH 21: Vision for a New Generation"],
+Fr. Bob and Deacon Kathy Ayres, have been involved in Deaf ministry since the middle 1980s and together in 2000, established Deaf Teen Quest (DTQ), which has been a national ministry model of Youth For Christ USA since 2009. The Ayres have six adult children who came to them through adoption (two of whom are Deaf) and a dozen delightful grandchildren!`,
+    family: "Six adult children through adoption (two of whom are Deaf) and a dozen delightful grandchildren",
+    publications: ["Deaf Diaspora: The Third Wave of Deaf Ministry", "DEAFCHURCH 21: Vision for a New Generation"],
+    website: "www.bobayres.com",
   },
   {
     slug: "donald-wilson",
@@ -118,23 +107,21 @@ God has stirred up a vision in Fr. Bob's heart for establishing a regional Deaf 
     title: "Assisting Priest",
     image: "/images/team/wilson.jpg",
     shortBio: "Teaching biblical financial principles and serving the community.",
-    fullBio: `Fr. Donald was born in 1959 as a South Florida native. He was ordained Deacon in 2005 and Priest in 2006 through UECNA seminary training.
+    fullBio: `Fr. Don was born in 1959 and raised in South Florida and resided in Florida most of his life. He attended college in NY and was seminary trained through the UECNA and continues to take classes through various colleges and seminaries.
 
-He joined Christ The King in 2021 after retiring from cattle ranching and general employment. Fr. Donald has a passion for teaching biblical financial principles to help congregation members steward their resources wisely.`,
-    family: "Two grown daughters",
+He was ordained as a Deacon in 2005 and in 2006 to the priesthood. He joined Christ The King Church in 2021. He has two grown daughters and has since retired from Florida cattle ranching and general employment after his wife's passing. He enjoys traveling and loves to teach biblical financial principles.`,
+    family: "Two grown daughters; wife deceased",
     ministry: "Biblical financial principles",
   },
   {
     slug: "langdon-pegram",
     name: "The Rev. Langdon Pegram",
-    title: "Assisting Priest | Director of Safeguarding",
+    title: "Assisting Priest",
     image: "/images/team/pegram.jpg",
     shortBio: "Former Mayo Clinic pediatrician serving God's people.",
-    fullBio: `Fr. Langdon graduated from Texas A&M College of Medicine in 1984 and completed his pediatric residency at the Mayo Clinic. He served three years in the Air Force at Kadena Air Base in Okinawa.
+    fullBio: `Mother Lang graduated from Texas A&M College of Medicine in 1984 and did her residency in pediatrics at the Mayo Clinic in Rochester, Minnesota. She then served three years in the Air Force at Kadena Air Base, Okinawa.
 
-He attended Trinity School for Ministry in 1997 and was ordained Deacon and Priest in 2000. Fr. Langdon served as rector of Christ Church, New Brighton, PA for over 19 years before retiring to DeLand, Florida.
-
-At CTK, he serves as Director of Safeguarding, overseeing the MinistrySafe training program for all volunteers who work with children and youth.`,
+After she returned to civilian life, she began to feel a call to ordained ministry, and in 1997 moved to Pennsylvania to attend Trinity School for Ministry. She was ordained deacon and priest in 2000, and was rector of Christ Church, New Brighton, PA for 19+ years before retiring to DeLand. She has two grown sons, and two step-grandchildren.`,
     family: "Two grown sons and two step-grandchildren",
     education: [
       "Texas A&M College of Medicine (1984)",
@@ -150,9 +137,7 @@ At CTK, he serves as Director of Safeguarding, overseeing the MinistrySafe train
     phone: "724-344-9241",
     image: "/images/team/mcmillen.jpg",
     shortBio: "Serving seasonally in Florida and Pennsylvania.",
-    fullBio: `Deacon Barb joined Christ The King in 2016. She attended Trinity School for Ministry and was ordained as a Vocational Deacon in 2015.
-
-She serves winters in Florida and summers in Pennsylvania, bringing her gifts of hospitality and pastoral care to both communities. Deacon Barb is also a contact person for the Daughters of the Holy Cross Faith Chapter.`,
+    fullBio: `Deacon Barb joined Christ The King in 2016. Barb attended Trinity School for Ministry and was ordained a Vocational Deacon in 2015. Barb serves winters in Florida, and summers in Pennsylvania with her husband Chuck. They were married in 1968 and have four children – one who is living with the Lord in Heaven – and three grandchildren.`,
     family: "Married to Chuck since 1968, four children (one deceased), three grandchildren",
     education: ["Trinity School for Ministry"],
   },
@@ -164,17 +149,19 @@ She serves winters in Florida and summers in Pennsylvania, bringing her gifts of
     phone: "904.377.3726",
     image: "/images/team/allert.jpg",
     shortBio: "Former rector with a heart for reconciliation.",
-    fullBio: `Fr. David attended Trinity School for Ministry and received his Master of Divinity degree in 1999. He served at Trinity Episcopal Parish and St. Cyprian Episcopal Church before being called as rector of CTK in 2006.
+    fullBio: `Fr. David responded to God's call to the ordained ministry by attending Trinity School for Ministry in Ambridge, PA, where he received a Master of Divinity degree in 1999. After serving at Trinity Episcopal Parish, and St. Cyprian Episcopal Church, in St. Augustine, he was called to be rector of Christ The King Anglican Church in 2006.
 
-His personal ministry vision focuses on reconciliation—bringing people together and helping heal divisions. Born in Grenada, he emigrated to England as a child and has been a resident in the USA since 1990.`,
+His personal vision for ministry is one of reconciliation. Reconciliation of all people to God and to one another.
+
+Born in Grenada, David emigrated to England as a child. David and Heather were married in 1987 and have 3 children, Grace, Isaac and Sophie, and one grandchild, Carter. They have lived in the USA since 1990.`,
     family: "Married to Heather since 1987, three children (Grace, Isaac, Sophie), one grandchild (Carter)",
-    education: ["Master of Divinity, Trinity School for Ministry (1999)"],
+    education: ["Master of Divinity, Trinity School for Ministry, Ambridge, PA (1999)"],
     ministry: "Reconciliation",
   },
 ];
 
 export const beliefs = {
-  intro: "Christ the King holds to the historic Anglican faith as expressed in the following:",
+  intro: "Christ The King holds to the historic Anglican faith as expressed in the following:",
   foundations: [
     {
       title: "Scripture",
@@ -417,7 +404,7 @@ The trauma they go through is underlined by lack and societal negative perceptio
 export const deafChurch = {
   name: "DeafChurch First Coast",
   tagline: "Bringing Anglican worship to the Deaf community in American Sign Language",
-  description: `DeafChurch First Coast is a church plant serving the Deaf Community across Northeast Florida. Christ the King serves as an Anchor Church in the DeafChurch Together movement, helping establish in-person community in addition to online worship.`,
+  description: `DeafChurch First Coast is a church plant serving the Deaf Community across Northeast Florida. Christ The King serves as an Anchor Church in the DeafChurch Together movement, helping establish in-person community in addition to online worship.`,
   model: {
     title: "DeafChurch Together Model",
     description: `"DeafChurch Together" is an online liturgical expression of the Christian faith in the Anglican tradition. The model establishes a regional Deaf Liturgical Church movement based on multiple sites as part of a single parish, connecting Deaf communities with Anglican anchor churches.`,
