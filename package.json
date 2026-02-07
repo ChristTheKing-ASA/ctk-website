@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:static": "mv src/app/api src/app/_api-disabled && mv src/app/keystatic src/app/_keystatic-disabled && STATIC_EXPORT=true next build; mv src/app/_api-disabled src/app/api; mv src/app/_keystatic-disabled src/app/keystatic",
+    "preview": "opennextjs-cloudflare && wrangler dev",
+    "deploy": "opennextjs-cloudflare && wrangler deploy",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest",
@@ -25,6 +26,7 @@
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.16.3",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
@@ -39,6 +41,7 @@
     "jsdom": "^27.4.0",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "^4.0.18"
+    "vitest": "^4.0.18",
+    "wrangler": "^4.63.0"
   }
 }
