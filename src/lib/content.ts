@@ -151,6 +151,24 @@ export async function getAllActivities() {
   return activities.filter(Boolean);
 }
 
+export async function getAllEvents() {
+  const slugs = await reader.collections.events.list();
+  const events = await Promise.all(
+    slugs.map(async (slug) => {
+      const data = await reader.collections.events.read(slug);
+      return { slug, ...data };
+    })
+  );
+  // Filter out past one-time events, keep recurring
+  const today = new Date().toISOString().split("T")[0];
+  return events
+    .filter((e) => e && (e.recurring !== "none" || !e.date || e.date >= today))
+    .sort((a, b) => {
+      if (!a?.date || !b?.date) return 0;
+      return a.date.localeCompare(b.date);
+    });
+}
+
 export async function getAllAnnouncements() {
   const slugs = await reader.collections.announcements.list();
   const announcements = await Promise.all(

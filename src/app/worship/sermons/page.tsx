@@ -4,7 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { LatestSermon } from "@/components/LatestSermon";
 import { getChurchInfo } from "@/lib/content";
-import { Video, Podcast, Smartphone } from "lucide-react";
+import { Video, Smartphone } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Sermons",
@@ -35,7 +35,7 @@ export default async function SermonsPage() {
           </div>
 
           {/* Ways to Watch */}
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
+          <div className="grid md:grid-cols-2 gap-6 mb-12">
             <div className="bg-cream-50 p-6 rounded-xl text-center">
               <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Video className="w-6 h-6 text-red-600" />
@@ -48,21 +48,6 @@ export default async function SermonsPage() {
               </p>
               <Button href={churchInfo.social.youtube} external variant="outline" size="sm">
                 Go to YouTube
-              </Button>
-            </div>
-
-            <div className="bg-cream-50 p-6 rounded-xl text-center">
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Podcast className="w-6 h-6 text-purple-600" />
-              </div>
-              <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                Podcast
-              </h3>
-              <p className="text-navy-600 text-sm mb-4">
-                Listen on the go with our audio podcast feed.
-              </p>
-              <Button href="#" variant="outline" size="sm">
-                Coming Soon
               </Button>
             </div>
 

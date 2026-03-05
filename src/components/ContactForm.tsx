@@ -300,6 +300,11 @@ export function ContactForm() {
 
       <p className="text-xs text-navy-500 text-center">
         By submitting this form, you agree to be contacted regarding your inquiry.
+        See our{" "}
+        <a href="/privacy" className="text-gold-600 hover:text-gold-700 underline">
+          Privacy Policy
+        </a>
+        .
       </p>
     </form>
   );

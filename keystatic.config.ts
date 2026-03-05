@@ -114,6 +114,31 @@ export default config({
         contactPhone: fields.text({ label: "Contact Phone (optional)" }),
       },
     }),
+    events: collection({
+      label: "Events",
+      slugField: "title",
+      path: "src/content/events/*",
+      format: { data: "json" },
+      schema: {
+        title: fields.text({ label: "Title" }),
+        date: fields.date({ label: "Date" }),
+        endDate: fields.date({ label: "End Date (optional)" }),
+        time: fields.text({ label: "Time (e.g., 9:00 AM - 12:00 PM)" }),
+        location: fields.text({ label: "Location" }),
+        description: fields.text({ label: "Description", multiline: true }),
+        recurring: fields.select({
+          label: "Recurring",
+          options: [
+            { label: "None", value: "none" },
+            { label: "Weekly", value: "weekly" },
+            { label: "Monthly", value: "monthly" },
+          ],
+          defaultValue: "none",
+        }),
+        contactName: fields.text({ label: "Contact Name (optional)" }),
+        contactEmail: fields.text({ label: "Contact Email (optional)" }),
+      },
+    }),
     announcements: collection({
       label: "Announcements",
       slugField: "title",

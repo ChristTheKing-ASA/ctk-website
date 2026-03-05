@@ -172,7 +172,13 @@ export function Footer() {
                 height={40}
                 className="h-10 w-auto opacity-80"
               />
-              <p className="text-sm text-navy-400">© {new Date().getFullYear()} Christ The King Anglican Church</p>
+              <div className="flex items-center gap-3 text-sm text-navy-400">
+                <p>© {new Date().getFullYear()} Christ The King Anglican Church</p>
+                <span className="hidden sm:inline">·</span>
+                <Link href="/privacy" className="hover:text-white transition-colors">
+                  Privacy Policy
+                </Link>
+              </div>
             </div>
             <p className="text-sm text-navy-400 italic">
               {churchInfo.scripture.main.text}

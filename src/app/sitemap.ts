@@ -29,6 +29,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/serve",
     "/serve/safeguarding",
     "/missions",
+    "/privacy",
+    "/announcements",
+    "/events",
   ];
 
   const clergyPages = clergy.map((person) => `/about/team/${person.slug}`);
