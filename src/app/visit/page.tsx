@@ -112,7 +112,7 @@ export default async function VisitPage() {
           {/* Map Embed */}
           <div className="rounded-xl overflow-hidden shadow-lg h-[400px] lg:h-auto">
             <iframe
-              src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(
+              src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}&q=${encodeURIComponent(
                 `Christ The King Anglican Church, ${churchInfo.address.street}, ${churchInfo.address.city}, ${churchInfo.address.state}`
               )}`}
               width="100%"

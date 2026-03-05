@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Radio, Play } from "lucide-react";
 
-const YOUTUBE_API_KEY = "AIzaSyA6Syni8N0wQp6chAP3Q5zR1liM4xuSR58";
+const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY || "";
 const CHANNEL_ID = "UC3qXOkET13YuCc4dNr89Q2w";
 const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@christthekinganglicanchurc8992";
 

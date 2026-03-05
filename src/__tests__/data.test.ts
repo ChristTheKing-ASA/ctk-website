@@ -167,7 +167,7 @@ describe("Volunteer Roles Data", () => {
     );
     expect(childrenCategory).toBeDefined();
     const rolesRequiringTraining = childrenCategory?.roles.filter(
-      (r) => r.requiresTraining
+      (r) => (r as { requiresTraining?: boolean }).requiresTraining
     );
     expect(rolesRequiringTraining?.length).toBeGreaterThan(0);
   });

@@ -111,6 +111,7 @@ export default function MissionsClient({ partners, additionalPartners }: Mission
             <button
               key={cat.value}
               onClick={() => setActiveCategory(cat.value)}
+              aria-pressed={activeCategory === cat.value}
               className={cn(
                 "inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors",
                 activeCategory === cat.value

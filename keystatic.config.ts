@@ -1,10 +1,10 @@
 import { config, fields, collection, singleton } from "@keystatic/core";
 
 export default config({
-  storage: {
-    kind: "github",
-    repo: "wallscaler/ctk-website",
-  },
+  storage:
+    process.env.NODE_ENV === "production"
+      ? { kind: "github", repo: "wallscaler/ctk-website" }
+      : { kind: "local" },
   singletons: {
     churchInfo: singleton({
       label: "Church Info",

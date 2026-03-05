@@ -66,8 +66,6 @@ export function ContactForm() {
     setStatus("submitting");
 
     try {
-      // Using Formspree - replace with your form ID
-      // Sign up at https://formspree.io and create a form to get your ID
       const response = await fetch("https://formspree.io/f/xwpkdjqw", {
         method: "POST",
         headers: {
