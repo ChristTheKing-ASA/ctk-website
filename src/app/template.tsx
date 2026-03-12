@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 
 export default function Template({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith("/admin");
+  const isAdmin = pathname?.startsWith("/admin") || pathname?.startsWith("/keystatic");
 
   if (isAdmin) {
     return <>{children}</>;
