@@ -1,9 +1,14 @@
 import { config, fields, collection, singleton } from "@keystatic/core";
 
+const hasKeystaticGitHubAuth =
+  Boolean(process.env.KEYSTATIC_GITHUB_CLIENT_ID) &&
+  Boolean(process.env.KEYSTATIC_GITHUB_CLIENT_SECRET) &&
+  Boolean(process.env.KEYSTATIC_SECRET);
+
 export default config({
-  storage: process.env.NODE_ENV === "development"
-    ? { kind: "local" }
-    : { kind: "github", repo: "wallscaler/ctk-website" },
+  storage: hasKeystaticGitHubAuth
+    ? { kind: "github", repo: "wallscaler/ctk-website" }
+    : { kind: "local" },
   singletons: {
     churchInfo: singleton({
       label: "Church Info",
