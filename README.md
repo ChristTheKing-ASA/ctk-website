@@ -31,7 +31,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Admin Panel Authentication
 
-The Keystatic admin panel at `/admin` is protected by a password gate. This works with static export (no server required).
+The Keystatic admin panel at `/admin` is protected by a server-side password session.
 
 ### Setting up admin access
 
@@ -42,23 +42,24 @@ The Keystatic admin panel at `/admin` is protected by a password gate. This work
 
 2. Edit `.env.local` and set a secure password:
    ```
-   NEXT_PUBLIC_ADMIN_PASSWORD=your-secure-password-here
+   ADMIN_PASSWORD=your-secure-password-here
+   ADMIN_SESSION_SECRET=your-long-random-secret
    ```
 
-3. Rebuild the site (the password is embedded at build time):
+3. Start or restart the app:
    ```bash
-   npm run build
+   npm run dev
    ```
 
 ### For production deployment
 
-Set the `NEXT_PUBLIC_ADMIN_PASSWORD` environment variable in your hosting platform (Vercel, Netlify, etc.) before building.
+Set both `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET` in your hosting platform (Vercel, Cloudflare, etc.).
 
 **Important notes:**
-- The password is embedded in the client-side JavaScript at build time
-- Sessions expire after 24 hours (configurable in `AdminAuthGate.tsx`)
-- To change the password, update the environment variable and rebuild
-- This is a simple protection layer - for highly sensitive admin panels, consider additional server-side authentication
+- The password is verified on the server and is not embedded in client bundles
+- Sessions are stored as signed, HTTP-only cookies
+- Sessions expire after 24 hours
+- To rotate credentials, update environment variables and restart the app
 
 ## Deploy on Vercel
 

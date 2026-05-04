@@ -66,9 +66,8 @@ export function ContactForm() {
     setStatus("submitting");
 
     try {
-      // Using Formspree - replace with your form ID
-      // Sign up at https://formspree.io and create a form to get your ID
-      const response = await fetch("https://formspree.io/f/xwpkdjqw", {
+      // Using our custom API endpoint
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,17 +77,19 @@ export function ContactForm() {
           email: formData.email,
           subject: formData.subject,
           message: formData.message,
-          _subject: `[CTK Website] ${formData.subject}`,
         }),
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (response.ok && result.success) {
         setStatus("success");
         setFormData({ name: "", email: "", subject: "", message: "" });
       } else {
-        throw new Error("Form submission failed");
+        throw new Error(result.error || "Form submission failed");
       }
-    } catch {
+    } catch (error) {
+      console.error("Form submission error:", error);
       setStatus("error");
     }
   };
