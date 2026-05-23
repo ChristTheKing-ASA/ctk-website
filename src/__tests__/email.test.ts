@@ -3,19 +3,20 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 // Mock Resend
 vi.mock("resend", () => {
   return {
-    Resend: vi.fn().mockImplementation(() => ({
-      emails: {
+    Resend: class {
+      emails = {
         send: vi.fn().mockResolvedValue({
           data: { id: "test-email-id" },
         }),
-      },
-    })),
+      };
+    },
   };
 });
 
 describe("Email Service", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    process.env.RESEND_API_KEY = "re_test_key";
   });
 
   it("should have email service functions", async () => {

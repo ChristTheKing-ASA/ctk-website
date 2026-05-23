@@ -71,6 +71,7 @@ export const navigation = [
   { name: "Worship", href: "/worship" },
   { name: "Connect", href: "/connect" },
   { name: "Serve", href: "/serve" },
+  { name: "Missions", href: "/missions" },
   { name: "DeafChurch", href: "/deafchurch" },
   { name: "About", href: "/about" },
 ];

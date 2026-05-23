@@ -16,7 +16,7 @@ export function AdminAuthGate({ next, configError = false }: AdminAuthGateProps)
 
   const destination = useMemo(() => {
     if (!next || !next.startsWith("/")) {
-      return "/keystatic";
+      return "/admin";
     }
 
     return next;

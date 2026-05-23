@@ -1,37 +1,13 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import {
-  ADMIN_SESSION_COOKIE_NAME,
-  getAdminPassword,
-  getAdminSessionSecret,
-  verifyAdminSessionCookie,
-} from "@/lib/adminSession";
+import { requireAdminAuth } from "@/lib/requireAdminAuth";
 import { getDb, contactSubmissions } from "@/db";
 import { desc } from "drizzle-orm";
 import { Mail, Phone, Calendar, User, MessageSquare } from "lucide-react";
+import Link from "next/link";
+import { AdminLogoutButton } from "@/components/admin/AdminLogoutButton";
 
 export default async function SubmissionsPage() {
-  // Check authentication
-  const password = getAdminPassword();
-  const sessionSecret = getAdminSessionSecret();
+  await requireAdminAuth("/admin/submissions");
 
-  if (!password || !sessionSecret) {
-    redirect("/admin?error=auth-not-configured");
-  }
-
-  const cookieStore = await cookies();
-  const sessionCookie = cookieStore.get(ADMIN_SESSION_COOKIE_NAME)?.value;
-  const isAuthenticated = await verifyAdminSessionCookie(
-    sessionCookie,
-    password,
-    sessionSecret
-  );
-
-  if (!isAuthenticated) {
-    redirect("/admin?next=/admin/submissions");
-  }
-
-  // Fetch submissions from database
   let submissions: Array<{
     id: number;
     name: string;
@@ -44,20 +20,20 @@ export default async function SubmissionsPage() {
   }> = [];
 
   try {
-    // @ts-expect-error - Cloudflare D1 binding
-    const db = getDb(process.env.DB);
-    submissions = await db
-      .select()
-      .from(contactSubmissions)
-      .orderBy(desc(contactSubmissions.createdAt))
-      .limit(100);
+    if (process.env.DB) {
+      const db = getDb(process.env.DB);
+      submissions = await db
+        .select()
+        .from(contactSubmissions)
+        .orderBy(desc(contactSubmissions.createdAt))
+        .limit(100);
+    }
   } catch (error) {
     console.error("Failed to fetch submissions:", error);
   }
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Header */}
       <header className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
@@ -70,26 +46,24 @@ export default async function SubmissionsPage() {
               </p>
             </div>
             <div className="flex gap-3">
-              <a
+              <Link
+                href="/admin"
+                className="px-4 py-2 text-sm font-medium text-navy-700 bg-white border border-navy-300 rounded-lg hover:bg-navy-50 transition-colors"
+              >
+                Admin Dashboard
+              </Link>
+              <Link
                 href="/keystatic"
                 className="px-4 py-2 text-sm font-medium text-navy-700 bg-white border border-navy-300 rounded-lg hover:bg-navy-50 transition-colors"
               >
                 CMS Dashboard
-              </a>
-              <form action="/api/admin/logout" method="POST">
-                <button
-                  type="submit"
-                  className="px-4 py-2 text-sm font-medium text-white bg-navy-600 rounded-lg hover:bg-navy-700 transition-colors"
-                >
-                  Logout
-                </button>
-              </form>
+              </Link>
+              <AdminLogoutButton className="px-4 py-2 text-sm font-medium text-white bg-navy-600 rounded-lg hover:bg-navy-700 transition-colors" />
             </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {submissions.length === 0 ? (
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
@@ -109,7 +83,6 @@ export default async function SubmissionsPage() {
                 key={submission.id}
                 className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow"
               >
-                {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-navy-100 rounded-full flex items-center justify-center">
@@ -139,7 +112,6 @@ export default async function SubmissionsPage() {
                   </span>
                 </div>
 
-                {/* Contact Info */}
                 <div className="flex flex-wrap gap-4 mb-4 text-sm">
                   <div className="flex items-center gap-2 text-navy-600">
                     <Mail className="w-4 h-4" />
@@ -170,14 +142,12 @@ export default async function SubmissionsPage() {
                   </div>
                 </div>
 
-                {/* Message */}
                 <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
                   <p className="text-sm text-navy-700 whitespace-pre-wrap">
                     {submission.message}
                   </p>
                 </div>
 
-                {/* Actions */}
                 <div className="mt-4 flex gap-2">
                   <a
                     href={`mailto:${submission.email}?subject=Re: ${submission.subject}`}

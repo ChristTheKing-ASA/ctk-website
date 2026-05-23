@@ -7,7 +7,11 @@ import {
 } from "@/lib/adminSession";
 
 function isProtectedPath(pathname: string): boolean {
-  return pathname.startsWith("/keystatic") || pathname.startsWith("/api/keystatic");
+  return (
+    pathname.startsWith("/keystatic") ||
+    pathname.startsWith("/api/keystatic") ||
+    pathname.startsWith("/admin/submissions")
+  );
 }
 
 export default async function proxy(request: NextRequest) {
@@ -21,7 +25,7 @@ export default async function proxy(request: NextRequest) {
   const sessionSecret = getAdminSessionSecret();
 
   if (!password || !sessionSecret) {
-    if (pathname.startsWith("/api/keystatic")) {
+    if (pathname.startsWith("/api/")) {
       return NextResponse.json(
         { error: "Admin authentication is not configured" },
         { status: 503 },
@@ -39,7 +43,7 @@ export default async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (pathname.startsWith("/api/keystatic")) {
+  if (pathname.startsWith("/api/")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -49,5 +53,5 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/keystatic/:path*", "/api/keystatic/:path*"],
+  matcher: ["/keystatic/:path*", "/api/keystatic/:path*", "/admin/submissions/:path*"],
 };

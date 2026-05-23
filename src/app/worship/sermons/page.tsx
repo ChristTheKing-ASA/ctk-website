@@ -61,8 +61,8 @@ export default async function SermonsPage() {
               <p className="text-navy-600 text-sm mb-4">
                 Listen on the go with our audio podcast feed.
               </p>
-              <Button href="#" variant="outline" size="sm">
-                Coming Soon
+              <Button href={`${churchInfo.social.youtube}/videos`} external variant="outline" size="sm">
+                Listen on YouTube
               </Button>
             </div>
 

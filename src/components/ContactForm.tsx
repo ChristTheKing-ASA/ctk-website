@@ -80,7 +80,7 @@ export function ContactForm() {
         }),
       });
 
-      const result = await response.json();
+      const result = (await response.json()) as { success?: boolean; error?: string };
 
       if (response.ok && result.success) {
         setStatus("success");

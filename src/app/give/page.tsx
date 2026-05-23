@@ -87,7 +87,7 @@ export default async function GivePage() {
                   Global Missions
                 </h3>
                 <p className="text-navy-600 text-sm">
-                  Supporting 11 mission partners worldwide
+                  Supporting mission partners worldwide
                 </p>
               </div>
             </div>

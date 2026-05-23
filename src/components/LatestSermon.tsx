@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Radio, Play } from "lucide-react";
 
-const YOUTUBE_API_KEY = "AIzaSyA6Syni8N0wQp6chAP3Q5zR1liM4xuSR58";
-const CHANNEL_ID = "UC3qXOkET13YuCc4dNr89Q2w";
 const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@christthekinganglicanchurc8992";
 
 interface VideoInfo {
@@ -19,18 +17,10 @@ interface VideoInfo {
   isShort?: boolean;
 }
 
-// Check if a video is a Short using YouTube's oEmbed endpoint
-// Shorts URLs return valid oEmbed data, regular videos at /shorts/ URL return errors
-async function checkIfShort(videoId: string): Promise<boolean> {
-  try {
-    const response = await fetch(
-      `https://www.youtube.com/oembed?url=https://www.youtube.com/shorts/${videoId}&format=json`
-    );
-    // If oEmbed returns 200, it's a valid Short
-    return response.ok;
-  } catch {
-    return false;
-  }
+interface YouTubeVideosResponse {
+  sermon: VideoInfo | null;
+  shorts: VideoInfo[];
+  error?: string;
 }
 
 export function LatestSermon() {
@@ -42,69 +32,23 @@ export function LatestSermon() {
   useEffect(() => {
     async function fetchVideos() {
       try {
-        // First check for live streams
-        const liveResponse = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&eventType=live&type=video&key=${YOUTUBE_API_KEY}`
-        );
-        const liveData = await liveResponse.json();
-
-        if (liveData.items && liveData.items.length > 0) {
-          const liveVideo = liveData.items[0];
-          const statsResponse = await fetch(
-            `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${liveVideo.id.videoId}&key=${YOUTUBE_API_KEY}`
-          );
-          const statsData = await statsResponse.json();
-          const viewerCount = statsData.items?.[0]?.liveStreamingDetails?.concurrentViewers;
-
-          setSermon({
-            id: liveVideo.id.videoId,
-            title: liveVideo.snippet.title,
-            isLive: true,
-            isUpcoming: false,
-            publishedAt: liveVideo.snippet.publishedAt,
-            viewerCount,
-          });
-          setLoading(false);
+        const response = await fetch("/api/youtube/videos");
+        if (!response.ok) {
+          setError(true);
           return;
         }
 
-        // Get recent videos
-        const searchResponse = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&order=date&type=video&maxResults=20&key=${YOUTUBE_API_KEY}`
-        );
-        const searchData = await searchResponse.json();
-
-        if (searchData.items && searchData.items.length > 0) {
-          const videos = searchData.items.map((v: { id: { videoId: string }; snippet: { title: string; publishedAt: string; thumbnails?: { medium?: { url: string }; default?: { url: string } } } }) => ({
-            id: v.id.videoId,
-            title: v.snippet.title,
-            isLive: false,
-            isUpcoming: false,
-            publishedAt: v.snippet.publishedAt,
-            thumbnail: v.snippet.thumbnails?.medium?.url || v.snippet.thumbnails?.default?.url,
-          }));
-
-          // Check each video to see if it's a Short
-          const shortChecks = await Promise.all(
-            videos.map(async (video: VideoInfo) => {
-              const isShort = await checkIfShort(video.id);
-              return { ...video, isShort };
-            })
-          );
-
-          const fullVideos = shortChecks.filter((v: VideoInfo) => !v.isShort);
-          const shortVideos = shortChecks.filter((v: VideoInfo) => v.isShort);
-
-          if (fullVideos.length > 0) {
-            setSermon(fullVideos[0]);
-          }
-          setShorts(shortVideos.slice(0, 4));
+        const data = (await response.json()) as YouTubeVideosResponse;
+        if (data.sermon) {
+          setSermon(data.sermon);
         }
+        setShorts(data.shorts ?? []);
       } catch (err) {
         console.error("Failed to fetch YouTube data:", err);
         setError(true);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
 
     fetchVideos();
@@ -162,7 +106,6 @@ export function LatestSermon() {
 
   return (
     <div className="space-y-12">
-      {/* Main Sermon */}
       <div>
         <div className="mb-4 flex justify-between items-end">
           <div>
@@ -196,11 +139,13 @@ export function LatestSermon() {
             View all →
           </a>
         </div>
-        <div className={`aspect-video rounded-xl overflow-hidden shadow-xl ${sermon.isLive ? 'ring-4 ring-red-500' : ''}`}>
+        <div
+          className={`aspect-video rounded-xl overflow-hidden shadow-xl ${sermon.isLive ? "ring-4 ring-red-500" : ""}`}
+        >
           <iframe
             width="100%"
             height="100%"
-            src={`https://www.youtube.com/embed/${sermon.id}${sermon.isLive ? '?autoplay=1' : ''}`}
+            src={`https://www.youtube.com/embed/${sermon.id}${sermon.isLive ? "?autoplay=1" : ""}`}
             title={sermon.title}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -210,7 +155,6 @@ export function LatestSermon() {
         </div>
       </div>
 
-      {/* Shorts Section */}
       {shorts.length > 0 && (
         <div>
           <div className="mb-4 flex justify-between items-end">

@@ -1,26 +1,18 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { AdminAuthGate } from "@/components/admin/AdminAuthGate";
-import {
-  ADMIN_SESSION_COOKIE_NAME,
-  getAdminPassword,
-  getAdminSessionSecret,
-  verifyAdminSessionCookie,
-} from "@/lib/adminSession";
+import { AdminDashboard } from "@/components/admin/AdminDashboard";
+import { isAdminAuthConfigured, isAdminAuthenticated } from "@/lib/requireAdminAuth";
 
 interface AdminPageProps {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
 export default async function AdminPage({ searchParams }: AdminPageProps) {
-  const password = getAdminPassword();
-  const sessionSecret = getAdminSessionSecret();
-
   const params = (await searchParams) ?? {};
   const configError = params.error === "auth-not-configured";
   const nextParam = typeof params.next === "string" ? params.next : undefined;
 
-  if (!password || !sessionSecret) {
+  if (!isAdminAuthConfigured()) {
     return (
       <main className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
         <section className="w-full max-w-lg bg-white rounded-xl shadow-sm border border-slate-200 p-8">
@@ -36,12 +28,14 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     );
   }
 
-  const cookieStore = await cookies();
-  const sessionCookie = cookieStore.get(ADMIN_SESSION_COOKIE_NAME)?.value;
-  const isAuthenticated = await verifyAdminSessionCookie(sessionCookie, password, sessionSecret);
+  const isAuthenticated = await isAdminAuthenticated();
 
   if (isAuthenticated) {
-    redirect(nextParam || "/keystatic");
+    if (nextParam) {
+      redirect(nextParam);
+    }
+
+    return <AdminDashboard />;
   }
 
   return <AdminAuthGate next={nextParam} configError={configError} />;

@@ -3,13 +3,12 @@ import Image from "next/image";
 import { MapPin, Phone, Mail, Clock, Facebook, Youtube, Instagram } from "lucide-react";
 import { churchInfo, navigation } from "@/data/church";
 
+/** Footer uses church data synced with src/content/church-info.json (Keystatic). */
 export function Footer() {
   return (
     <footer className="bg-navy-900 text-white">
-      {/* Main Footer */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {/* Visit Us */}
           <div>
             <h3 className="font-display text-lg font-semibold text-gold-400 mb-4">
               Visit Us
@@ -19,7 +18,10 @@ export function Footer() {
                 <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0 text-gold-500" />
                 <div>
                   <p>{churchInfo.address.street}</p>
-                  <p>{churchInfo.address.city}, {churchInfo.address.state} {churchInfo.address.zip}</p>
+                  <p>
+                    {churchInfo.address.city}, {churchInfo.address.state}{" "}
+                    {churchInfo.address.zip}
+                  </p>
                 </div>
               </li>
               <li className="flex items-center gap-2">
@@ -27,11 +29,9 @@ export function Footer() {
                 <span>{churchInfo.serviceTime}</span>
               </li>
             </ul>
-
-            {/* Map Link */}
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                `${churchInfo.address.street}, ${churchInfo.address.city}, ${churchInfo.address.state} ${churchInfo.address.zip}`
+                `${churchInfo.address.street}, ${churchInfo.address.city}, ${churchInfo.address.state} ${churchInfo.address.zip}`,
               )}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -41,7 +41,6 @@ export function Footer() {
             </a>
           </div>
 
-          {/* Connect */}
           <div>
             <h3 className="font-display text-lg font-semibold text-gold-400 mb-4">
               Connect
@@ -49,7 +48,10 @@ export function Footer() {
             <ul className="space-y-3 text-navy-200">
               <li className="flex items-center gap-2">
                 <Phone className="w-5 h-5 flex-shrink-0 text-gold-500" />
-                <a href={`tel:${churchInfo.phone.replace(/\./g, "")}`} className="hover:text-white transition-colors">
+                <a
+                  href={`tel:${churchInfo.phone.replace(/\./g, "")}`}
+                  className="hover:text-white transition-colors"
+                >
                   {churchInfo.phone}
                 </a>
               </li>
@@ -60,8 +62,6 @@ export function Footer() {
                 </a>
               </li>
             </ul>
-
-            {/* App Link */}
             <a
               href={churchInfo.giving.appUrl}
               target="_blank"
@@ -72,7 +72,6 @@ export function Footer() {
             </a>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h3 className="font-display text-lg font-semibold text-gold-400 mb-4">
               Quick Links
@@ -99,7 +98,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Follow & Affiliation */}
           <div>
             <h3 className="font-display text-lg font-semibold text-gold-400 mb-4">
               Follow Us
@@ -133,8 +131,6 @@ export function Footer() {
                 <Instagram className="w-5 h-5" />
               </a>
             </div>
-
-            {/* Affiliations */}
             <div className="space-y-2 text-sm text-navy-300">
               <p>A member of the</p>
               <div className="space-y-1">
@@ -160,7 +156,6 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
       <div className="border-t border-navy-800">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -172,7 +167,9 @@ export function Footer() {
                 height={40}
                 className="h-10 w-auto opacity-80"
               />
-              <p className="text-sm text-navy-400">© {new Date().getFullYear()} Christ The King Anglican Church</p>
+              <p className="text-sm text-navy-400">
+                © {new Date().getFullYear()} Christ The King Anglican Church
+              </p>
             </div>
             <p className="text-sm text-navy-400 italic">
               {churchInfo.scripture.main.text}

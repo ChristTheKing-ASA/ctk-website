@@ -1,6 +1,13 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResendClient() {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return null;
+  }
+
+  return new Resend(apiKey);
+}
 
 export interface ContactFormEmailData {
   name: string;
@@ -11,6 +18,12 @@ export interface ContactFormEmailData {
 }
 
 export async function sendContactFormEmail(data: ContactFormEmailData) {
+  const resend = getResendClient();
+  if (!resend) {
+    console.error("RESEND_API_KEY is not configured");
+    return { success: false, error: new Error("Email service is not configured") };
+  }
+
   const emailFrom = process.env.EMAIL_FROM || "onboarding@resend.dev";
   const adminEmail = process.env.ADMIN_EMAIL || "ctkrector@gmail.com";
 
@@ -31,6 +44,15 @@ export async function sendContactFormEmail(data: ContactFormEmailData) {
 }
 
 export async function sendContactFormAutoReply(data: ContactFormEmailData) {
+  const resend = getResendClient();
+  if (!resend) {
+    console.error("RESEND_API_KEY is not configured");
+    return { success: false, error: new Error("Email service is not configured") };
+  }
+
+  const { getChurchInfo } = await import("@/lib/content");
+  const churchInfo = await getChurchInfo();
+
   const emailFrom = process.env.EMAIL_FROM || "onboarding@resend.dev";
 
   try {
@@ -38,7 +60,7 @@ export async function sendContactFormAutoReply(data: ContactFormEmailData) {
       from: emailFrom,
       to: data.email,
       subject: "Thank you for contacting Christ The King Anglican Church",
-      html: generateAutoReplyHtml(data),
+      html: generateAutoReplyHtml(data, churchInfo),
     });
 
     return { success: true, id: result.data?.id };
@@ -106,7 +128,14 @@ function generateAdminEmailHtml(data: ContactFormEmailData): string {
 </html>`;
 }
 
-function generateAutoReplyHtml(data: ContactFormEmailData): string {
+function generateAutoReplyHtml(
+  data: ContactFormEmailData,
+  church: {
+    phone: string;
+    address: { street: string; city: string; state: string; zip: string };
+  },
+): string {
+  const phoneDigits = church.phone.replace(/\./g, "");
   return `
 <!DOCTYPE html>
 <html>
@@ -122,12 +151,12 @@ function generateAutoReplyHtml(data: ContactFormEmailData): string {
     <div style="background: white; padding: 20px; border-radius: 4px; border-left: 3px solid #f59e0b; white-space: pre-wrap;">
       ${data.message}
     </div>
-    <p style="margin-top: 30px;">If you need immediate assistance, please call us at <a href="tel:904-217-3574" style="color: #334e68;">904-217-3574</a>.</p>
+    <p style="margin-top: 30px;">If you need immediate assistance, please call us at <a href="tel:${phoneDigits}" style="color: #334e68;">${church.phone}</a>.</p>
     <p>Blessings,<br><strong>Christ The King Anglican Church</strong></p>
     <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #666;">
       <p><strong>Christ The King Anglican Church</strong><br>
-      2503 Old Moultrie Road<br>
-      St. Augustine, FL 32086<br>
+      ${church.address.street}<br>
+      ${church.address.city}, ${church.address.state} ${church.address.zip}<br>
       <a href="https://ctkasa.com" style="color: #334e68;">ctkasa.com</a></p>
     </div>
   </div>

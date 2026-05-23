@@ -45,7 +45,7 @@ export const metadata: Metadata = {
       "A welcoming Anglican community in St. Augustine, Florida. Join us for worship Sundays at 10:00 AM.",
     images: [
       {
-        url: "/images/og-image.jpg",
+        url: "/images/church/ctk-building-exterior.jpg",
         width: 1200,
         height: 630,
         alt: "Christ The King Anglican Church",

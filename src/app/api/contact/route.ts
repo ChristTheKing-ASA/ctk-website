@@ -57,19 +57,20 @@ export async function POST(request: NextRequest) {
 
     // Store in database (if D1 is available)
     try {
-      // @ts-expect-error - Cloudflare D1 binding
-      const db = getDb(process.env.DB);
-      
-      await db.insert(contactSubmissions).values({
-        name: data.name,
-        email: data.email,
-        phone: data.phone || null,
-        subject: data.subject,
-        message: data.message,
-        ipAddress,
-        userAgent,
-        status: "new",
-      });
+      if (process.env.DB) {
+        const db = getDb(process.env.DB);
+
+        await db.insert(contactSubmissions).values({
+          name: data.name,
+          email: data.email,
+          phone: data.phone || null,
+          subject: data.subject,
+          message: data.message,
+          ipAddress,
+          userAgent,
+          status: "new",
+        });
+      }
     } catch (dbError) {
       // Log database error but don't fail the request
       // Email was sent successfully, which is the primary goal

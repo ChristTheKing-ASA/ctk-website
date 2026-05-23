@@ -81,7 +81,7 @@ export default async function ServePage() {
           />
           <FeatureCard
             title="Missions"
-            description="Support our 11 mission partners locally and around the world."
+            description="Support our mission partners locally and around the world."
             icon={<Globe className="w-6 h-6" />}
             href="/missions"
           />
