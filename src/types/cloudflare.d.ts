@@ -21,6 +21,9 @@ declare global {
       
       // New - Site
       NEXT_PUBLIC_SITE_URL?: string;
+      YOUTUBE_API_KEY?: string;
+      YOUTUBE_CHANNEL_ID?: string;
+      YOUTUBE_CHANNEL_URL?: string;
       
       // Cloudflare D1 binding (available in production)
       DB?: D1Database;

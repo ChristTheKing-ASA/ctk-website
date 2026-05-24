@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const CHANNEL_ID = "UC3qXOkET13YuCc4dNr89Q2w";
+import { YOUTUBE_CHANNEL_ID } from "@/lib/youtube";
 
 interface YouTubeSearchItem {
   id: { videoId: string };
@@ -41,7 +41,7 @@ export async function GET() {
 
   try {
     const liveResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&eventType=live&type=video&key=${apiKey}`,
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${YOUTUBE_CHANNEL_ID}&eventType=live&type=video&key=${apiKey}`,
       { next: { revalidate: 120 } },
     );
     const liveData = (await liveResponse.json()) as YouTubeSearchResponse;
@@ -69,7 +69,7 @@ export async function GET() {
     }
 
     const searchResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&order=date&type=video&maxResults=20&key=${apiKey}`,
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${YOUTUBE_CHANNEL_ID}&order=date&type=video&maxResults=20&key=${apiKey}`,
       { next: { revalidate: 120 } },
     );
     const searchData = (await searchResponse.json()) as YouTubeSearchResponse;

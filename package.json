@@ -11,9 +11,11 @@
     "lint": "eslint",
     "test": "vitest",
     "test:run": "vitest run",
+    "test:resend": "node --env-file=.env.local scripts/test-resend.mjs",
     "test:coverage": "vitest run --coverage",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "wrangler d1 execute ctk-website-db --local --file=./drizzle/migrations/0000_initial.sql",
+    "db:migrate:remote": "wrangler d1 execute ctk-website-db --remote --file=./drizzle/migrations/0000_initial.sql",
     "db:studio": "drizzle-kit studio",
     "db:push": "drizzle-kit push"
   },

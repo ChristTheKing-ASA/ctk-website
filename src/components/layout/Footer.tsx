@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Phone, Mail, Clock, Facebook, Youtube, Instagram } from "lucide-react";
 import { churchInfo, navigation } from "@/data/church";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 
 /** Footer uses church data synced with src/content/church-info.json (Keystatic). */
 export function Footer() {
@@ -153,6 +154,13 @@ export function Footer() {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="mt-10 pt-8 border-t border-navy-800">
+          <h3 className="font-display text-sm font-semibold text-gold-400 mb-3">
+            Newsletter
+          </h3>
+          <NewsletterSignup compact />
         </div>
       </div>
 

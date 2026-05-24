@@ -17,6 +17,28 @@ export interface ContactFormEmailData {
   message: string;
 }
 
+export interface PrayerRequestEmailData {
+  name: string;
+  email?: string;
+  phone?: string;
+  request: string;
+  isUrgent?: boolean;
+}
+
+async function getAdminEmail(): Promise<string> {
+  if (process.env.ADMIN_EMAIL) {
+    return process.env.ADMIN_EMAIL;
+  }
+
+  try {
+    const { getChurchInfo } = await import("@/lib/content");
+    const info = await getChurchInfo();
+    return info.adminEmail || info.email || "ctkrector@gmail.com";
+  } catch {
+    return "ctkrector@gmail.com";
+  }
+}
+
 export async function sendContactFormEmail(data: ContactFormEmailData) {
   const resend = getResendClient();
   if (!resend) {
@@ -25,7 +47,7 @@ export async function sendContactFormEmail(data: ContactFormEmailData) {
   }
 
   const emailFrom = process.env.EMAIL_FROM || "onboarding@resend.dev";
-  const adminEmail = process.env.ADMIN_EMAIL || "ctkrector@gmail.com";
+  const adminEmail = await getAdminEmail();
 
   try {
     const result = await resend.emails.send({
@@ -162,4 +184,38 @@ function generateAutoReplyHtml(
   </div>
 </body>
 </html>`;
+}
+
+export async function sendPrayerRequestNotification(data: PrayerRequestEmailData) {
+  const resend = getResendClient();
+  if (!resend) {
+    console.warn("RESEND_API_KEY not configured — prayer request stored but email not sent");
+    return { success: false, error: new Error("Email service is not configured") };
+  }
+
+  const emailFrom = process.env.EMAIL_FROM || "onboarding@resend.dev";
+  const adminEmail = await getAdminEmail();
+  const urgentLabel = data.isUrgent ? " [URGENT]" : "";
+
+  try {
+    const result = await resend.emails.send({
+      from: emailFrom,
+      to: adminEmail,
+      replyTo: data.email,
+      subject: `[CTK Prayer Request]${urgentLabel} from ${data.name}`,
+      html: `
+        <h2>New Prayer Request</h2>
+        <p><strong>From:</strong> ${data.name}</p>
+        ${data.email ? `<p><strong>Email:</strong> ${data.email}</p>` : ""}
+        ${data.phone ? `<p><strong>Phone:</strong> ${data.phone}</p>` : ""}
+        ${data.isUrgent ? "<p><strong>Marked as urgent</strong></p>" : ""}
+        <p><strong>Request:</strong></p>
+        <pre style="white-space:pre-wrap;font-family:sans-serif">${data.request}</pre>
+      `,
+    });
+    return { success: true, id: result.data?.id };
+  } catch (error) {
+    console.error("Failed to send prayer notification:", error);
+    return { success: false, error };
+  }
 }

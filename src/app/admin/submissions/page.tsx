@@ -4,6 +4,7 @@ import { desc } from "drizzle-orm";
 import { Mail, Phone, Calendar, User, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { AdminLogoutButton } from "@/components/admin/AdminLogoutButton";
+import { SubmissionStatusButton } from "@/components/admin/SubmissionStatusButton";
 
 export default async function SubmissionsPage() {
   await requireAdminAuth("/admin/submissions");
@@ -97,19 +98,10 @@ export default async function SubmissionsPage() {
                       </p>
                     </div>
                   </div>
-                  <span
-                    className={`px-3 py-1 text-xs font-medium rounded-full ${
-                      submission.status === "new"
-                        ? "bg-gold-100 text-gold-800"
-                        : submission.status === "read"
-                          ? "bg-blue-100 text-blue-800"
-                          : submission.status === "responded"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-slate-100 text-slate-800"
-                    }`}
-                  >
-                    {submission.status}
-                  </span>
+                  <SubmissionStatusButton
+                    submissionId={submission.id}
+                    currentStatus={submission.status}
+                  />
                 </div>
 
                 <div className="flex flex-wrap gap-4 mb-4 text-sm">

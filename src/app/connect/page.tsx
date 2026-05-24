@@ -3,15 +3,18 @@ import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Users, BookOpen, Heart, UserPlus, Mail } from "lucide-react";
+import { getMissionStats } from "@/lib/missionStats";
+import { Users, BookOpen, Heart, UserPlus, Mail, HandHeart } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Connect",
   description:
-    "Get connected at Christ The King - small groups, classes, membership, and more.",
+    "Get connected at Christ The King - small groups, classes, membership, prayer, and more.",
 };
 
-export default function ConnectPage() {
+export default async function ConnectPage() {
+  const missionStats = await getMissionStats();
+
   return (
     <>
       <PageHeader
@@ -29,7 +32,7 @@ export default function ConnectPage() {
           description="Whether you're new or have been here for years, there's a place for you."
         />
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <FeatureCard
             title="Small Groups"
             description="Fellowship, meals, prayer, and study in homes across Palm Coast and St. Augustine."
@@ -43,6 +46,12 @@ export default function ConnectPage() {
             href="/connect/classes"
           />
           <FeatureCard
+            title="Prayer Request"
+            description="Share a confidential prayer need with our prayer team."
+            icon={<HandHeart className="w-6 h-6" />}
+            href="/connect/prayer"
+          />
+          <FeatureCard
             title="Daughters of the Holy Cross"
             description="A women's order focused on Prayer, Service, Study, and Evangelism."
             icon={<Heart className="w-6 h-6" />}
@@ -53,6 +62,12 @@ export default function ConnectPage() {
             description="Learn about becoming a member of Christ The King."
             icon={<UserPlus className="w-6 h-6" />}
             href="/connect/membership"
+          />
+          <FeatureCard
+            title="Contact Us"
+            description="Questions? Reach out to our staff — we'd love to hear from you."
+            icon={<Mail className="w-6 h-6" />}
+            href="/connect/contact"
           />
         </div>
       </Section>
@@ -107,7 +122,7 @@ export default function ConnectPage() {
               <p className="text-navy-200 text-sm">Ministry Areas</p>
             </div>
             <div className="bg-navy-800 p-6 rounded-xl text-center">
-              <p className="text-3xl font-bold text-gold-400 mb-1">11</p>
+              <p className="text-3xl font-bold text-gold-400 mb-1">{missionStats.total}</p>
               <p className="text-navy-200 text-sm">Mission Partners</p>
             </div>
             <div className="bg-navy-800 p-6 rounded-xl text-center">

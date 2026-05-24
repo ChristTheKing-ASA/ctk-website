@@ -7,10 +7,16 @@ import {
 } from "@/lib/adminSession";
 
 function isProtectedPath(pathname: string): boolean {
+  if (pathname === "/admin") return false;
+  if (pathname.startsWith("/api/admin/login") || pathname.startsWith("/api/admin/logout")) {
+    return false;
+  }
+
   return (
     pathname.startsWith("/keystatic") ||
     pathname.startsWith("/api/keystatic") ||
-    pathname.startsWith("/admin/submissions")
+    pathname.startsWith("/admin/") ||
+    pathname.startsWith("/api/admin/submissions")
   );
 }
 
@@ -53,5 +59,10 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/keystatic/:path*", "/api/keystatic/:path*", "/admin/submissions/:path*"],
+  matcher: [
+    "/keystatic/:path*",
+    "/api/keystatic/:path*",
+    "/admin/:path*",
+    "/api/admin/submissions/:path*",
+  ],
 };

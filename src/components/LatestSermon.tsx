@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Radio, Play } from "lucide-react";
 
-const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@christthekinganglicanchurc8992";
+const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@christthekinganglicanstaugustine";
 
 interface VideoInfo {
   id: string;

@@ -17,6 +17,7 @@ export const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://ctkasa.com"),
   title: {
     default: "Christ The King Anglican Church | St. Augustine, FL",
     template: "%s | Christ The King Anglican Church",
