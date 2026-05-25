@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
     }
 
     const data = result.data;
+    let storedInDb = false;
 
     if (process.env.DB) {
       try {
@@ -38,18 +39,33 @@ export async function POST(request: NextRequest) {
           isUrgent: data.isUrgent,
           status: "pending",
         });
+        storedInDb = true;
       } catch (dbError) {
         console.error("Failed to store prayer request:", dbError);
       }
     }
 
-    await sendPrayerRequestNotification({
+    const emailResult = await sendPrayerRequestNotification({
       name: data.name,
       email: data.email || undefined,
       phone: data.phone,
       request: data.request,
       isUrgent: data.isUrgent,
     });
+
+    if (!emailResult.success && !storedInDb) {
+      return NextResponse.json(
+        {
+          error:
+            "We could not deliver your prayer request right now. Please call the church office or try again later.",
+        },
+        { status: 500 },
+      );
+    }
+
+    if (!emailResult.success) {
+      console.warn("Prayer request stored but admin email failed:", emailResult.error);
+    }
 
     return NextResponse.json({
       success: true,

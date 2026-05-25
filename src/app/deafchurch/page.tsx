@@ -28,6 +28,7 @@ export default async function DeafChurchPage() {
 
   const deafChurch = {
     tagline: deafChurchData?.tagline || "",
+    description: deafChurchData?.description || "",
     founderName: deafChurchData?.founderName || "",
     founderEmail: deafChurchData?.founderEmail || "",
     familyInfo: deafChurchData?.familyInfo || "",
@@ -58,10 +59,8 @@ export default async function DeafChurchPage() {
             </h2>
 
             <p className="text-navy-600 text-lg mb-6 leading-relaxed">
-              DeafChurch First Coast is a church plant serving the Deaf Community
-              across Northeast Florida. Christ The King serves as an Anchor Church
-              in the DeafChurch Together movement, helping establish in-person
-              community in addition to online worship.
+              {deafChurch.description ||
+                "DeafChurch First Coast is a church plant serving the Deaf Community across Northeast Florida. Christ The King serves as an Anchor Church in the DeafChurch Together movement, helping establish in-person community in addition to online worship."}
             </p>
 
             <div className="flex flex-wrap gap-4">

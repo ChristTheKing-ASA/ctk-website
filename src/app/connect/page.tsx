@@ -4,6 +4,7 @@ import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { getMissionStats } from "@/lib/missionStats";
+import { getSiteStats } from "@/lib/siteStats";
 import { Users, BookOpen, Heart, UserPlus, Mail, HandHeart } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ConnectPage() {
-  const missionStats = await getMissionStats();
+  const [missionStats, siteStats] = await Promise.all([getMissionStats(), getSiteStats()]);
 
   return (
     <>
@@ -114,11 +115,11 @@ export default async function ConnectPage() {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-navy-800 p-6 rounded-xl text-center">
-              <p className="text-3xl font-bold text-gold-400 mb-1">15+</p>
+              <p className="text-3xl font-bold text-gold-400 mb-1">{siteStats.volunteerRoleCount}</p>
               <p className="text-navy-200 text-sm">Volunteer Roles</p>
             </div>
             <div className="bg-navy-800 p-6 rounded-xl text-center">
-              <p className="text-3xl font-bold text-gold-400 mb-1">5</p>
+              <p className="text-3xl font-bold text-gold-400 mb-1">{siteStats.volunteerAreaCount}</p>
               <p className="text-navy-200 text-sm">Ministry Areas</p>
             </div>
             <div className="bg-navy-800 p-6 rounded-xl text-center">

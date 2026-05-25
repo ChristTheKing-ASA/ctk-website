@@ -51,6 +51,7 @@ export default async function PartnerPage({ params }: PageProps) {
     category: partnerData.category || "Local",
     shortDescription: partnerData.shortDescription || "",
     fullDescription: partnerData.fullDescription || "",
+    website: partnerData.website || undefined,
   };
 
   const categoryIcon: Record<string, React.ReactNode> = {
@@ -107,6 +108,18 @@ export default async function PartnerPage({ params }: PageProps) {
             <p className="text-gold-600 font-medium text-lg mb-6">
               {partner.subtitle}
             </p>
+          )}
+
+          {partner.website && (
+            <a
+              href={partner.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-gold-600 hover:text-gold-700 font-medium mb-8"
+            >
+              <Globe className="w-4 h-4" />
+              Visit Website
+            </a>
           )}
 
           {/* Description */}

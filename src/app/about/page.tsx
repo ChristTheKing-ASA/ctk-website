@@ -4,6 +4,7 @@ import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard, TeamCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { getChurchInfo, getAllClergy } from "@/lib/content";
+import { getSiteStats } from "@/lib/siteStats";
 import { beliefs } from "@/data/church";
 import { Book, Users, Church, Cross } from "lucide-react";
 
@@ -14,8 +15,11 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const churchInfo = await getChurchInfo();
-  const clergyData = await getAllClergy();
+  const [churchInfo, clergyData, siteStats] = await Promise.all([
+    getChurchInfo(),
+    getAllClergy(),
+    getSiteStats(),
+  ]);
 
   // Transform clergy data
   const clergy = clergyData.map((c) => ({
@@ -68,15 +72,15 @@ export default async function AboutPage() {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-navy-900 text-white p-6 rounded-xl">
-              <p className="text-3xl font-bold text-gold-400 mb-2">6</p>
+              <p className="text-3xl font-bold text-gold-400 mb-2">{siteStats.clergyCount}</p>
               <p className="font-medium">Clergy Members</p>
             </div>
             <div className="bg-cream-100 p-6 rounded-xl">
-              <p className="text-3xl font-bold text-navy-900 mb-2">11</p>
+              <p className="text-3xl font-bold text-navy-900 mb-2">{siteStats.missionPartnerCount}</p>
               <p className="text-navy-600 font-medium">Mission Partners</p>
             </div>
             <div className="bg-cream-100 p-6 rounded-xl">
-              <p className="text-3xl font-bold text-navy-900 mb-2">3</p>
+              <p className="text-3xl font-bold text-navy-900 mb-2">{siteStats.weeklyGatheringCount}</p>
               <p className="text-navy-600 font-medium">Weekly Gatherings</p>
             </div>
             <div className="bg-gold-100 p-6 rounded-xl">

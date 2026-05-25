@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FileText, Inbox, LayoutDashboard, Heart, Mail } from "lucide-react";
+import { FileText, Inbox, LayoutDashboard, Heart, Mail, Settings } from "lucide-react";
 import { AdminLogoutButton } from "@/components/admin/AdminLogoutButton";
 
 export function AdminDashboard() {
@@ -71,6 +71,19 @@ export function AdminDashboard() {
             </h2>
             <p className="text-sm text-slate-600 mt-2">
               View email subscribers from the website footer.
+            </p>
+          </Link>
+
+          <Link
+            href="/admin/setup"
+            className="group bg-white rounded-xl border border-gold-200 p-6 shadow-sm hover:shadow-md hover:border-gold-300 transition-all sm:col-span-2"
+          >
+            <Settings className="w-8 h-8 text-gold-600 mb-4" />
+            <h2 className="text-lg font-semibold text-slate-900 group-hover:text-gold-700">
+              Third-party setup checklist
+            </h2>
+            <p className="text-sm text-slate-600 mt-2">
+              Resend, Cloudflare D1, YouTube, Google Maps, Keystatic GitHub — what still needs your API keys and DNS.
             </p>
           </Link>
         </div>

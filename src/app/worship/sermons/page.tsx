@@ -56,13 +56,13 @@ export default async function SermonsPage() {
                 <Podcast className="w-6 h-6 text-purple-600" />
               </div>
               <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                Podcast
+                Sermon Archive
               </h3>
               <p className="text-navy-600 text-sm mb-4">
-                Listen on the go with our audio podcast feed.
+                Browse past messages and watch at your own pace on YouTube.
               </p>
               <Button href={`${churchInfo.social.youtube}/videos`} external variant="outline" size="sm">
-                Listen on YouTube
+                Browse Archive
               </Button>
             </div>
 

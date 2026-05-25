@@ -16,7 +16,8 @@ function isProtectedPath(pathname: string): boolean {
     pathname.startsWith("/keystatic") ||
     pathname.startsWith("/api/keystatic") ||
     pathname.startsWith("/admin/") ||
-    pathname.startsWith("/api/admin/submissions")
+    pathname.startsWith("/api/admin/submissions") ||
+    pathname.startsWith("/api/admin/prayer")
   );
 }
 
@@ -64,5 +65,6 @@ export const config = {
     "/api/keystatic/:path*",
     "/admin/:path*",
     "/api/admin/submissions/:path*",
+    "/api/admin/prayer/:path*",
   ],
 };

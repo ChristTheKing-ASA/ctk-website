@@ -111,7 +111,7 @@ export default async function WorshipPage() {
           description="Beyond Sunday, join us for prayer and study during the week."
         />
 
-        <WeeklyActivitiesList compact />
+        <WeeklyActivitiesList compact excludeTitles={["Sunday Worship"]} />
       </Section>
 
       {/* Quick Links */}

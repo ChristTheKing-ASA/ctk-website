@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { getChurchInfo } from "@/lib/content";
+import { ChurchMapEmbed } from "@/components/ChurchMapEmbed";
 import {
   MapPin,
   Clock,
@@ -111,17 +112,11 @@ export default async function VisitPage() {
 
           {/* Map Embed */}
           <div className="rounded-xl overflow-hidden shadow-lg h-[400px] lg:h-auto">
-            <iframe
-              src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(
-                `Christ The King Anglican Church, ${churchInfo.address.street}, ${churchInfo.address.city}, ${churchInfo.address.state}`
-              )}`}
-              width="100%"
-              height="100%"
-              style={{ border: 0, minHeight: "400px" }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Church Location Map"
+            <ChurchMapEmbed
+              street={churchInfo.address.street}
+              city={churchInfo.address.city}
+              state={churchInfo.address.state}
+              zip={churchInfo.address.zip}
             />
           </div>
         </div>

@@ -1,38 +1,14 @@
 // Church information and content data
 
+import { getChurchInfoFromJson } from "@/lib/churchInfoFromJson";
+
+const churchInfoBase = getChurchInfoFromJson();
+
 export const churchInfo = {
-  name: "Christ The King Anglican Church",
-  shortName: "CTK",
-  phone: "904.460.2318",
-  email: "craig@ctkasa.com",
-  adminEmail: "thusberg@bellsouth.net",
-  address: {
-    street: "6900 US-1 South",
-    city: "St. Augustine",
-    state: "FL",
-    zip: "32086",
-    mailing: "PO Box 1657, St Augustine, FL 32085",
-  },
-  serviceTime: "Sundays at 10:00 AM",
-  diocese: {
-    name: "Gulf Atlantic Diocese",
-    url: "https://gulfatlanticdiocese.org/",
-    bishop: "The Right Reverend Alex Farmer",
-  },
-  denomination: {
-    name: "Anglican Church in North America",
-    shortName: "ACNA",
-    url: "https://anglicanchurch.net/",
-  },
-  social: {
-    facebook: "https://facebook.com/ctkanglicanstaugustineflorida",
-    youtube: "https://youtube.com/@christthekinganglicanstaugustine",
-    instagram: "https://instagram.com/ctkasa",
-  },
+  ...churchInfoBase,
   giving: {
+    ...churchInfoBase.giving,
     platform: "Kindrid",
-    url: "https://kindridgiving.com/app/giving/ctkasa",
-    appUrl: "https://kindrid.ministryone.com/landing/pEOq",
   },
   mission: {
     pillars: [
@@ -52,17 +28,7 @@ export const churchInfo = {
         icon: "HandHeart",
       },
     ],
-    vision: "To be co-workers with Christ in the Kingdom of God",
-  },
-  scripture: {
-    main: {
-      text: "The grace of our Lord Jesus Christ be with you.",
-      reference: "1 Thessalonians 5:28",
-    },
-    about: {
-      text: "Jesus replied: 'Love the Lord your God with all your heart and with all your soul and with all your mind.' This is the first and greatest commandment.",
-      reference: "Matthew 22:37-38",
-    },
+    vision: churchInfoBase.mission.vision,
   },
 };
 

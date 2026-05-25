@@ -5,6 +5,7 @@ import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { getChurchInfo } from "@/lib/content";
+import { volunteerAreas } from "@/data/volunteerAreas";
 import {
   Shield,
   Phone,
@@ -24,33 +25,12 @@ export const metadata: Metadata = {
     "Find your place to serve at Christ The King - volunteer opportunities, missions, and outreach.",
 };
 
-const volunteerAreas = [
-  {
-    name: "Worship",
-    description: "Serve during Sunday services as an acolyte, altar guild member, or in music ministry.",
-    icon: Music,
-    roles: ["Acolyte", "Altar Guild", "Music Ministry", "Sound/Video"],
-  },
-  {
-    name: "Hospitality",
-    description: "Create a welcoming environment for visitors and members alike.",
-    icon: Coffee,
-    roles: ["Greeters", "Ushers", "Coffee Hour", "Special Events"],
-  },
-  {
-    name: "Children & Youth",
-    description: "Help shape the next generation through teaching and care.",
-    icon: Baby,
-    roles: ["Sunday School", "Nursery", "Youth Leaders"],
-    requiresTraining: true,
-  },
-  {
-    name: "Operations",
-    description: "Keep our facilities beautiful and functional.",
-    icon: Wrench,
-    roles: ["Grounds & Garden", "Building Care", "Kitchen"],
-  },
-];
+const areaIcons = [Music, Coffee, Baby, Wrench] as const;
+
+const serveVolunteerAreas = volunteerAreas.map((area, index) => ({
+  ...area,
+  icon: areaIcons[index] ?? Heart,
+}));
 
 export default async function ServePage() {
   const churchInfo = await getChurchInfo();
@@ -103,7 +83,7 @@ export default async function ServePage() {
         />
 
         <div className="grid md:grid-cols-2 gap-6">
-          {volunteerAreas.map((area) => (
+          {serveVolunteerAreas.map((area) => (
             <div
               key={area.name}
               className="bg-white p-6 rounded-xl border border-navy-100"
@@ -117,7 +97,7 @@ export default async function ServePage() {
                     <h3 className="font-display text-xl font-semibold text-navy-900">
                       {area.name}
                     </h3>
-                    {area.requiresTraining && (
+                    {"requiresTraining" in area && area.requiresTraining && (
                       <span className="inline-flex items-center gap-1 text-xs bg-navy-100 text-navy-700 px-2 py-0.5 rounded-full font-medium">
                         <Shield className="w-3 h-3" />
                         Training

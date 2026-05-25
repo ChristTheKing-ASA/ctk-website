@@ -6,7 +6,7 @@ import { Section, SectionHeader } from "@/components/ui/Section";
 import { PartnerCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-import { Globe, MapPin, Building, HandHeart } from "lucide-react";
+import { Globe, MapPin, Building } from "lucide-react";
 
 type Category = "all" | "Local" | "National" | "Global";
 
@@ -21,9 +21,14 @@ interface Partner {
 interface MissionsClientProps {
   partners: Partner[];
   additionalPartners: { name: string; type: string }[];
+  children?: React.ReactNode;
 }
 
-export default function MissionsClient({ partners, additionalPartners }: MissionsClientProps) {
+export default function MissionsClient({
+  partners,
+  additionalPartners,
+  children,
+}: MissionsClientProps) {
   const [activeCategory, setActiveCategory] = useState<Category>("all");
 
   const filteredPartners =
@@ -72,38 +77,7 @@ export default function MissionsClient({ partners, additionalPartners }: Mission
           </div>
         </div>
 
-        {/* DeafChurch Feature */}
-        <div className="bg-navy-900 text-white rounded-2xl p-8 lg:p-10 mb-12">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 bg-gold-500/20 text-gold-400 px-3 py-1 rounded-full text-sm font-medium mb-4">
-                <HandHeart className="w-4 h-4" />
-                Featured Ministry
-              </div>
-              <h2 className="font-display text-2xl font-bold mb-4">
-                DeafChurch First Coast
-              </h2>
-              <p className="text-navy-200 mb-6">
-                CTK serves as an anchor church for DeafChurch First Coast, bringing
-                Anglican worship to the Deaf community across Northeast Florida
-                through weekly ASL services.
-              </p>
-              <Button href="/deafchurch" variant="secondary">
-                Learn About DeafChurch
-              </Button>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-navy-800 p-4 rounded-lg text-center">
-                <p className="text-2xl font-bold text-gold-400">Weekly</p>
-                <p className="text-sm text-navy-300">ASL Services</p>
-              </div>
-              <div className="bg-navy-800 p-4 rounded-lg text-center">
-                <p className="text-2xl font-bold text-gold-400">NE FL</p>
-                <p className="text-sm text-navy-300">Regional Reach</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        {children}
 
         {/* Filter Tabs */}
         <div className="flex flex-wrap justify-center gap-3 mb-8">

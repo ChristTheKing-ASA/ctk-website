@@ -3,6 +3,7 @@ import { getDb, prayerRequests } from "@/db";
 import { desc } from "drizzle-orm";
 import Link from "next/link";
 import { AdminLogoutButton } from "@/components/admin/AdminLogoutButton";
+import { PrayerStatusButton } from "@/components/admin/PrayerStatusButton";
 import { Heart, Mail, Phone, Calendar, User } from "lucide-react";
 
 export default async function AdminPrayerPage() {
@@ -72,15 +73,13 @@ export default async function AdminPrayerPage() {
                     </p>
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2">
                   {item.isUrgent && (
                     <span className="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">
                       Urgent
                     </span>
                   )}
-                  <span className="px-2 py-1 text-xs font-medium bg-gold-100 text-gold-800 rounded-full capitalize">
-                    {item.status}
-                  </span>
+                  <PrayerStatusButton requestId={item.id} currentStatus={item.status} />
                 </div>
               </div>
               <div className="flex flex-wrap gap-4 mb-4 text-sm text-navy-600">

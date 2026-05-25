@@ -21,6 +21,7 @@ declare global {
       
       // New - Site
       NEXT_PUBLIC_SITE_URL?: string;
+      NEXT_PUBLIC_GOOGLE_MAPS_API_KEY?: string;
       YOUTUBE_API_KEY?: string;
       YOUTUBE_CHANNEL_ID?: string;
       YOUTUBE_CHANNEL_URL?: string;

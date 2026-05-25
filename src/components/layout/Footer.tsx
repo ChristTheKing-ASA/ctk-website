@@ -4,7 +4,7 @@ import { MapPin, Phone, Mail, Clock, Facebook, Youtube, Instagram } from "lucide
 import { churchInfo, navigation } from "@/data/church";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 
-/** Footer uses church data synced with src/content/church-info.json (Keystatic). */
+/** Footer reads church-info.json (Keystatic) via data/church.ts — stays in sync with CMS edits. */
 export function Footer() {
   return (
     <footer className="bg-navy-900 text-white">

@@ -9,16 +9,18 @@ type FormStatus = "idle" | "submitting" | "success" | "error";
 interface FormErrors {
   name?: string;
   email?: string;
+  phone?: string;
   subject?: string;
   message?: string;
 }
 
-export function ContactForm() {
+export function ContactForm({ fallbackEmail = "ctkrector@gmail.com" }: { fallbackEmail?: string }) {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errors, setErrors] = useState<FormErrors>({});
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     subject: "",
     message: "",
   });
@@ -75,6 +77,7 @@ export function ContactForm() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
+          phone: formData.phone || undefined,
           subject: formData.subject,
           message: formData.message,
         }),
@@ -84,7 +87,7 @@ export function ContactForm() {
 
       if (response.ok && result.success) {
         setStatus("success");
-        setFormData({ name: "", email: "", subject: "", message: "" });
+        setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
       } else {
         throw new Error(result.error || "Form submission failed");
       }
@@ -137,8 +140,8 @@ export function ContactForm() {
             <p className="font-medium text-red-800">Something went wrong</p>
             <p className="text-sm text-red-600">
               Please try again or contact us directly at{" "}
-              <a href="mailto:ctkrector@gmail.com" className="underline">
-                ctkrector@gmail.com
+              <a href={`mailto:${fallbackEmail}`} className="underline">
+                {fallbackEmail}
               </a>
             </p>
           </div>
@@ -207,6 +210,22 @@ export function ContactForm() {
             {errors.email}
           </p>
         )}
+      </div>
+
+      {/* Phone Field */}
+      <div>
+        <label htmlFor="phone" className="block text-sm font-medium text-navy-900 mb-2">
+          Phone <span className="text-navy-400 font-normal">(optional)</span>
+        </label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+          className="w-full px-4 py-3 rounded-lg border border-navy-200 hover:border-navy-300 bg-white text-navy-900 placeholder-navy-400 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-transparent transition-colors"
+          placeholder="904.555.1234"
+        />
       </div>
 
       {/* Subject Field */}

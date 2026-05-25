@@ -1,33 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Christ The King Anglican Church — Website
 
-## Getting Started
+Next.js site with Keystatic CMS, Resend email, Cloudflare D1, and admin tools.
 
-First, run the development server:
+## Quick start
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill in secrets
+npm run check:config         # see what's missing
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). Admin: [http://localhost:3000/admin](http://localhost:3000/admin).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Third-party services (your setup)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Resend, Cloudflare D1, YouTube, Google Maps, and Keystatic GitHub need API keys and DNS **from you**. Full steps:
 
-## Learn More
+**→ [THIRD_PARTY_SETUP.md](./THIRD_PARTY_SETUP.md)**
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Command | Purpose |
+|---------|---------|
+| `npm run check:config` | Checklist of configured services |
+| `npm run test:resend` | Send test email |
+| `npm run test:youtube` | Verify YouTube API |
+| `npm run db:setup` | Local D1 + migrations |
+| `npm run deploy` | Deploy to Cloudflare |
 
 ## Admin Panel Authentication
 

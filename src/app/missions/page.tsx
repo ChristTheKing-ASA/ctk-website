@@ -1,6 +1,7 @@
 import { Metadata } from "next";
-import { getAllMissionPartners } from "@/lib/content";
+import { getAllMissionPartners, getDeafChurchInfo } from "@/lib/content";
 import { missionPartners } from "@/data/church";
+import { DeafChurchFeature } from "@/components/sections/DeafChurchFeature";
 import MissionsClient from "./MissionsClient";
 
 export const metadata: Metadata = {
@@ -9,7 +10,10 @@ export const metadata: Metadata = {
 };
 
 export default async function MissionsPage() {
-  const cmsPartners = await getAllMissionPartners();
+  const [cmsPartners, deafChurchData] = await Promise.all([
+    getAllMissionPartners(),
+    getDeafChurchInfo(),
+  ]);
 
   // Transform CMS data to expected format
   const partners = cmsPartners.map((p) => ({
@@ -23,5 +27,9 @@ export default async function MissionsPage() {
   // Use additional partners from static data (these are simple, rarely change)
   const additionalPartners = missionPartners.additional;
 
-  return <MissionsClient partners={partners} additionalPartners={additionalPartners} />;
+  return (
+    <MissionsClient partners={partners} additionalPartners={additionalPartners}>
+      <DeafChurchFeature description={deafChurchData?.description} className="!py-0" />
+    </MissionsClient>
+  );
 }

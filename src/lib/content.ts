@@ -1,5 +1,6 @@
 import { createReader } from "@keystatic/core/reader";
 import keystaticConfig from "../../keystatic.config";
+import { transformChurchInfoJson } from "@/lib/churchInfoFromJson";
 
 export const reader = createReader(process.cwd(), keystaticConfig);
 
@@ -55,55 +56,7 @@ export interface ChurchInfoTransformed {
 // Helper functions for reading content
 export async function getChurchInfo(): Promise<ChurchInfoTransformed> {
   const data = await reader.singletons.churchInfo.read();
-
-  // Transform flat CMS structure to nested structure expected by components
-  return {
-    name: data?.name || "",
-    shortName: data?.shortName || "",
-    phone: data?.phone || "",
-    email: data?.email || "",
-    adminEmail: data?.adminEmail || "",
-    address: {
-      street: data?.street || "",
-      city: data?.city || "",
-      state: data?.state || "",
-      zip: data?.zip || "",
-      mailing: data?.mailingAddress || "",
-    },
-    serviceTime: data?.serviceTime || "",
-    social: {
-      facebook: data?.facebookUrl || "",
-      youtube: data?.youtubeUrl || "",
-      instagram: data?.instagramUrl || "",
-    },
-    giving: {
-      url: data?.givingUrl || "",
-      appUrl: data?.appUrl || "",
-    },
-    diocese: {
-      name: data?.dioceseName || "",
-      url: data?.dioceseUrl || "",
-      bishop: data?.dioceseBishop || "",
-    },
-    denomination: {
-      name: data?.denominationName || "",
-      shortName: data?.denominationShortName || "",
-      url: data?.denominationUrl || "",
-    },
-    scripture: {
-      main: {
-        text: data?.scriptureText || "",
-        reference: data?.scriptureReference || "",
-      },
-      about: {
-        text: "Jesus replied: 'Love the Lord your God with all your heart and with all your soul and with all your mind.' This is the first and greatest commandment.",
-        reference: "Matthew 22:37-38",
-      },
-    },
-    mission: {
-      vision: "To be co-workers with Christ in the Kingdom of God",
-    },
-  };
+  return transformChurchInfoJson(data);
 }
 
 export async function getDeafChurchInfo() {

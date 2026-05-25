@@ -3,11 +3,18 @@ import { BookOpen, Users, Mail, Clock } from "lucide-react";
 import { getAllActivities } from "@/lib/content";
 import { formatActivitySchedule } from "@/lib/formatActivity";
 
-export async function WeeklyActivitiesList({ compact = false }: { compact?: boolean }) {
+export async function WeeklyActivitiesList({
+  compact = false,
+  excludeTitles = [],
+}: {
+  compact?: boolean;
+  excludeTitles?: string[];
+}) {
   const activitiesData = await getAllActivities();
+  const excluded = new Set(excludeTitles);
 
   const weeklyActivities = activitiesData
-    .filter((a) => a?.title && a.title !== "Sunday Worship")
+    .filter((a) => a?.title && !excluded.has(a.title))
     .map((a) => ({
       title: a.title || "",
       day: a.day || "",

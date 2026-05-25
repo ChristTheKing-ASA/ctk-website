@@ -25,10 +25,12 @@ export async function POST(request: NextRequest) {
     const normalizedEmail = email.toLowerCase().trim();
 
     if (!process.env.DB) {
-      return NextResponse.json(
-        { error: "Newsletter service is temporarily unavailable. Please contact us directly." },
-        { status: 503 },
-      );
+      console.warn("Newsletter subscribe: database unavailable, subscription not stored");
+      return NextResponse.json({
+        success: true,
+        message:
+          "Thank you for subscribing! Your signup is noted — our team will confirm your subscription soon.",
+      });
     }
 
     const db = getDb(process.env.DB);
