@@ -1,126 +1,104 @@
 import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
+import { getConnectDaughters } from "@/lib/content";
 import { Heart, BookOpen, Users, Megaphone, Mail, Phone, ExternalLink } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Daughters of the Holy Cross",
-  description:
-    "The Faith Chapter of the Daughters of the Holy Cross at Christ The King Anglican Church.",
-};
+const vowIcons = [Heart, Users, BookOpen, Megaphone] as const;
 
-export default function DaughtersPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getConnectDaughters();
+  return {
+    title: content?.pageTitle || "Daughters of the Holy Cross",
+    description: content?.pageDescription || "",
+  };
+}
+
+export default async function DaughtersPage() {
+  const content = await getConnectDaughters();
+  if (!content) return null;
+
+  const phoneDigits = (content.contactPhone || "").replace(/\D/g, "");
+
   return (
     <>
       <PageHeader
-        title="Daughters of the Holy Cross"
-        subtitle="Women's Order"
-        description="A women's religious order devoted to Prayer, Service, Study, and Evangelism."
+        title={content.pageTitle || "Daughters of the Holy Cross"}
+        subtitle={content.pageSubtitle || ""}
+        description={content.pageDescription || ""}
         breadcrumb={[
           { label: "Connect", href: "/connect" },
-          { label: "Daughters of the Holy Cross", href: "/connect/daughters-of-the-holy-cross" },
+          {
+            label: "Daughters of the Holy Cross",
+            href: "/connect/daughters-of-the-holy-cross",
+          },
         ]}
       />
 
       <Section background="white">
         <div className="max-w-4xl mx-auto">
-          {/* Four-fold Vow */}
           <div className="text-center mb-16">
-            <h2 className="font-display text-3xl font-bold text-navy-900 mb-8">
-              The Four-fold Vow
-            </h2>
+            <h2 className="font-display text-3xl font-bold text-navy-900 mb-8">{content.vowsTitle}</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-cream-50 p-6 rounded-xl">
-                <div className="w-12 h-12 bg-gold-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Heart className="w-6 h-6 text-gold-600" />
-                </div>
-                <h3 className="font-display text-lg font-semibold text-navy-900">
-                  Prayer
-                </h3>
-              </div>
-              <div className="bg-cream-50 p-6 rounded-xl">
-                <div className="w-12 h-12 bg-gold-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-6 h-6 text-gold-600" />
-                </div>
-                <h3 className="font-display text-lg font-semibold text-navy-900">
-                  Service
-                </h3>
-              </div>
-              <div className="bg-cream-50 p-6 rounded-xl">
-                <div className="w-12 h-12 bg-gold-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <BookOpen className="w-6 h-6 text-gold-600" />
-                </div>
-                <h3 className="font-display text-lg font-semibold text-navy-900">
-                  Study
-                </h3>
-              </div>
-              <div className="bg-cream-50 p-6 rounded-xl">
-                <div className="w-12 h-12 bg-gold-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Megaphone className="w-6 h-6 text-gold-600" />
-                </div>
-                <h3 className="font-display text-lg font-semibold text-navy-900">
-                  Evangelism
-                </h3>
-              </div>
+              {(content.vows ?? []).map((vow, index) => {
+                const Icon = vowIcons[index] ?? Heart;
+                return (
+                  <div key={vow} className="bg-cream-50 p-6 rounded-xl">
+                    <div className="w-12 h-12 bg-gold-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Icon className="w-6 h-6 text-gold-600" />
+                    </div>
+                    <h3 className="font-display text-lg font-semibold text-navy-900">{vow}</h3>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
-          {/* About */}
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
             <div>
-              <h2 className="font-display text-2xl font-bold text-navy-900 mb-4">
-                The Faith Chapter
-              </h2>
-              <p className="text-navy-600 mb-4 leading-relaxed">
-                The Faith Chapter of the Daughters of the Holy Cross at Christ
-                the King currently has 13 members who are committed to living
-                out the four-fold vow of Prayer, Service, Study, and Evangelism.
-              </p>
-              <p className="text-navy-600 leading-relaxed">
-                The Daughters of the Holy Cross is a women&apos;s order within
-                the Anglican tradition, offering women a framework for
-                intentional spiritual growth and community.
-              </p>
+              <h2 className="font-display text-2xl font-bold text-navy-900 mb-4">{content.aboutTitle}</h2>
+              <p className="text-navy-600 mb-4 leading-relaxed">{content.aboutParagraph1}</p>
+              <p className="text-navy-600 leading-relaxed">{content.aboutParagraph2}</p>
             </div>
             <div className="bg-navy-900 text-white p-8 rounded-xl">
-              <h3 className="font-display text-xl font-semibold mb-4">
-                Interested in Learning More?
-              </h3>
-              <p className="text-navy-200 mb-6">
-                Contact Deacon Barb McMillen to learn about the Daughters of the
-                Holy Cross and how you might become involved.
-              </p>
+              <h3 className="font-display text-xl font-semibold mb-4">{content.contactBoxTitle}</h3>
+              <p className="text-navy-200 mb-6">{content.contactBoxDescription}</p>
               <div className="space-y-3">
-                <a
-                  href="tel:7243449241"
-                  className="flex items-center gap-2 text-gold-400 hover:text-gold-300"
-                >
-                  <Phone className="w-4 h-4" />
-                  724-344-9241
-                </a>
-                <a
-                  href="mailto:chaplainbarbm@gmail.com"
-                  className="flex items-center gap-2 text-gold-400 hover:text-gold-300"
-                >
-                  <Mail className="w-4 h-4" />
-                  chaplainbarbm@gmail.com
-                </a>
+                {content.contactPhone && (
+                  <a
+                    href={`tel:${phoneDigits}`}
+                    className="flex items-center gap-2 text-gold-400 hover:text-gold-300"
+                  >
+                    <Phone className="w-4 h-4" />
+                    {content.contactPhone}
+                  </a>
+                )}
+                {content.contactEmail && (
+                  <a
+                    href={`mailto:${content.contactEmail}`}
+                    className="flex items-center gap-2 text-gold-400 hover:text-gold-300"
+                  >
+                    <Mail className="w-4 h-4" />
+                    {content.contactEmail}
+                  </a>
+                )}
               </div>
             </div>
           </div>
 
-          {/* External Link */}
-          <div className="text-center">
-            <a
-              href="https://www.daughtershc.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-gold-600 hover:text-gold-700 font-medium"
-            >
-              <ExternalLink className="w-4 h-4" />
-              Visit the Daughters of the Holy Cross Website
-            </a>
-          </div>
+          {content.externalLinkUrl && (
+            <div className="text-center">
+              <a
+                href={content.externalLinkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-gold-600 hover:text-gold-700 font-medium"
+              >
+                <ExternalLink className="w-4 h-4" />
+                {content.externalLinkLabel}
+              </a>
+            </div>
+          )}
         </div>
       </Section>
     </>

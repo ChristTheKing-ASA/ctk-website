@@ -22,5 +22,23 @@
   "denominationShortName": "ACNA",
   "denominationUrl": "https://anglicanchurch.net/",
   "scriptureText": "The grace of our Lord Jesus Christ be with you.",
-  "scriptureReference": "1 Thessalonians 5:28"
+  "scriptureReference": "1 Thessalonians 5:28",
+  "scriptureAboutText": "Jesus replied: 'Love the Lord your God with all your heart and with all your soul and with all your mind.' This is the first and greatest commandment.",
+  "scriptureAboutReference": "Matthew 22:37-38",
+  "missionHeadline": "Love God. Become Disciples. Serve Others.",
+  "missionVision": "To be co-workers with Christ in the Kingdom of God",
+  "missionPillars": [
+    {
+      "title": "Love God",
+      "description": "With all your heart, soul, mind, and strength"
+    },
+    {
+      "title": "Become Disciples",
+      "description": "Growing in spiritual maturity modeled on Christ"
+    },
+    {
+      "title": "Serve Others",
+      "description": "Expressing divine love through humble service"
+    }
+  ]
 }

@@ -1,11 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Phone, Mail, Clock, Facebook, Youtube, Instagram } from "lucide-react";
-import { churchInfo, navigation } from "@/data/church";
+import { churchInfo } from "@/data/church";
+import { getFooterNavigationFromJson } from "@/lib/navigation-static";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 
 /** Footer reads church-info.json (Keystatic) via data/church.ts — stays in sync with CMS edits. */
 export function Footer() {
+  const navigation = getFooterNavigationFromJson();
+
   return (
     <footer className="bg-navy-900 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">

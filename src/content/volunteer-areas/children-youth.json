@@ -1,0 +1,7 @@
+{
+  "name": "Children & Youth",
+  "description": "Help shape the next generation through teaching and care.",
+  "requiresTraining": true,
+  "sortOrder": 3,
+  "roles": ["Sunday School", "Nursery", "Youth Leaders"]
+}

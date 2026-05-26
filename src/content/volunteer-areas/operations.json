@@ -1,0 +1,7 @@
+{
+  "name": "Operations",
+  "description": "Keep our facilities beautiful and functional.",
+  "requiresTraining": false,
+  "sortOrder": 4,
+  "roles": ["Grounds & Garden", "Building Care", "Kitchen"]
+}

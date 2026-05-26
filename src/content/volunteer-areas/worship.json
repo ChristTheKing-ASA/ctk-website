@@ -1,0 +1,7 @@
+{
+  "name": "Worship",
+  "description": "Serve during Sunday services as an acolyte, altar guild member, or in music ministry.",
+  "requiresTraining": false,
+  "sortOrder": 1,
+  "roles": ["Acolyte", "Altar Guild", "Music Ministry", "Sound/Video"]
+}

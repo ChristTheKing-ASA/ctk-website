@@ -2,43 +2,31 @@ import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
+import { getConnectMembership } from "@/lib/content";
 import { Check, Users, Vote, Heart, Star, ArrowRight, Mail, Phone } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Membership",
-  description: "Learn about becoming a member of Christ The King Anglican Church.",
-};
+const benefitIcons = [Users, Vote, Heart, Star] as const;
 
-const benefits = [
-  {
-    icon: <Users className="w-6 h-6" />,
-    title: "Personal Sense of Belonging",
-    description: "Become part of a caring community committed to walking together in faith.",
-  },
-  {
-    icon: <Vote className="w-6 h-6" />,
-    title: "Voting Rights",
-    description: "Participate in congregational meetings and help shape the direction of CTK.",
-  },
-  {
-    icon: <Heart className="w-6 h-6" />,
-    title: "Meaningful Ministry Roles",
-    description: "Access to significant ministry positions and leadership opportunities.",
-  },
-  {
-    icon: <Star className="w-6 h-6" />,
-    title: "Spiritual Development",
-    description: "Opportunities for personal and spiritual growth through classes and mentoring.",
-  },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getConnectMembership();
+  return {
+    title: content?.pageTitle || "Membership",
+    description: content?.pageDescription || "",
+  };
+}
 
-export default function MembershipPage() {
+export default async function MembershipPage() {
+  const content = await getConnectMembership();
+  if (!content) return null;
+
+  const phoneDigits = (content.contactPhone || "").replace(/\D/g, "");
+
   return (
     <>
       <PageHeader
-        title="Membership"
-        subtitle="Belong"
-        description="Membership at Christ The King is about more than attending—it's about belonging, growing, and serving together."
+        title={content.pageTitle || "Membership"}
+        subtitle={content.pageSubtitle || ""}
+        description={content.pageDescription || ""}
         breadcrumb={[
           { label: "Connect", href: "/connect" },
           { label: "Membership", href: "/connect/membership" },
@@ -47,48 +35,37 @@ export default function MembershipPage() {
 
       <Section background="white">
         <div className="max-w-4xl mx-auto">
-          {/* Benefits */}
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl font-bold text-navy-900 mb-4">
-              Benefits of Membership
+              {content.benefitsTitle}
             </h2>
-            <p className="text-navy-600 text-lg">
-              Membership provides a framework for mutual commitment, accountability,
-              and growth.
-            </p>
+            <p className="text-navy-600 text-lg">{content.benefitsIntro}</p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-6 mb-16">
-            {benefits.map((benefit) => (
-              <div
-                key={benefit.title}
-                className="bg-cream-50 p-6 rounded-xl border border-cream-200"
-              >
-                <div className="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center text-gold-600 mb-4">
-                  {benefit.icon}
+            {(content.benefits ?? []).map((benefit, index) => {
+              const Icon = benefitIcons[index] ?? Heart;
+              return (
+                <div
+                  key={benefit.title}
+                  className="bg-cream-50 p-6 rounded-xl border border-cream-200"
+                >
+                  <div className="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center text-gold-600 mb-4">
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-navy-600 text-sm">{benefit.description}</p>
                 </div>
-                <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                  {benefit.title}
-                </h3>
-                <p className="text-navy-600 text-sm">{benefit.description}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          {/* Additional Benefits */}
           <div className="bg-navy-900 text-white rounded-2xl p-8 lg:p-12 mb-16">
-            <h3 className="font-display text-2xl font-bold mb-6">
-              Membership Also Includes
-            </h3>
+            <h3 className="font-display text-2xl font-bold mb-6">{content.alsoIncludesTitle}</h3>
             <div className="grid md:grid-cols-2 gap-4">
-              {[
-                "Meaningful relationships with fellow believers",
-                "Eternal rewards through faithful service",
-                "Accountability for spiritual growth",
-                "Connection to the wider Anglican family",
-                "Pastoral care and support",
-                "Opportunities to use your gifts",
-              ].map((item) => (
+              {(content.alsoIncludes ?? []).map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <Check className="w-5 h-5 text-gold-400 flex-shrink-0" />
                   <span className="text-navy-100">{item}</span>
@@ -97,36 +74,32 @@ export default function MembershipPage() {
             </div>
           </div>
 
-          {/* Next Steps */}
           <div className="text-center">
-            <h2 className="font-display text-2xl font-bold text-navy-900 mb-4">
-              Interested in Membership?
-            </h2>
-            <p className="text-navy-600 mb-8 max-w-2xl mx-auto">
-              We&apos;d love to talk with you about becoming a member of Christ
-              the King. Contact Fr. David Allert to begin the conversation.
-            </p>
+            <h2 className="font-display text-2xl font-bold text-navy-900 mb-4">{content.ctaTitle}</h2>
+            <p className="text-navy-600 mb-8 max-w-2xl mx-auto">{content.ctaDescription}</p>
 
             <div className="bg-cream-50 inline-block p-6 rounded-xl">
-              <p className="font-semibold text-navy-900 mb-2">
-                The Rev. David C. Allert
-              </p>
-              <p className="text-gold-600 text-sm mb-4">Rector Emeritus</p>
+              <p className="font-semibold text-navy-900 mb-2">{content.contactName}</p>
+              <p className="text-gold-600 text-sm mb-4">{content.contactTitle}</p>
               <div className="space-y-2">
-                <a
-                  href="tel:9043773726"
-                  className="flex items-center justify-center gap-2 text-navy-600 hover:text-gold-600"
-                >
-                  <Phone className="w-4 h-4" />
-                  904.377.3726
-                </a>
-                <a
-                  href="mailto:FrDavid@ctkasa.com"
-                  className="flex items-center justify-center gap-2 text-navy-600 hover:text-gold-600"
-                >
-                  <Mail className="w-4 h-4" />
-                  FrDavid@ctkasa.com
-                </a>
+                {content.contactPhone && (
+                  <a
+                    href={`tel:${phoneDigits}`}
+                    className="flex items-center justify-center gap-2 text-navy-600 hover:text-gold-600"
+                  >
+                    <Phone className="w-4 h-4" />
+                    {content.contactPhone}
+                  </a>
+                )}
+                {content.contactEmail && (
+                  <a
+                    href={`mailto:${content.contactEmail}`}
+                    className="flex items-center justify-center gap-2 text-navy-600 hover:text-gold-600"
+                  >
+                    <Mail className="w-4 h-4" />
+                    {content.contactEmail}
+                  </a>
+                )}
               </div>
             </div>
 

@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { getChurchInfo } from "@/lib/content";
-import { beliefs } from "@/data/church";
+import { getBeliefs } from "@/lib/content";
 import { Check } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -13,14 +13,14 @@ export const metadata: Metadata = {
 };
 
 export default async function BeliefsPage() {
-  const churchInfo = await getChurchInfo();
+  const [churchInfo, beliefs] = await Promise.all([getChurchInfo(), getBeliefs()]);
 
   return (
     <>
       <PageHeader
         title="What We Believe"
         subtitle="Our Faith"
-        description="Christ The King holds to the historic Anglican faith as expressed in Scripture, the Creeds, and the formularies of the Church of England."
+        description={beliefs.pageDescription}
         breadcrumb={[
           { label: "About", href: "/about" },
           { label: "Beliefs", href: "/about/beliefs" },
@@ -46,9 +46,7 @@ export default async function BeliefsPage() {
             <h2 className="font-display text-3xl font-bold text-navy-900 mb-4">
               Core Beliefs
             </h2>
-            <p className="text-navy-600 text-lg">
-              We affirm the following as essential to the Anglican faith:
-            </p>
+            <p className="text-navy-600 text-lg">{beliefs.intro}</p>
           </div>
 
           <div className="space-y-6">

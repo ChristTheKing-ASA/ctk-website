@@ -1,8 +1,11 @@
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { Book, Church, Globe } from "lucide-react";
+import { getHomepageContent } from "@/lib/content";
 
-export function WhatIsAnglicanism() {
+export async function WhatIsAnglicanism() {
+  const homepage = await getHomepageContent();
+
   return (
     <Section background="white">
       <div className="max-w-4xl mx-auto text-center">
@@ -10,14 +13,10 @@ export function WhatIsAnglicanism() {
           Our Tradition
         </p>
         <h2 className="font-display text-3xl sm:text-4xl font-bold text-navy-900 mb-6">
-          What is Anglicanism?
+          {homepage.anglicanTitle}
         </h2>
         <p className="text-lg sm:text-xl text-navy-600 leading-relaxed mb-10">
-          Anglicanism is a worldwide body of Christians responding to God&apos;s revelation
-          through Jesus Christ. It brings together the authority of the Bible, the historic
-          faith, and the beauty of structured prayer. Rooted in tradition, yet contemporary
-          in practice. United in substance, yet diverse in expression. We are a global
-          family living out our faith in local communities.
+          {homepage.anglicanDescription}
         </p>
 
         <div className="grid sm:grid-cols-3 gap-6 mb-10">

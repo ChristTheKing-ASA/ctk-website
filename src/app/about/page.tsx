@@ -5,7 +5,7 @@ import { FeatureCard, TeamCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { getChurchInfo, getAllClergy } from "@/lib/content";
 import { getSiteStats } from "@/lib/siteStats";
-import { beliefs } from "@/data/church";
+import { getBeliefs } from "@/lib/content";
 import { Book, Users, Church, Cross } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -15,10 +15,11 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const [churchInfo, clergyData, siteStats] = await Promise.all([
+  const [churchInfo, clergyData, siteStats, beliefs] = await Promise.all([
     getChurchInfo(),
     getAllClergy(),
     getSiteStats(),
+    getBeliefs(),
   ]);
 
   // Transform clergy data

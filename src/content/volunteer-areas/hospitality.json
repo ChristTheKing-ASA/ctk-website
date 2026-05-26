@@ -1,0 +1,7 @@
+{
+  "name": "Hospitality",
+  "description": "Create a welcoming environment for visitors and members alike.",
+  "requiresTraining": false,
+  "sortOrder": 2,
+  "roles": ["Greeters", "Ushers", "Coffee Hour", "Special Events"]
+}

@@ -1,0 +1,11 @@
+{
+  "items": [
+    { "name": "Visit", "href": "/visit", "showInHeader": true, "showInFooter": true },
+    { "name": "Worship", "href": "/worship", "showInHeader": true, "showInFooter": true },
+    { "name": "Connect", "href": "/connect", "showInHeader": true, "showInFooter": true },
+    { "name": "Serve", "href": "/serve", "showInHeader": true, "showInFooter": true },
+    { "name": "Missions", "href": "/missions", "showInHeader": true, "showInFooter": true },
+    { "name": "DeafChurch", "href": "/deafchurch", "showInHeader": true, "showInFooter": false },
+    { "name": "About", "href": "/about", "showInHeader": true, "showInFooter": true }
+  ]
+}

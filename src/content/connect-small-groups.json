@@ -1,0 +1,22 @@
+{
+  "pageTitle": "Small Groups",
+  "pageSubtitle": "Life Together",
+  "pageDescription": "Fellowship, meals, prayer, study, and even a sewing ministry—find your place in a small group.",
+  "whyTitle": "Why Small Groups?",
+  "whyParagraph1": "Small groups are where real life happens. It's where we move beyond Sunday morning hellos to genuine friendship, mutual encouragement, and shared growth in Christ.",
+  "whyParagraph2": "Our groups meet in homes throughout Palm Coast and St. Augustine, offering flexibility and a comfortable environment to connect.",
+  "highlights": ["Fellowship", "Meals", "Prayer", "Study"],
+  "locationsTitle": "Group Locations",
+  "locations": [
+    {
+      "title": "Palm Coast",
+      "description": "Groups meeting in various homes throughout Palm Coast."
+    },
+    {
+      "title": "St. Augustine",
+      "description": "Groups meeting in various homes throughout St. Augustine."
+    }
+  ],
+  "ctaTitle": "Ready to Join?",
+  "ctaDescription": "Call the church office to find a group near you or to learn about starting a new group."
+}

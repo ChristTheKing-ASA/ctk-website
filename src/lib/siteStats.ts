@@ -1,5 +1,9 @@
-import { getAllActivities, getAllClergy, getAllMissionPartners } from "@/lib/content";
-import { volunteerAreas } from "@/data/volunteerAreas";
+import {
+  getAllActivities,
+  getAllClergy,
+  getAllMissionPartners,
+  getVolunteerAreas,
+} from "@/lib/content";
 
 export interface SiteStats {
   clergyCount: number;
@@ -10,10 +14,11 @@ export interface SiteStats {
 }
 
 export async function getSiteStats(): Promise<SiteStats> {
-  const [clergy, partners, activities] = await Promise.all([
+  const [clergy, partners, activities, volunteerAreas] = await Promise.all([
     getAllClergy(),
     getAllMissionPartners(),
     getAllActivities(),
+    getVolunteerAreas(),
   ]);
 
   const volunteerRoleCount = volunteerAreas.reduce(

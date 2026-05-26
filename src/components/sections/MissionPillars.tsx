@@ -1,50 +1,33 @@
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard } from "@/components/ui/Card";
 import { Heart, BookOpen, HandHeart } from "lucide-react";
+import { getChurchInfo } from "@/lib/content";
 
-// Mission pillars are core to church identity and rarely change - keeping static
-const missionPillars = [
-  {
-    title: "Love God",
-    description: "With all your heart, soul, mind, and strength",
-    icon: "Heart",
-  },
-  {
-    title: "Become Disciples",
-    description: "Growing in spiritual maturity modeled on Christ",
-    icon: "BookOpen",
-  },
-  {
-    title: "Serve Others",
-    description: "Expressing divine love through humble service",
-    icon: "HandHeart",
-  },
-];
+const icons = [Heart, BookOpen, HandHeart] as const;
 
-const icons: Record<string, React.ReactNode> = {
-  Heart: <Heart className="w-6 h-6" />,
-  BookOpen: <BookOpen className="w-6 h-6" />,
-  HandHeart: <HandHeart className="w-6 h-6" />,
-};
+export async function MissionPillars() {
+  const churchInfo = await getChurchInfo();
 
-export function MissionPillars() {
   return (
     <Section background="white">
       <SectionHeader
         subtitle="Our Mission"
-        title="Love God. Become Disciples. Serve Others."
-        description="To be co-workers with Christ in the Kingdom of God"
+        title={churchInfo.mission.headline}
+        description={churchInfo.mission.vision}
       />
 
       <div className="grid md:grid-cols-3 gap-8">
-        {missionPillars.map((pillar) => (
-          <FeatureCard
-            key={pillar.title}
-            title={pillar.title}
-            description={pillar.description}
-            icon={icons[pillar.icon]}
-          />
-        ))}
+        {churchInfo.mission.pillars.map((pillar, index) => {
+          const Icon = icons[index] ?? Heart;
+          return (
+            <FeatureCard
+              key={pillar.title}
+              title={pillar.title}
+              description={pillar.description}
+              icon={<Icon className="w-6 h-6" />}
+            />
+          );
+        })}
       </div>
     </Section>
   );

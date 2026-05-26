@@ -26,7 +26,18 @@ type ChurchInfoSource = {
   denominationUrl?: string | null;
   scriptureText?: string | null;
   scriptureReference?: string | null;
+  scriptureAboutText?: string | null;
+  scriptureAboutReference?: string | null;
+  missionHeadline?: string | null;
+  missionVision?: string | null;
+  missionPillars?: ReadonlyArray<{ readonly title?: string; readonly description?: string }> | null;
 };
+
+const defaultPillars = [
+  { title: "Love God", description: "With all your heart, soul, mind, and strength" },
+  { title: "Become Disciples", description: "Growing in spiritual maturity modeled on Christ" },
+  { title: "Serve Others", description: "Expressing divine love through humble service" },
+];
 
 export function transformChurchInfoJson(
   data: ChurchInfoSource | null | undefined,
@@ -70,12 +81,22 @@ export function transformChurchInfoJson(
         reference: data?.scriptureReference || "",
       },
       about: {
-        text: "Jesus replied: 'Love the Lord your God with all your heart and with all your soul and with all your mind.' This is the first and greatest commandment.",
-        reference: "Matthew 22:37-38",
+        text:
+          data?.scriptureAboutText ||
+          "Jesus replied: 'Love the Lord your God with all your heart and with all your soul and with all your mind.' This is the first and greatest commandment.",
+        reference: data?.scriptureAboutReference || "Matthew 22:37-38",
       },
     },
     mission: {
-      vision: "To be co-workers with Christ in the Kingdom of God",
+      headline: data?.missionHeadline || "Love God. Become Disciples. Serve Others.",
+      vision: data?.missionVision || "To be co-workers with Christ in the Kingdom of God",
+      pillars:
+        data?.missionPillars?.length && data.missionPillars.every((p) => p?.title)
+          ? data.missionPillars.map((p) => ({
+              title: p.title || "",
+              description: p.description || "",
+            }))
+          : defaultPillars,
     },
   };
 }

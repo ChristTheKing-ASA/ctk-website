@@ -56,7 +56,9 @@ export default async function TeamMemberPage({ params }: PageProps) {
     fullBio: memberData.fullBio || "",
     family: memberData.family || "",
     education: memberData.education || [],
-    quote: null as { text: string; source: string } | null,
+    quote: memberData.quote
+      ? { text: memberData.quote, source: memberData.name || "" }
+      : null,
     publications: [] as string[],
   };
 

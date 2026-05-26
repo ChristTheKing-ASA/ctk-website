@@ -1,6 +1,7 @@
 // Church information and content data
 
 import { getChurchInfoFromJson } from "@/lib/churchInfoFromJson";
+import { getHeaderNavigationFromJson } from "@/lib/navigation-static";
 
 const churchInfoBase = getChurchInfoFromJson();
 
@@ -11,36 +12,14 @@ export const churchInfo = {
     platform: "Kindrid",
   },
   mission: {
-    pillars: [
-      {
-        title: "Love God",
-        description: "With all your heart, soul, mind, and strength",
-        icon: "Heart",
-      },
-      {
-        title: "Become Disciples",
-        description: "Growing in spiritual maturity modeled on Christ",
-        icon: "BookOpen",
-      },
-      {
-        title: "Serve Others",
-        description: "Expressing divine love through humble service",
-        icon: "HandHeart",
-      },
-    ],
+    headline: churchInfoBase.mission.headline,
     vision: churchInfoBase.mission.vision,
+    pillars: churchInfoBase.mission.pillars,
   },
 };
 
-export const navigation = [
-  { name: "Visit", href: "/visit" },
-  { name: "Worship", href: "/worship" },
-  { name: "Connect", href: "/connect" },
-  { name: "Serve", href: "/serve" },
-  { name: "Missions", href: "/missions" },
-  { name: "DeafChurch", href: "/deafchurch" },
-  { name: "About", href: "/about" },
-];
+/** @deprecated Use getHeaderNavigation() in server components; kept for tests and client Header */
+export const navigation = getHeaderNavigationFromJson();
 
 export const clergy = [
   {

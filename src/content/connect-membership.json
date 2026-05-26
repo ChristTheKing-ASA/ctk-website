@@ -1,0 +1,40 @@
+{
+  "pageTitle": "Membership",
+  "pageSubtitle": "Belong",
+  "pageDescription": "Membership at Christ The King is about more than attending—it's about belonging, growing, and serving together.",
+  "benefitsTitle": "Benefits of Membership",
+  "benefitsIntro": "Membership provides a framework for mutual commitment, accountability, and growth.",
+  "benefits": [
+    {
+      "title": "Personal Sense of Belonging",
+      "description": "Become part of a caring community committed to walking together in faith."
+    },
+    {
+      "title": "Voting Rights",
+      "description": "Participate in congregational meetings and help shape the direction of CTK."
+    },
+    {
+      "title": "Meaningful Ministry Roles",
+      "description": "Access to significant ministry positions and leadership opportunities."
+    },
+    {
+      "title": "Spiritual Development",
+      "description": "Opportunities for personal and spiritual growth through classes and mentoring."
+    }
+  ],
+  "alsoIncludesTitle": "Membership Also Includes",
+  "alsoIncludes": [
+    "Meaningful relationships with fellow believers",
+    "Eternal rewards through faithful service",
+    "Accountability for spiritual growth",
+    "Connection to the wider Anglican family",
+    "Pastoral care and support",
+    "Opportunities to use your gifts"
+  ],
+  "ctaTitle": "Interested in Membership?",
+  "ctaDescription": "We'd love to talk with you about becoming a member of Christ the King. Contact Fr. David Allert to begin the conversation.",
+  "contactName": "The Rev. David C. Allert",
+  "contactTitle": "Rector Emeritus",
+  "contactPhone": "904.377.3726",
+  "contactEmail": "FrDavid@ctkasa.com"
+}
