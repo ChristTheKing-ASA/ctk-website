@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Phone, Mail, Clock, Facebook, Youtube, Instagram } from "lucide-react";
-import { churchInfo, navigation } from "@/data/church";
+import { navigation } from "@/data/church";
+import type { ChurchInfoTransformed } from "@/lib/content";
 
-export function Footer() {
+export function Footer({ churchInfo }: { churchInfo: ChurchInfoTransformed }) {
   return (
     <footer className="bg-navy-900 text-white">
       {/* Main Footer */}

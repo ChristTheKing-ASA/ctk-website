@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Open_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { SiteChrome } from "@/components/layout/SiteChrome";
+import { getChurchInfo } from "@/lib/content";
 
 export const openSans = Open_Sans({
   subsets: ["latin"],
@@ -69,15 +73,19 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const churchInfo = await getChurchInfo();
+
   return (
     <html lang="en" className={`${openSans.variable} ${playfairDisplay.variable}`}>
       <body className="antialiased font-sans">
-        {children}
+        <SiteChrome header={<Header />} footer={<Footer churchInfo={churchInfo} />}>
+          {children}
+        </SiteChrome>
       </body>
     </html>
   );
