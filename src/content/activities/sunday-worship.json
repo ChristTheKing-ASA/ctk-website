@@ -1,10 +1,6 @@
 {
-  "title": "Sunday Worship",
-  "day": "Sundays",
+  "day": "Sunday",
   "time": "10:00 AM",
   "description": "Holy Eucharist with blended traditional and contemporary worship",
-  "location": "In-person & YouTube Livestream",
-  "contactName": "",
-  "contactEmail": "",
-  "contactPhone": ""
+  "location": "In-person & YouTube Livestream"
 }
