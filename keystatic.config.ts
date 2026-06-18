@@ -13,6 +13,7 @@ export default config({
     churchInfo: singleton({
       label: "Church Info",
       path: "src/content/church-info",
+      format: { data: "json" },
       schema: {
         name: fields.text({ label: "Church Name" }),
         shortName: fields.text({ label: "Short Name" }),
@@ -43,6 +44,7 @@ export default config({
     deafChurch: singleton({
       label: "DeafChurch Info",
       path: "src/content/deafchurch",
+      format: { data: "json" },
       schema: {
         name: fields.text({ label: "Ministry Name" }),
         tagline: fields.text({ label: "Tagline" }),
