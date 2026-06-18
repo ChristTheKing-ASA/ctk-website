@@ -1,14 +1,14 @@
 import { config, fields, collection, singleton } from "@keystatic/core";
 
-const hasKeystaticGitHubAuth =
-  Boolean(process.env.KEYSTATIC_GITHUB_CLIENT_ID) &&
-  Boolean(process.env.KEYSTATIC_GITHUB_CLIENT_SECRET) &&
-  Boolean(process.env.KEYSTATIC_SECRET);
-
 export default config({
-  storage: hasKeystaticGitHubAuth
-    ? { kind: "github", repo: "wallscaler/ctk-website" }
-    : { kind: "local" },
+  // In dev, edit content against the local filesystem. In production,
+  // authenticate and commit through Keystatic Cloud (editors sign in with
+  // email — no GitHub account required).
+  storage:
+    process.env.NODE_ENV === "development"
+      ? { kind: "local" }
+      : { kind: "cloud" },
+  cloud: { project: "christ-the-king/ctk-website" },
   singletons: {
     churchInfo: singleton({
       label: "Church Info",
