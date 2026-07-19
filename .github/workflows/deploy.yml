@@ -26,9 +26,11 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          # Remove once ctkasa.com points at GitHub Pages — custom domains
-          # serve from the root path and must build without a basePath.
+          # Remove both once ctkasa.com points at GitHub Pages — custom
+          # domains serve from the root path and must build without a
+          # basePath. NEXT_PUBLIC_BASE_PATH feeds the image loader.
           NEXT_BASE_PATH: /ctk-website
+          NEXT_PUBLIC_BASE_PATH: /ctk-website
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out

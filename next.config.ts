@@ -8,7 +8,10 @@ const nextConfig: NextConfig = {
   basePath: process.env.NEXT_BASE_PATH || "",
   trailingSlash: true,
   images: {
-    unoptimized: true,
+    // No `unoptimized` here — it would bypass the loader, which exists to
+    // prefix the basePath (Next skips basePath on unoptimized image srcs).
+    loader: "custom",
+    loaderFile: "./image-loader.ts",
   },
 };
 
