@@ -2,7 +2,8 @@ import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { Check, Users, Vote, Heart, Star, ArrowRight, Mail, Phone } from "lucide-react";
+import { Check, Users, Vote, Heart, Star, ArrowRight, Mail } from "lucide-react";
+import { getMembershipPage } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Membership",
@@ -32,7 +33,9 @@ const benefits = [
   },
 ];
 
-export default function MembershipPage() {
+export default async function MembershipPage() {
+  const membership = await getMembershipPage();
+
   return (
     <>
       <PageHeader
@@ -103,31 +106,24 @@ export default function MembershipPage() {
               Interested in Membership?
             </h2>
             <p className="text-navy-600 mb-8 max-w-2xl mx-auto">
-              We&apos;d love to talk with you about becoming a member of Christ
-              the King. Contact Fr. David Allert to begin the conversation.
+              {membership?.contactIntro ||
+                "We'd love to talk with you about becoming a member of Christ the King."}
             </p>
 
             <div className="bg-cream-50 inline-block p-6 rounded-xl">
               <p className="font-semibold text-navy-900 mb-2">
-                The Rev. David C. Allert
+                {membership?.contactName}
               </p>
-              <p className="text-gold-600 text-sm mb-4">Rector Emeritus</p>
-              <div className="space-y-2">
-                <a
-                  href="tel:9043773726"
-                  className="flex items-center justify-center gap-2 text-navy-600 hover:text-gold-600"
-                >
-                  <Phone className="w-4 h-4" />
-                  904.377.3726
-                </a>
-                <a
-                  href="mailto:FrDavid@ctkasa.com"
-                  className="flex items-center justify-center gap-2 text-navy-600 hover:text-gold-600"
-                >
-                  <Mail className="w-4 h-4" />
-                  FrDavid@ctkasa.com
-                </a>
-              </div>
+              <p className="text-gold-600 text-sm mb-4">
+                {membership?.contactTitle}
+              </p>
+              <a
+                href={`mailto:${membership?.contactEmail}`}
+                className="flex items-center justify-center gap-2 text-navy-600 hover:text-gold-600"
+              >
+                <Mail className="w-4 h-4" />
+                {membership?.contactEmail}
+              </a>
             </div>
 
             <div className="mt-8">

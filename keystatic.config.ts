@@ -9,6 +9,19 @@ export default config({
       ? { kind: "local" }
       : { kind: "cloud" },
   cloud: { project: "christ-the-king/ctk-website" },
+  ui: {
+    brand: { name: "CTK Website" },
+    // Mirror the site's section headings so editors can find a page in the
+    // sidebar the same way they find it on the site.
+    navigation: {
+      "About — Our Team": ["clergy", "teamPage"],
+      "Connect": ["membershipPage"],
+      "Worship": ["weeklyActivities"],
+      "Missions": ["missionPartners"],
+      "DeafChurch": ["deafChurch"],
+      "Site Settings": ["churchInfo", "announcements"],
+    },
+  },
   singletons: {
     churchInfo: singleton({
       label: "Church Info",
@@ -41,6 +54,41 @@ export default config({
         scriptureReference: fields.text({ label: "Scripture Reference" }),
       },
     }),
+    teamPage: singleton({
+      label: "Team Page — Vestry",
+      path: "src/content/team-page",
+      format: { data: "json" },
+      schema: {
+        vestryTitle: fields.text({
+          label: "Vestry Section Title",
+          defaultValue: "Our Vestry",
+        }),
+        vestryDescription: fields.text({
+          label: "Vestry Section Description",
+          multiline: true,
+        }),
+        vestryMembers: fields.array(fields.text({ label: "Name" }), {
+          label: "Vestry Members",
+          description:
+            "Listed on the Our Team page. The section is hidden until at least one name is added.",
+          itemLabel: (props) => props.value || "Vestry Member",
+        }),
+      },
+    }),
+    membershipPage: singleton({
+      label: "Membership Page",
+      path: "src/content/membership-page",
+      format: { data: "json" },
+      schema: {
+        contactIntro: fields.text({
+          label: "Contact Intro Paragraph",
+          multiline: true,
+        }),
+        contactName: fields.text({ label: "Contact Name" }),
+        contactTitle: fields.text({ label: "Contact Title" }),
+        contactEmail: fields.text({ label: "Contact Email" }),
+      },
+    }),
     deafChurch: singleton({
       label: "DeafChurch Info",
       path: "src/content/deafchurch",
@@ -64,8 +112,24 @@ export default config({
       path: "src/content/clergy/*",
       format: { data: "json" },
       schema: {
-        name: fields.text({ label: "Name" }),
+        // fields.slug keeps the display name in the data file; a plain text
+        // slugField gets stripped on CMS save and reads back as null.
+        name: fields.slug({ name: { label: "Name" } }),
         title: fields.text({ label: "Title/Role" }),
+        group: fields.select({
+          label: "Team Group",
+          description: "Which tier this person appears under on the Our Team page.",
+          options: [
+            { label: "Staff", value: "staff" },
+            { label: "Volunteer Clergy", value: "volunteer-clergy" },
+          ],
+          defaultValue: "volunteer-clergy",
+        }),
+        order: fields.integer({
+          label: "Display Order",
+          description: "Lower numbers appear first within their group.",
+          defaultValue: 99,
+        }),
         email: fields.text({ label: "Email" }),
         phone: fields.text({ label: "Phone" }),
         image: fields.image({
@@ -88,7 +152,7 @@ export default config({
       path: "src/content/missions/*",
       format: { data: "json" },
       schema: {
-        name: fields.text({ label: "Name" }),
+        name: fields.slug({ name: { label: "Name" } }),
         subtitle: fields.text({ label: "Subtitle (optional)" }),
         category: fields.select({
           label: "Category",
@@ -110,7 +174,7 @@ export default config({
       path: "src/content/activities/*",
       format: { data: "json" },
       schema: {
-        title: fields.text({ label: "Title" }),
+        title: fields.slug({ name: { label: "Title" } }),
         day: fields.text({ label: "Day (e.g., Sundays)" }),
         time: fields.text({ label: "Time (e.g., 10:00 AM)" }),
         description: fields.text({ label: "Description", multiline: true }),
@@ -126,7 +190,7 @@ export default config({
       path: "src/content/announcements/*",
       format: { data: "json" },
       schema: {
-        title: fields.text({ label: "Title" }),
+        title: fields.slug({ name: { label: "Title" } }),
         date: fields.date({ label: "Date" }),
         content: fields.text({ label: "Content", multiline: true }),
         expiresAt: fields.date({ label: "Expires At (optional)" }),

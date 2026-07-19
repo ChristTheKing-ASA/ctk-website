@@ -1,6 +1,8 @@
 {
   "name": "The Rev. Donald Wilson",
   "title": "Assisting Priest",
+  "group": "volunteer-clergy",
+  "order": 3,
   "email": "",
   "phone": "",
   "image": "/images/team/wilson.jpg",
