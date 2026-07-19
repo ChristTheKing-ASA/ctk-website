@@ -121,6 +121,14 @@ export async function getAllClergy() {
   return clergy.filter(Boolean);
 }
 
+export async function getTeamPage() {
+  return await reader.singletons.teamPage.read();
+}
+
+export async function getMembershipPage() {
+  return await reader.singletons.membershipPage.read();
+}
+
 export async function getClergyBySlug(slug: string) {
   return await reader.collections.clergy.read(slug);
 }

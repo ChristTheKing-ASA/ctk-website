@@ -1,11 +1,15 @@
 {
   "name": "The Rev. Barb McMillen",
   "title": "Deacon",
+  "group": "volunteer-clergy",
+  "order": 5,
   "email": "chaplainbarbm@gmail.com",
   "phone": "724-344-9241",
   "image": "/images/team/mcmillen.jpg",
   "shortBio": "Serving seasonally in Florida and Pennsylvania.",
   "fullBio": "Deacon Barb joined Christ The King in 2016. Barb attended Trinity School for Ministry and was ordained a Vocational Deacon in 2015. Barb serves winters in Florida, and summers in Pennsylvania with her husband Chuck. They were married in 1968 and have four children – one who is living with the Lord in Heaven – and three grandchildren.",
   "family": "Married to Chuck since 1968, four children (one deceased), three grandchildren",
-  "education": ["Trinity School for Ministry"]
+  "education": [
+    "Trinity School for Ministry"
+  ]
 }

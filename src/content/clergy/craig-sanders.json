@@ -1,11 +1,15 @@
 {
   "name": "The Rev. Dr. Craig Sanders",
   "title": "Rector",
+  "group": "staff",
+  "order": 1,
   "email": "craig@ctkasa.com",
   "phone": "",
   "image": "/images/team/staff-photo.jpeg",
   "shortBio": "Rector at Christ The King Anglican Church.",
   "fullBio": "Fr. Craig Sanders is the rector at Christ The King Anglican Church. Craig, his wife Kaitlyn, and their children Auggie and Elowyn moved to St. Augustine, FL, from Loganville, GA, where Fr. Craig served on staff at Holy Cross Anglican Cathedral. He was ordained a priest in the Diocese of the Rocky Mountains. Fr. Craig earned his PhD in Christian Theology from Saint Louis University.",
   "family": "Wife Kaitlyn and children Auggie and Elowyn",
-  "education": ["PhD in Christian Theology, Saint Louis University"]
+  "education": [
+    "PhD in Christian Theology, Saint Louis University"
+  ]
 }

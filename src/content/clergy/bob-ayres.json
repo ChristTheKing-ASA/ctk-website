@@ -1,6 +1,8 @@
 {
   "name": "The Rev. Dr. Bob Ayres",
   "title": "Assisting Priest",
+  "group": "volunteer-clergy",
+  "order": 2,
   "email": "bob.ayres@deafchurchtogether.com",
   "phone": "",
   "image": "/images/team/revs-kathy-bob-ayres.jpg",
