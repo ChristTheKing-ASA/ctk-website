@@ -29,36 +29,27 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Admin Panel Authentication
+## Content editor
 
-The Keystatic admin panel at `/admin` is protected by a password gate. This works with static export (no server required).
+The Keystatic editor lives at `/keystatic`; `/admin` redirects there.
+Production uses Keystatic Cloud authentication for the
+`christ-the-king/ctk-website` project.
 
-### Setting up admin access
+GitHub Pages serves this repository beneath `/ctk-website`. Keystatic does not
+natively account for a Next.js `basePath`, so `patch-package` applies the
+version-pinned compatibility patch in `patches/` after every install. The
+Pages workflow must set these matching values:
 
-1. Copy `.env.example` to `.env.local`:
-   ```bash
-   cp .env.example .env.local
-   ```
+```text
+NEXT_BASE_PATH=/ctk-website
+NEXT_PUBLIC_BASE_PATH=/ctk-website
+NEXT_PUBLIC_KEYSTATIC_PATH=/ctk-website/keystatic
+```
 
-2. Edit `.env.local` and set a secure password:
-   ```
-   NEXT_PUBLIC_ADMIN_PASSWORD=your-secure-password-here
-   ```
-
-3. Rebuild the site (the password is embedded at build time):
-   ```bash
-   npm run build
-   ```
-
-### For production deployment
-
-Set the `NEXT_PUBLIC_ADMIN_PASSWORD` environment variable in your hosting platform (Vercel, Netlify, etc.) before building.
-
-**Important notes:**
-- The password is embedded in the client-side JavaScript at build time
-- Sessions expire after 24 hours (configurable in `AdminAuthGate.tsx`)
-- To change the password, update the environment variable and rebuild
-- This is a simple protection layer - for highly sensitive admin panels, consider additional server-side authentication
+Remove all three prefixes when the site moves to a custom domain served from
+`/`.
+After upgrading `@keystatic/core`, regenerate and QA the compatibility patch
+before merging.
 
 ## Deploy on Vercel
 

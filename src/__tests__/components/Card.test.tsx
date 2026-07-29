@@ -219,7 +219,7 @@ describe("PartnerCard Component", () => {
   });
 
   it("should apply correct category colors", () => {
-    const { container, rerender } = render(
+    const { rerender } = render(
       <PartnerCard
         name="Local Partner"
         category="Local"

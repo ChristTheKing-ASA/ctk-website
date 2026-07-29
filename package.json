@@ -6,14 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "preview:pages": "node scripts/serve-pages-export.mjs",
+    "postinstall": "patch-package",
     "lint": "eslint",
     "test": "vitest",
     "test:run": "vitest run",
+    "test:pages": "node scripts/verify-pages-export.mjs",
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
-    "@keystatic/core": "^0.5.48",
+    "@keystatic/core": "0.5.48",
     "@keystatic/next": "^5.0.4",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
@@ -36,6 +39,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
     "jsdom": "^27.4.0",
+    "patch-package": "^8.0.1",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.0.18"

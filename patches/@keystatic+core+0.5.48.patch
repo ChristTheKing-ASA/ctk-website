@@ -1,0 +1,152 @@
+diff --git a/node_modules/@keystatic/core/dist/index-dda35b1d.js b/node_modules/@keystatic/core/dist/index-dda35b1d.js
+index c55336a..1d6bda1 100644
+--- a/node_modules/@keystatic/core/dist/index-dda35b1d.js
++++ b/node_modules/@keystatic/core/dist/index-dda35b1d.js
+@@ -54,6 +54,8 @@ import ReconnectingWebSocket from 'partysocket/ws';
+ import { createEncoder, writeVarUint, toUint8Array } from 'lib0/encoding.js';
+ import { Avatar } from '@keystar/ui/avatar';
+-
++
++const KEYSTATIC_PATH = process.env.NEXT_PUBLIC_KEYSTATIC_PATH || "/keystatic";
++
+ const RouterContext = /*#__PURE__*/createContext(null);
+ function RouterProvider(props) {
+   const $ = c(17);
+@@ -69,7 +71,7 @@ function RouterProvider(props) {
+   if ($[1] === Symbol.for("react.memo_cache_sentinel")) {
+     t1 = function navigate(url_0, replace) {
+       const newUrl = new URL(url_0, window.location.href);
+-      if (newUrl.origin !== window.location.origin || !newUrl.pathname.startsWith("/keystatic")) {
++      if (newUrl.origin !== window.location.origin || newUrl.pathname !== KEYSTATIC_PATH && !newUrl.pathname.startsWith(`${KEYSTATIC_PATH}/`)) {
+         window.location.assign(newUrl);
+         return;
+       }
+@@ -107,7 +109,7 @@ function RouterProvider(props) {
+   let parsedUrl;
+   if ($[4] !== url) {
+     parsedUrl = new URL(url);
+-    const replaced = parsedUrl.pathname.replace(/^\/keystatic\/?/, "");
++    const replaced = parsedUrl.pathname.startsWith(KEYSTATIC_PATH) ? parsedUrl.pathname.slice(KEYSTATIC_PATH.length).replace(/^\/?/, "").replace(/\/$/, "") : parsedUrl.pathname;
+     t4 = replaced === "" ? [] : replaced.split("/").map(decodeURIComponent);
+     $[4] = url;
+     $[5] = t4;
+@@ -1311,7 +1313,7 @@ async function redirectToCloudAuth(from, config) {
+   const url = new URL(`${KEYSTATIC_CLOUD_API_URL}/oauth/authorize`);
+   url.searchParams.set('state', state);
+   url.searchParams.set('client_id', config.cloud.project);
+-  url.searchParams.set('redirect_uri', `${window.location.origin}/keystatic/cloud/oauth/callback`);
++  url.searchParams.set('redirect_uri', `${window.location.origin}${KEYSTATIC_PATH}/cloud/oauth/callback`);
+   url.searchParams.set('response_type', 'code');
+   url.searchParams.set('code_challenge_method', 'S256');
+   url.searchParams.set('code_challenge', code_challenge);
+@@ -5058,7 +5060,7 @@ function CollabAddToPathProvider(props) {
+     }
+     const avatars = [];
+     for (const [clientId, val] of awarenessStates) {
+-      if (clientId === yjsInfo.awareness.clientID || !val.user || router.href !== `/keystatic/branch/${val.branch}/${val.location}` || !Array.isArray(val.path) || !areArraysEqual(val.path, props.path)) {
++      if (clientId === yjsInfo.awareness.clientID || !val.user || router.href !== `${KEYSTATIC_PATH}/branch/${val.branch}/${val.location}` || !Array.isArray(val.path) || !areArraysEqual(val.path, props.path)) {
+         continue;
+       }
+       avatars.push(val.user);
+diff --git a/node_modules/@keystatic/core/dist/keystatic-core-ui.js b/node_modules/@keystatic/core/dist/keystatic-core-ui.js
+index b9e7dd8..909ce72 100644
+--- a/node_modules/@keystatic/core/dist/keystatic-core-ui.js
++++ b/node_modules/@keystatic/core/dist/keystatic-core-ui.js
+@@ -182,6 +182,8 @@ import 'idb-keyval';
+ import 'partysocket/ws';
+ import 'lib0/encoding.js';
+-
++
++const KEYSTATIC_PATH = process.env.NEXT_PUBLIC_KEYSTATIC_PATH || "/keystatic";
++
+ // the collator enables language-sensitive string comparison
+ const collator = new Intl.Collator(undefined, {
+   sensitivity: 'base'
+@@ -1643,7 +1645,7 @@ function PresenceAvatars() {
+   if ($[4] !== router.href || $[5] !== t1) {
+     t2 = /*#__PURE__*/jsx(HStack, {
+       children: t1.map(val => {
+-        if (!val.user || router.href !== `/keystatic/branch/${val.branch}/${val.location}`) {
++        if (!val.user || router.href !== `${KEYSTATIC_PATH}/branch/${val.branch}/${val.location}`) {
+           return null;
+         }
+         return /*#__PURE__*/jsx(Avatar, {
+@@ -3194,7 +3196,7 @@ function ItemPageInner(props) {
+     t19 = updateResult.kind === "needs-new-branch" && /*#__PURE__*/jsx(CreateBranchDuringUpdateDialog, {
+       branchOid: baseCommit,
+       onCreate: async newBranch => {
+-        const itemBasePath = `/keystatic/branch/${encodeURIComponent(newBranch)}/collection/${encodeURIComponent(collection)}/item/`;
++        const itemBasePath = `${KEYSTATIC_PATH}/branch/${encodeURIComponent(newBranch)}/collection/${encodeURIComponent(collection)}/item/`;
+         router.push(itemBasePath + encodeURIComponent(itemSlug));
+         const slug_0 = getSlugFromState(collectionConfig, props.state);
+         const hasUpdated_0 = await parentOnUpdate({
+@@ -5526,13 +5528,13 @@ function CreateItemInner(props) {
+     t25 = createResult.kind === "needs-new-branch" && /*#__PURE__*/jsx(CreateBranchDuringUpdateDialog, {
+       branchOid: baseCommit,
+       onCreate: async newBranch => {
+-        router.push(`/keystatic/branch/${encodeURIComponent(newBranch)}/collection/${encodeURIComponent(props.collection)}/create`);
++        router.push(`${KEYSTATIC_PATH}/branch/${encodeURIComponent(newBranch)}/collection/${encodeURIComponent(props.collection)}/create`);
+         if (await props.createItem({
+           branch: newBranch,
+           sha: baseCommit
+         })) {
+           const slug_0 = getSlugFromState(collectionConfig, props.state);
+-          router.push(`/keystatic/branch/${encodeURIComponent(newBranch)}/collection/${encodeURIComponent(props.collection)}/item/${encodeURIComponent(slug_0)}`);
++          router.push(`${KEYSTATIC_PATH}/branch/${encodeURIComponent(newBranch)}/collection/${encodeURIComponent(props.collection)}/item/${encodeURIComponent(slug_0)}`);
+         }
+       },
+       reason: createResult.reason,
+@@ -6851,7 +6853,7 @@ function SingletonPageInner(props) {
+     t28 = props.updateResult.kind === "needs-new-branch" && /*#__PURE__*/jsx(CreateBranchDuringUpdateDialog, {
+       branchOid: baseCommit,
+       onCreate: async newBranch => {
+-        router.push(`/keystatic/branch/${encodeURIComponent(newBranch)}/singleton/${encodeURIComponent(props.singleton)}`);
++        router.push(`${KEYSTATIC_PATH}/branch/${encodeURIComponent(newBranch)}/singleton/${encodeURIComponent(props.singleton)}`);
+         props.onUpdate({
+           branch: newBranch,
+           sha: baseCommit
+@@ -7939,7 +7941,7 @@ function KeystaticCloudAuthCallback({
+           body: new URLSearchParams({
+             code,
+             client_id: project,
+-            redirect_uri: `${window.location.origin}/keystatic/cloud/oauth/callback`,
++            redirect_uri: `${window.location.origin}${KEYSTATIC_PATH}/cloud/oauth/callback`,
+             code_verifier: storedState_0.code_verifier,
+             grant_type: 'authorization_code'
+           }).toString(),
+@@ -7958,7 +7960,7 @@ function KeystaticCloudAuthCallback({
+           project,
+           validUntil: Date.now() + parsed.expires_in * 1000
+         }));
+-        router.push(`/keystatic/${storedState_0.from}`);
++        router.push(`${KEYSTATIC_PATH}/${storedState_0.from}`);
+       })().catch(error_0 => {
+         setError(error_0);
+       });
+@@ -8050,7 +8052,7 @@ function RedirectToBranch(props) {
+         }
+       }
+       if (data !== null && data !== void 0 && (_data$repository = data.repository) !== null && _data$repository !== void 0 && _data$repository.defaultBranchRef) {
+-        push(`/keystatic/branch/${encodeURIComponent(data.repository.defaultBranchRef.name)}`);
++        push(`${KEYSTATIC_PATH}/branch/${encodeURIComponent(data.repository.defaultBranchRef.name)}`);
+       }
+       if (props.config.storage.kind === "github" && !(data !== null && data !== void 0 && (_data$repository2 = data.repository) !== null && _data$repository2 !== void 0 && _data$repository2.id) && (error === null || error === void 0 || (_error$graphQLErrors = error.graphQLErrors) === null || _error$graphQLErrors === void 0 || (_error$graphQLErrors = _error$graphQLErrors[0]) === null || _error$graphQLErrors === void 0 || (_error$graphQLErrors = _error$graphQLErrors.originalError) === null || _error$graphQLErrors === void 0 ? void 0 : _error$graphQLErrors.type) === "NOT_FOUND" || (error === null || error === void 0 || (_error$graphQLErrors2 = error.graphQLErrors) === null || _error$graphQLErrors2 === void 0 || (_error$graphQLErrors2 = _error$graphQLErrors2[0]) === null || _error$graphQLErrors2 === void 0 || (_error$graphQLErrors2 = _error$graphQLErrors2.originalError) === null || _error$graphQLErrors2 === void 0 ? void 0 : _error$graphQLErrors2.type) === "FORBIDDEN") {
+         window.location.href = "/api/keystatic/github/repo-not-found";
+@@ -8211,7 +8213,7 @@ function PageInner(t0) {
+       return t3;
+     }
+     branch = params[1];
+-    basePath = `/keystatic/branch/${encodeURIComponent(branch)}`;
++    basePath = `${KEYSTATIC_PATH}/branch/${encodeURIComponent(branch)}`;
+     let t3;
+     if ($[20] !== params) {
+       t3 = parseParamsWithoutBranch(params.slice(2));
+@@ -8231,7 +8233,7 @@ function PageInner(t0) {
+       t2 = $[23];
+     }
+     parsedParams = t2;
+-    basePath = "/keystatic";
++    basePath = KEYSTATIC_PATH;
+   }
+   const t2 = branch || "";
+   let t3;

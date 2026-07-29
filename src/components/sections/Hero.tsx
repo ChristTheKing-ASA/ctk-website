@@ -5,17 +5,17 @@ import { Heart, BookOpen, HandHeart, Play } from "lucide-react";
 export function Hero() {
   return (
     <section className="relative min-h-[85vh] flex flex-col bg-navy-950">
-      {/* Background Image - full strength, light scrim for text contrast */}
+      {/* Sunday arrivals photo with a translucent scrim for text contrast */}
       <div className="absolute inset-0">
         <Image
-          src="/images/church/interior-worship.jpg"
-          alt="Worship service at Christ The King Anglican Church"
+          src="/images/church/greeters.jpg"
+          alt="A family arriving for Sunday worship at Christ The King Anglican Church"
           fill
           priority
-          className="object-cover"
+          className="object-cover object-[32%_center] md:object-center"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-950/50 via-navy-950/60 to-navy-950/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-950/45 via-navy-950/55 to-navy-950/75" />
       </div>
 
       {/* Content */}
