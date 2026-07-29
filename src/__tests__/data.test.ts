@@ -67,6 +67,7 @@ describe("Navigation Data", () => {
     expect(navigation.length).toBeGreaterThan(0);
     expect(navigation.map((n) => n.name)).toContain("Visit");
     expect(navigation.map((n) => n.name)).toContain("Worship");
+    expect(navigation.map((n) => n.name)).toContain("Events");
     expect(navigation.map((n) => n.name)).toContain("About");
   });
 

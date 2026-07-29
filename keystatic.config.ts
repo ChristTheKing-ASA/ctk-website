@@ -17,6 +17,7 @@ export default config({
       "About — Our Team": ["clergy", "teamPage"],
       "Connect": ["membershipPage"],
       "Worship": ["weeklyActivities"],
+      "Events": ["events"],
       "Missions": ["missionPartners"],
       "DeafChurch": ["deafChurch"],
       "Site Settings": ["churchInfo", "announcements"],
@@ -182,6 +183,49 @@ export default config({
         contactName: fields.text({ label: "Contact Name (optional)" }),
         contactEmail: fields.text({ label: "Contact Email (optional)" }),
         contactPhone: fields.text({ label: "Contact Phone (optional)" }),
+      },
+    }),
+    events: collection({
+      label: "Events",
+      slugField: "title",
+      path: "src/content/events/*",
+      format: { data: "json" },
+      schema: {
+        title: fields.slug({ name: { label: "Event Name" } }),
+        date: fields.date({
+          label: "Start Date",
+          description: "Events are shown in date order and disappear after they end.",
+        }),
+        endDate: fields.date({ label: "End Date (optional)" }),
+        time: fields.text({
+          label: "Time",
+          description: "For example: 6:30 PM or 9:00 AM–12:00 PM.",
+        }),
+        location: fields.text({
+          label: "Location",
+          description: "For example: Parish Hall, Sanctuary, or Online.",
+        }),
+        category: fields.select({
+          label: "Event Type",
+          options: [
+            { label: "Worship", value: "worship" },
+            { label: "Fellowship", value: "fellowship" },
+            { label: "Formation", value: "formation" },
+            { label: "Outreach", value: "outreach" },
+            { label: "Other", value: "other" },
+          ],
+          defaultValue: "fellowship",
+        }),
+        description: fields.text({
+          label: "Description",
+          multiline: true,
+          description: "A brief, welcoming explanation of what guests can expect.",
+        }),
+        registrationUrl: fields.url({
+          label: "Registration Link (optional)",
+        }),
+        contactName: fields.text({ label: "Contact Name (optional)" }),
+        contactEmail: fields.text({ label: "Contact Email (optional)" }),
       },
     }),
     announcements: collection({

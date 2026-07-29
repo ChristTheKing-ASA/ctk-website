@@ -1,5 +1,6 @@
 import { createReader } from "@keystatic/core/reader";
 import keystaticConfig from "../../keystatic.config";
+import { compareEventsByDate, isUpcomingEvent } from "@/lib/events";
 
 export const reader = createReader(process.cwd(), keystaticConfig);
 
@@ -157,6 +158,25 @@ export async function getAllActivities() {
     })
   );
   return activities.filter(Boolean);
+}
+
+export async function getAllEvents() {
+  const slugs = await reader.collections.events.list();
+  const events = await Promise.all(
+    slugs.map(async (slug) => {
+      const data = await reader.collections.events.read(slug);
+      return data ? { slug, ...data } : null;
+    })
+  );
+
+  return events
+    .filter(
+      (event): event is NonNullable<typeof event> & { date: string } =>
+        event !== null &&
+        typeof event.date === "string" &&
+        isUpcomingEvent(event)
+    )
+    .sort(compareEventsByDate);
 }
 
 export async function getAllAnnouncements() {
