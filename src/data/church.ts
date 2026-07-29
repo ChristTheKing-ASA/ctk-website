@@ -69,6 +69,7 @@ export const churchInfo = {
 export const navigation = [
   { name: "Visit", href: "/visit" },
   { name: "Worship", href: "/worship" },
+  { name: "Events", href: "/events" },
   { name: "Connect", href: "/connect" },
   { name: "Serve", href: "/serve" },
   { name: "DeafChurch", href: "/deafchurch" },
