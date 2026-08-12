@@ -6,7 +6,8 @@ import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { getAllMissionPartners, getMissionPartnerBySlug } from "@/lib/content";
-import { ArrowLeft, MapPin, Globe, Building } from "lucide-react";
+import { normalizeExternalUrl, displayUrl } from "@/lib/utils";
+import { ArrowLeft, MapPin, Globe, Building, ExternalLink } from "lucide-react";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -51,6 +52,7 @@ export default async function PartnerPage({ params }: PageProps) {
     category: partnerData.category || "Local",
     shortDescription: partnerData.shortDescription || "",
     fullDescription: partnerData.fullDescription || "",
+    website: normalizeExternalUrl(partnerData.website),
   };
 
   const categoryIcon: Record<string, React.ReactNode> = {
@@ -134,6 +136,27 @@ export default async function PartnerPage({ params }: PageProps) {
               );
             })}
           </div>
+
+          {/* Partner's own site, when they have one */}
+          {partner.website && (
+            <div className="mb-12">
+              <a
+                href={partner.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-navy-700 hover:text-navy-900 font-medium underline underline-offset-4 transition-colors"
+              >
+                <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                <span>
+                  Visit {partner.name}
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </span>
+                <span className="text-navy-500 font-normal">
+                  {displayUrl(partner.website)}
+                </span>
+              </a>
+            </div>
+          )}
 
           {/* CTA */}
           <div className="bg-cream-50 rounded-xl p-8 text-center">
