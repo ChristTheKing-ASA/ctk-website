@@ -107,8 +107,32 @@ export async function getChurchInfo(): Promise<ChurchInfoTransformed> {
   };
 }
 
+export async function getHomePage() {
+  return await reader.singletons.homePage.read();
+}
+
 export async function getDeafChurchInfo() {
   return await reader.singletons.deafChurch.read();
+}
+
+/**
+ * Counts of mission partners by category, for the homepage summary.
+ *
+ * Derived rather than stored: these were previously hardcoded in
+ * FeaturedMinistries as "11 Mission Partners" over tiles reading 4/2/4, which
+ * sum to 10. Adding a partner in Keystatic silently made both wrong.
+ */
+export async function getMissionPartnerCounts() {
+  const partners = await getAllMissionPartners();
+  const byCategory = (category: string) =>
+    partners.filter((p) => p.category === category).length;
+
+  return {
+    total: partners.length,
+    local: byCategory("Local"),
+    national: byCategory("National"),
+    global: byCategory("Global"),
+  };
 }
 
 export async function getAllClergy() {

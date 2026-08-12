@@ -1,22 +1,38 @@
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { getDeafChurchInfo } from "@/lib/content";
+import {
+  getDeafChurchInfo,
+  getHomePage,
+  getMissionPartnerCounts,
+} from "@/lib/content";
 import { HandHeart, ArrowRight, Users, Globe } from "lucide-react";
 
 export async function FeaturedMinistries() {
-  const deafChurchData = await getDeafChurchInfo();
+  const [deafChurchData, home, counts] = await Promise.all([
+    getDeafChurchInfo(),
+    getHomePage(),
+    getMissionPartnerCounts(),
+  ]);
 
   const deafChurch = {
     name: deafChurchData?.name || "DeafChurch First Coast",
-    tagline: deafChurchData?.tagline || "Bringing Anglican worship to the Deaf community in American Sign Language",
+    tagline:
+      deafChurchData?.tagline ||
+      "Bringing Anglican worship to the Deaf community in American Sign Language",
   };
+
+  const categories = [
+    { label: "Local", count: counts.local },
+    { label: "National", count: counts.national },
+    { label: "Global", count: counts.global },
+  ];
 
   return (
     <Section background="gradient">
       <SectionHeader
-        subtitle="Making a Difference"
-        title="Featured Ministries"
-        description="Discover how CTK is serving our community and the world."
+        subtitle={home?.ministriesEyebrow || ""}
+        title={home?.ministriesTitle || ""}
+        description={home?.ministriesDescription || ""}
       />
 
       <div className="grid lg:grid-cols-2 gap-8">
@@ -36,8 +52,7 @@ export async function FeaturedMinistries() {
             </h3>
 
             <p className="text-navy-200 mb-6 leading-relaxed">
-              {deafChurch.tagline}. Christ The King serves as an Anchor Church,
-              helping establish in-person community for the Deaf across Northeast Florida.
+              {deafChurch.tagline}. {home?.deafChurchBody}
             </p>
 
             <div className="flex flex-wrap gap-4 mb-8">
@@ -52,7 +67,7 @@ export async function FeaturedMinistries() {
             </div>
 
             <Button href="/deafchurch" variant="secondary">
-              Learn More About DeafChurch
+              {home?.deafChurchCtaLabel}
               <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
@@ -65,34 +80,33 @@ export async function FeaturedMinistries() {
             <span>Global Impact</span>
           </div>
 
+          {/* Counted from the Mission Partners collection. Previously hardcoded
+              as "11" over tiles reading 4/2/4, which sum to 10. */}
           <h3 className="font-display text-3xl font-bold text-navy-900 mb-4">
-            11 Mission Partners
+            {counts.total} Mission {counts.total === 1 ? "Partner" : "Partners"}
           </h3>
 
           <p className="text-navy-600 mb-6 leading-relaxed">
-            Through faithful giving, CTK supports mission partners across
-            St. Augustine, the United States, and around the world—from
-            feeding the hungry to reaching unreached peoples.
+            {home?.missionsBody}
           </p>
 
           {/* Partner Categories */}
           <div className="grid grid-cols-3 gap-4 mb-8">
-            <div className="text-center p-4 bg-cream-50 rounded-xl">
-              <p className="text-2xl font-bold text-navy-900">4</p>
-              <p className="text-sm text-navy-600">Local</p>
-            </div>
-            <div className="text-center p-4 bg-cream-50 rounded-xl">
-              <p className="text-2xl font-bold text-navy-900">2</p>
-              <p className="text-sm text-navy-600">National</p>
-            </div>
-            <div className="text-center p-4 bg-cream-50 rounded-xl">
-              <p className="text-2xl font-bold text-navy-900">4</p>
-              <p className="text-sm text-navy-600">Global</p>
-            </div>
+            {categories.map((category) => (
+              <div
+                key={category.label}
+                className="text-center p-4 bg-cream-50 rounded-xl"
+              >
+                <p className="text-2xl font-bold text-navy-900">
+                  {category.count}
+                </p>
+                <p className="text-sm text-navy-600">{category.label}</p>
+              </div>
+            ))}
           </div>
 
           <Button href="/missions" variant="primary">
-            Explore Our Missions
+            {home?.missionsCtaLabel}
             <ArrowRight className="w-4 h-4" />
           </Button>
         </div>

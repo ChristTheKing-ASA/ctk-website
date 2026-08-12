@@ -1,4 +1,12 @@
 import { config, fields, collection, singleton } from "@keystatic/core";
+import { ICON_OPTIONS, DEFAULT_ICON } from "./src/lib/icons";
+
+const iconField = (label = "Icon") =>
+  fields.select({
+    label,
+    options: ICON_OPTIONS,
+    defaultValue: DEFAULT_ICON,
+  });
 
 export default config({
   // In dev, edit content against the local filesystem. In production,
@@ -14,6 +22,7 @@ export default config({
     // Mirror the site's section headings so editors can find a page in the
     // sidebar the same way they find it on the site.
     navigation: {
+      "Home": ["homePage"],
       "About — Our Team": ["clergy", "teamPage"],
       "Connect": ["membershipPage"],
       "Worship": ["weeklyActivities"],
@@ -24,6 +33,107 @@ export default config({
     },
   },
   singletons: {
+    homePage: singleton({
+      label: "Home Page",
+      path: "src/content/home-page",
+      format: { data: "json" },
+      schema: {
+        heroImage: fields.image({
+          label: "Hero Photo",
+          description:
+            "Fills the top of the homepage. Use a wide, high-resolution photo; it is displayed very large.",
+          directory: "public/images/church",
+          publicPath: "/images/church",
+        }),
+        heroImageAlt: fields.text({
+          label: "Hero Photo Description",
+          description: "Describes the photo for screen readers and search engines.",
+        }),
+        heroNameLine1: fields.text({ label: "Church Name, Line 1" }),
+        heroNameLine2: fields.text({ label: "Church Name, Line 2" }),
+        missionEyebrow: fields.text({
+          label: "Mission Label",
+          description: "Small text above the mission statement.",
+        }),
+        missionHeadline: fields.text({ label: "Mission Statement" }),
+        pillars: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            icon: iconField(),
+          }),
+          {
+            label: "Mission Pillars",
+            description:
+              "Shown as three cards over the hero photo. Hidden on phones, where the mission statement carries the message.",
+            itemLabel: (props) => props.fields.title.value || "Pillar",
+          }
+        ),
+        heroPrimaryCtaLabel: fields.text({ label: "Primary Button Label" }),
+        heroPrimaryCtaHref: fields.text({ label: "Primary Button Link" }),
+        heroSecondaryCtaLabel: fields.text({ label: "Secondary Button Label" }),
+        heroSecondaryCtaHref: fields.text({ label: "Secondary Button Link" }),
+
+        anglicanEyebrow: fields.text({ label: "Tradition Label" }),
+        anglicanTitle: fields.text({ label: "Tradition Heading" }),
+        anglicanBody: fields.text({ label: "Tradition Body", multiline: true }),
+        anglicanCards: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description" }),
+            icon: iconField(),
+          }),
+          {
+            label: "Tradition Highlights",
+            itemLabel: (props) => props.fields.title.value || "Highlight",
+          }
+        ),
+        anglicanCtaLabel: fields.text({ label: "Tradition Button Label" }),
+        anglicanCtaHref: fields.text({ label: "Tradition Button Link" }),
+
+        rectorEyebrow: fields.text({ label: "Rector Section Label" }),
+        rectorQuote: fields.text({ label: "Rector Quote", multiline: true }),
+        rectorBody: fields.text({ label: "Rector Section Body", multiline: true }),
+        rectorPrimaryCtaLabel: fields.text({ label: "Rector Button Label" }),
+        rectorSecondaryCtaLabel: fields.text({ label: "Rector Secondary Button Label" }),
+
+        ministriesEyebrow: fields.text({ label: "Ministries Label" }),
+        ministriesTitle: fields.text({ label: "Ministries Heading" }),
+        ministriesDescription: fields.text({
+          label: "Ministries Description",
+          multiline: true,
+        }),
+        deafChurchBody: fields.text({
+          label: "DeafChurch Card Body",
+          description:
+            "Follows the DeafChurch tagline, which is edited under DeafChurch.",
+          multiline: true,
+        }),
+        deafChurchCtaLabel: fields.text({ label: "DeafChurch Button Label" }),
+        missionsBody: fields.text({
+          label: "Missions Card Body",
+          description:
+            "The partner counts above this are calculated from the Mission Partners list, so they stay correct on their own.",
+          multiline: true,
+        }),
+        missionsCtaLabel: fields.text({ label: "Missions Button Label" }),
+
+        quickLinksEyebrow: fields.text({ label: "Quick Links Label" }),
+        quickLinksTitle: fields.text({ label: "Quick Links Heading" }),
+        quickLinks: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            href: fields.text({ label: "Link" }),
+            icon: iconField(),
+          }),
+          {
+            label: "Quick Links",
+            itemLabel: (props) => props.fields.title.value || "Link",
+          }
+        ),
+      },
+    }),
     churchInfo: singleton({
       label: "Church Info",
       path: "src/content/church-info",
