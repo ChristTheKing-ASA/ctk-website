@@ -102,7 +102,7 @@ export async function getChurchInfo(): Promise<ChurchInfoTransformed> {
       },
     },
     mission: {
-      vision: "To be co-workers with Christ in the Kingdom of God",
+      vision: data?.visionStatement || "",
     },
   };
 }

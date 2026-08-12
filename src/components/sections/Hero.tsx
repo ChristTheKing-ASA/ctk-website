@@ -1,8 +1,11 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { getChurchInfo } from "@/lib/content";
 import { Heart, BookOpen, HandHeart, Play } from "lucide-react";
 
-export function Hero() {
+export async function Hero() {
+  const churchInfo = await getChurchInfo();
+
   return (
     <section className="relative min-h-[calc(100svh-5.5rem)] md:min-h-[85vh] flex flex-col bg-navy-950">
       {/* Sunday arrivals photo with a translucent scrim for text contrast */}
@@ -41,7 +44,7 @@ export function Hero() {
             Love God. Become Disciples. Serve Others.
           </h2>
           <p className="text-white/60 italic text-base sm:text-lg">
-            To be co-workers with Christ in the Kingdom of God
+            {churchInfo.mission.vision}
           </p>
         </div>
 

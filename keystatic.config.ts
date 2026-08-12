@@ -53,6 +53,11 @@ export default config({
         denominationUrl: fields.url({ label: "Denomination URL" }),
         scriptureText: fields.text({ label: "Scripture Text", multiline: true }),
         scriptureReference: fields.text({ label: "Scripture Reference" }),
+        visionStatement: fields.text({
+          label: "Vision Statement",
+          description: "Shown under the mission heading on the homepage.",
+          multiline: true,
+        }),
       },
     }),
     teamPage: singleton({
