@@ -23,6 +23,7 @@ export default config({
     // sidebar the same way they find it on the site.
     navigation: {
       "Home": ["homePage"],
+      "Visit": ["visitPage"],
       "Give": ["givePage"],
       "About — Our Team": ["clergy", "teamPage"],
       "Connect": ["membershipPage"],
@@ -133,6 +134,89 @@ export default config({
             itemLabel: (props) => props.fields.title.value || "Link",
           }
         ),
+      },
+    }),
+    visitPage: singleton({
+      label: "Visit Page",
+      path: "src/content/visit-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+
+        sundayTitle: fields.text({ label: "Sunday Section Heading" }),
+        serviceTimeLabel: fields.text({ label: "Service Time Label" }),
+        serviceTimeNote: fields.text({
+          label: "Service Time Note",
+          description: "The service time itself is edited in Site Settings.",
+        }),
+        locationLabel: fields.text({ label: "Location Label" }),
+        locationNote: fields.text({
+          label: "Location Note",
+          description: "The address is edited in Site Settings.",
+        }),
+        parkingLabel: fields.text({ label: "Parking Label" }),
+        parkingBody: fields.text({ label: "Parking Details", multiline: true }),
+        directionsCtaLabel: fields.text({ label: "Directions Button Label" }),
+
+        expectTitle: fields.text({ label: "What to Expect Heading" }),
+        expectSubtitle: fields.text({ label: "What to Expect Label" }),
+        expectDescription: fields.text({
+          label: "What to Expect Intro",
+          multiline: true,
+        }),
+        expectCards: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            icon: iconField(),
+          }),
+          {
+            label: "What to Expect Cards",
+            itemLabel: (props) => props.fields.title.value || "Card",
+          }
+        ),
+
+        familyEyebrow: fields.text({ label: "Families Label" }),
+        familyTitle: fields.text({ label: "Families Heading" }),
+        familyIntro: fields.text({ label: "Families Intro", multiline: true }),
+        familyImage: fields.image({
+          label: "Families Photo",
+          description:
+            "Displayed large and cropped to a square on desktop. Use a high-resolution photo, at least 1400px wide, or it will look soft.",
+          directory: "public/images/ministries",
+          publicPath: "/images/ministries",
+        }),
+        familyImageAlt: fields.text({ label: "Families Photo Description" }),
+        familyItems: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            icon: iconField(),
+          }),
+          {
+            label: "What We Offer Families",
+            itemLabel: (props) => props.fields.title.value || "Item",
+          }
+        ),
+        childSafetyTitle: fields.text({ label: "Child Safety Heading" }),
+        childSafetyBody: fields.text({
+          label: "Child Safety Body",
+          multiline: true,
+        }),
+        childSafetyCtaLabel: fields.text({ label: "Child Safety Button Label" }),
+
+        fellowshipTitle: fields.text({ label: "Fellowship Heading" }),
+        fellowshipBody: fields.text({ label: "Fellowship Body", multiline: true }),
+        fellowshipCtaLabel: fields.text({ label: "Fellowship Button Label" }),
+
+        nextStepsTitle: fields.text({ label: "Next Steps Heading" }),
+        nextStepsBody: fields.text({ label: "Next Steps Body", multiline: true }),
+        nextStepsPrimaryCtaLabel: fields.text({ label: "Next Steps Button Label" }),
+        nextStepsSecondaryCtaLabel: fields.text({
+          label: "Next Steps Secondary Button Label",
+        }),
       },
     }),
     givePage: singleton({
