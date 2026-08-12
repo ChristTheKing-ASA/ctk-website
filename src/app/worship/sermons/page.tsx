@@ -46,9 +46,11 @@ export default async function SermonsPage() {
               <p className="text-navy-600 text-sm mb-4">
                 Watch live or browse our full sermon archive.
               </p>
-              <Button href={churchInfo.social.youtube} external variant="outline" size="sm">
-                Go to YouTube
-              </Button>
+              {churchInfo.social.youtube && (
+                <Button href={churchInfo.social.youtube} external variant="outline" size="sm">
+                  Go to YouTube
+                </Button>
+              )}
             </div>
 
             <div className="bg-cream-50 p-6 rounded-xl text-center">
@@ -76,9 +78,11 @@ export default async function SermonsPage() {
               <p className="text-navy-600 text-sm mb-4">
                 Access sermons and more through our mobile app.
               </p>
-              <Button href={churchInfo.giving.appUrl} external variant="outline" size="sm">
-                Get the App
-              </Button>
+              {churchInfo.giving.appUrl && (
+                <Button href={churchInfo.giving.appUrl} external variant="outline" size="sm">
+                  Get the App
+                </Button>
+              )}
             </div>
           </div>
 

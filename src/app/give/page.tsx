@@ -36,16 +36,18 @@ export default async function GivePage() {
             <p className="text-navy-200 text-lg mb-8 max-w-xl mx-auto">
               {page?.onlineBody}
             </p>
-            <Button
-              href={churchInfo.giving.url}
-              external
-              variant="secondary"
-              size="lg"
-            >
-              <Heart className="w-5 h-5" />
-              {page?.onlineCtaLabel}
-              <ExternalLink className="w-4 h-4" />
-            </Button>
+            {churchInfo.giving.url && (
+              <Button
+                href={churchInfo.giving.url}
+                external
+                variant="secondary"
+                size="lg"
+              >
+                <Heart className="w-5 h-5" />
+                {page?.onlineCtaLabel}
+                <ExternalLink className="w-4 h-4" />
+              </Button>
+            )}
             <p className="mt-4 text-sm text-navy-400 flex items-center justify-center gap-2">
               <Shield className="w-4 h-4" />
               {page?.onlineSecureNote}
@@ -98,19 +100,23 @@ export default async function GivePage() {
                   {page?.byMailBody} {churchInfo.address.mailing}
                 </p>
               </div>
-              <div>
-                <h4 className="font-semibold text-navy-900">{page?.appTitle}</h4>
-                <p className="text-sm">
-                  {page?.appBody}{" "}
-                  <a
-                    href={churchInfo.giving.appUrl}
-                    className="text-gold-600 hover:text-gold-700"
-                  >
-                    {page?.appLinkLabel}
-                  </a>
-                  .
-                </p>
-              </div>
+              {churchInfo.giving.appUrl && (
+                <div>
+                  <h4 className="font-semibold text-navy-900">
+                    {page?.appTitle}
+                  </h4>
+                  <p className="text-sm">
+                    {page?.appBody}{" "}
+                    <a
+                      href={churchInfo.giving.appUrl}
+                      className="text-gold-600 hover:text-gold-700"
+                    >
+                      {page?.appLinkLabel}
+                    </a>
+                    .
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 

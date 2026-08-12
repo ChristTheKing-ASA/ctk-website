@@ -5,6 +5,18 @@ import { navigation } from "@/data/church";
 import type { ChurchInfoTransformed } from "@/lib/content";
 
 export function Footer({ churchInfo }: { churchInfo: ChurchInfoTransformed }) {
+  const socialLinks = [
+    { label: "Facebook", href: churchInfo.social.facebook, Icon: Facebook },
+    { label: "YouTube", href: churchInfo.social.youtube, Icon: Youtube },
+    { label: "Instagram", href: churchInfo.social.instagram, Icon: Instagram },
+  ].filter((link) => link.href);
+
+  // Names still show without a URL; only the link is dropped.
+  const affiliations = [
+    { name: churchInfo.diocese.name, url: churchInfo.diocese.url },
+    { name: churchInfo.denomination.name, url: churchInfo.denomination.url },
+  ].filter((item) => item.name);
+
   return (
     <footer className="bg-navy-900 text-white">
       {/* Main Footer */}
@@ -63,14 +75,16 @@ export function Footer({ churchInfo }: { churchInfo: ChurchInfoTransformed }) {
             </ul>
 
             {/* App Link */}
-            <a
-              href={churchInfo.giving.appUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block mt-4 text-sm text-gold-400 hover:text-gold-300 underline underline-offset-2"
-            >
-              Download Our App →
-            </a>
+            {churchInfo.giving.appUrl && (
+              <a
+                href={churchInfo.giving.appUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block mt-4 text-sm text-gold-400 hover:text-gold-300 underline underline-offset-2"
+              >
+                Download Our App →
+              </a>
+            )}
           </div>
 
           {/* Quick Links */}
@@ -105,56 +119,46 @@ export function Footer({ churchInfo }: { churchInfo: ChurchInfoTransformed }) {
             <h3 className="font-display text-lg font-semibold text-gold-400 mb-4">
               Follow Us
             </h3>
-            <div className="flex gap-4 mb-6">
-              <a
-                href={churchInfo.social.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-navy-800 hover:bg-navy-700 rounded-full flex items-center justify-center transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a
-                href={churchInfo.social.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-navy-800 hover:bg-navy-700 rounded-full flex items-center justify-center transition-colors"
-                aria-label="YouTube"
-              >
-                <Youtube className="w-5 h-5" />
-              </a>
-              <a
-                href={churchInfo.social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-navy-800 hover:bg-navy-700 rounded-full flex items-center justify-center transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-            </div>
+            {/* A social link cleared in Keystatic is hidden rather than
+                rendered as an empty href, which would reload the page. */}
+            {socialLinks.length > 0 && (
+              <div className="flex gap-4 mb-6">
+                {socialLinks.map(({ label, href, Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-navy-800 hover:bg-navy-700 rounded-full flex items-center justify-center transition-colors"
+                    aria-label={label}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </a>
+                ))}
+              </div>
+            )}
 
             {/* Affiliations */}
             <div className="space-y-2 text-sm text-navy-300">
               <p>A member of the</p>
               <div className="space-y-1">
-                <a
-                  href={churchInfo.diocese.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-navy-200 hover:text-white transition-colors"
-                >
-                  {churchInfo.diocese.name}
-                </a>
-                <a
-                  href={churchInfo.denomination.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-navy-200 hover:text-white transition-colors"
-                >
-                  {churchInfo.denomination.name}
-                </a>
+                {affiliations.map(({ name, url }) =>
+                  url ? (
+                    <a
+                      key={name}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-navy-200 hover:text-white transition-colors"
+                    >
+                      {name}
+                    </a>
+                  ) : (
+                    <p key={name} className="block text-navy-200">
+                      {name}
+                    </p>
+                  )
+                )}
               </div>
             </div>
           </div>
