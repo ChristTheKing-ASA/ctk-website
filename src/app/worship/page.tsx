@@ -1,10 +1,9 @@
 import { Metadata } from "next";
-import Image from "next/image";
 import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { getChurchInfo } from "@/lib/content";
+import { getChurchInfo, getAllActivities } from "@/lib/content";
 import { Calendar, Clock, MapPin, Video, BookOpen, Users, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -14,7 +13,18 @@ export const metadata: Metadata = {
 };
 
 export default async function WorshipPage() {
-  const churchInfo = await getChurchInfo();
+  const [churchInfo, activities] = await Promise.all([
+    getChurchInfo(),
+    getAllActivities(),
+  ]);
+
+  // Read the Bible study from the CMS rather than restating it. This block used
+  // to hardcode its own copy, which drifted: it still advertised the Psalms
+  // study after the parish moved to Luke, and carried an old address for the
+  // parish administrator. One source now, editable by the parish.
+  const bibleStudy = activities.find((a) =>
+    (a.title ?? "").toLowerCase().includes("bible study")
+  );
 
   return (
     <>
@@ -133,54 +143,45 @@ export default async function WorshipPage() {
             <p className="text-sm text-navy-500">In-person</p>
           </div>
 
-          {/* Bible Study - Featured with Book Image */}
-          <div className="bg-white rounded-xl border border-navy-100 overflow-hidden">
-            <div className="flex flex-col sm:flex-row">
-              <div className="relative w-full sm:w-40 h-48 sm:h-auto flex-shrink-0">
-                <Image
-                  src="/images/ministries/psalms-bible-study.jpg"
-                  alt="Life Lessons from Psalms by Max Lucado"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 160px"
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-6 flex-1">
+          {/* Bible Study */}
+          {bibleStudy && (
+            <div className="bg-white rounded-xl border border-navy-100 overflow-hidden">
+              <div className="p-6">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-gold-100 rounded-lg flex items-center justify-center">
+                  <div className="w-10 h-10 bg-gold-100 rounded-lg flex items-center justify-center shrink-0">
                     <Users className="w-5 h-5 text-gold-600" />
                   </div>
                   <div>
                     <h3 className="font-display text-lg font-semibold text-navy-900">
-                      Bible Study
+                      {bibleStudy.title}
                     </h3>
-                    <p className="text-sm text-gold-600">Wednesdays at 6:30 PM</p>
+                    <p className="text-sm text-gold-700">
+                      {bibleStudy.day} at {bibleStudy.time}
+                    </p>
                   </div>
                 </div>
-                <p className="text-navy-600 text-sm mb-3">
-                  Currently studying Max Lucado&apos;s <em>Life Lessons from Psalms</em> (12-week study, $7 book)
-                </p>
-                <p className="text-sm text-navy-500 mb-4">Via Zoom</p>
-                <div className="pt-3 border-t border-navy-100 space-y-1">
-                  <p className="text-xs text-navy-500 font-medium">Contact:</p>
-                  <p className="text-sm text-navy-600 flex items-center gap-2">
-                    <Mail className="w-3.5 h-3.5 text-navy-400" />
-                    Deacon Barb:{" "}
-                    <a href="mailto:chaplainbarbm@gmail.com" className="text-gold-600 hover:text-gold-700">
-                      chaplainbarbm@gmail.com
-                    </a>
-                  </p>
-                  <p className="text-sm text-navy-600 flex items-center gap-2">
-                    <Mail className="w-3.5 h-3.5 text-navy-400" />
-                    Terri:{" "}
-                    <a href="mailto:thusberg@bellsouth.net" className="text-gold-600 hover:text-gold-700">
-                      thusberg@bellsouth.net
-                    </a>
-                  </p>
-                </div>
+                <p className="text-navy-600 text-sm mb-3">{bibleStudy.description}</p>
+                <p className="text-sm text-navy-500 mb-4">{bibleStudy.location}</p>
+                {bibleStudy.contactEmail && (
+                  <div className="pt-3 border-t border-navy-100">
+                    <p className="text-xs text-navy-500 font-medium mb-1">Contact:</p>
+                    <p className="text-sm text-navy-600 flex items-start gap-2">
+                      <Mail className="w-3.5 h-3.5 text-navy-500 shrink-0 mt-1" aria-hidden="true" />
+                      <span className="min-w-0">
+                        {bibleStudy.contactName}:{" "}
+                        <a
+                          href={`mailto:${bibleStudy.contactEmail}`}
+                          className="text-gold-700 hover:text-gold-800 break-all"
+                        >
+                          {bibleStudy.contactEmail}
+                        </a>
+                      </span>
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
+          )}
         </div>
       </Section>
 

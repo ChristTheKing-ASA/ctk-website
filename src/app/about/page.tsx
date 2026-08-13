@@ -24,6 +24,8 @@ export default async function AboutPage() {
     title: c.title || "",
     image: c.image || "",
     shortBio: c.shortBio || "",
+    order: c.order ?? 99,
+    group: c.group ?? "volunteer-clergy",
   }));
 
   return (
@@ -167,7 +169,14 @@ export default async function AboutPage() {
         />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {clergy.slice(0, 3).map((member) => (
+          {/* Same ordering as the Team page. Unsorted, this took the first
+              three slugs alphabetically, which put the Rector third and would
+              drop him entirely once another name sorts above his. */}
+          {[...clergy]
+            .sort((a, b) => (a.order ?? 99) - (b.order ?? 99))
+            .filter((m) => m.group !== "staff" || m.title === "Rector")
+            .slice(0, 3)
+            .map((member) => (
             <TeamCard
               key={member.slug}
               name={member.name}

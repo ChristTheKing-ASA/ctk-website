@@ -242,16 +242,20 @@ export default async function DeafChurchPage() {
             support this ministry, we&apos;d love to connect with you.
           </p>
 
-          <div className="bg-navy-800 p-8 rounded-xl inline-block">
+          {/* Not inline-block: shrink-to-fit took the min-content width of an
+              email address with no break opportunity in it, making the card
+              360px wide and scrolling the whole page sideways on a 320px
+              phone. */}
+          <div className="bg-navy-800 p-6 sm:p-8 rounded-xl max-w-md">
             <h3 className="text-gold-400 font-semibold mb-4">Contact</h3>
             <p className="text-white font-display text-lg mb-2">
               {deafChurch.founderName}
             </p>
             <a
               href={`mailto:${deafChurch.founderEmail}`}
-              className="inline-flex items-center gap-2 text-gold-400 hover:text-gold-300"
+              className="inline-flex items-start gap-2 text-gold-400 hover:text-gold-300 break-all"
             >
-              <Mail className="w-4 h-4" />
+              <Mail className="w-4 h-4 shrink-0 mt-1" aria-hidden="true" />
               {deafChurch.founderEmail}
             </a>
           </div>
