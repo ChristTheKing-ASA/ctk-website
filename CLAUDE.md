@@ -19,7 +19,7 @@ Repo: `ChristTheKing-ASA/ctk-website`. Collaborators: wallscaler (Fred), WazDevZ
 
 ## Keystatic CMS
 
-- Editor at `/keystatic` on every deploy and preview.
+- Editor at `/keystatic` on every deploy and preview. There is no `/admin` alias; it was removed deliberately.
 - Storage: `local` in dev (needs `src/app/api/keystatic/[[...params]]/route.dev.ts`), `cloud` in
   production (Keystatic Cloud project `christ-the-king/ctk-website`, email sign-in, no GitHub needed).
 - Editors are invited from the keystatic.cloud dashboard (Fred's account only).

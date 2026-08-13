@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { getChurchInfo } from "@/lib/content";
-import { ContactForm } from "@/components/ContactForm";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -120,16 +119,56 @@ export default async function ContactPage() {
             </div>
           </div>
 
-          {/* Contact Form */}
+          {/* Get in touch. This replaced a contact form whose submissions
+              went nowhere: it posted to a placeholder endpoint that returned
+              "form not found", so every message sent through it was lost with
+              only a generic error shown. Email and phone reach a real person. */}
           <div>
             <div className="bg-cream-50 rounded-xl p-6 lg:p-8 shadow-sm">
               <h2 className="font-display text-2xl font-bold text-navy-900 mb-2">
                 Send Us a Message
               </h2>
               <p className="text-navy-600 mb-6">
-                Have a question or want to learn more? Fill out the form below and we&apos;ll get back to you soon.
+                Have a question or want to learn more? Email or call us and
+                we&apos;ll get back to you as soon as we can.
               </p>
-              <ContactForm contactEmail={churchInfo.email} />
+
+              <div className="space-y-4">
+                <a
+                  href={`mailto:${churchInfo.email}?subject=${encodeURIComponent(
+                    "Enquiry from the CTK website"
+                  )}`}
+                  className="flex items-start gap-4 bg-white p-5 rounded-lg border border-navy-100 hover:border-gold-300 transition-colors min-h-11"
+                >
+                  <Mail className="w-6 h-6 text-gold-600 shrink-0 mt-0.5" aria-hidden="true" />
+                  <span className="min-w-0">
+                    <span className="block font-semibold text-navy-900">
+                      Email the church office
+                    </span>
+                    <span className="block text-navy-700 break-all">
+                      {churchInfo.email}
+                    </span>
+                  </span>
+                </a>
+
+                <a
+                  href={`tel:${churchInfo.phone.replace(/\./g, "")}`}
+                  className="flex items-start gap-4 bg-white p-5 rounded-lg border border-navy-100 hover:border-gold-300 transition-colors min-h-11"
+                >
+                  <Phone className="w-6 h-6 text-gold-600 shrink-0 mt-0.5" aria-hidden="true" />
+                  <span className="min-w-0">
+                    <span className="block font-semibold text-navy-900">
+                      Call us
+                    </span>
+                    <span className="block text-navy-700">{churchInfo.phone}</span>
+                  </span>
+                </a>
+              </div>
+
+              <p className="text-sm text-navy-700 mt-6">
+                You are also very welcome to speak to any of us in person on a
+                Sunday. We gather {churchInfo.serviceTime.toLowerCase()}.
+              </p>
             </div>
           </div>
         </div>
