@@ -21,17 +21,37 @@ export default config({
     brand: { name: "CTK Website" },
     // Mirror the site's section headings so editors can find a page in the
     // sidebar the same way they find it on the site.
+    // Same order as the site's own navigation, which is what Fr. Craig asked
+    // for: "I need the organization to match the navigation of the website...
+    // And then navigating to the content within each section."
+    //
+    // Missions and Site Settings follow. Neither is a top-level nav item, but
+    // both are real editing areas, so they sit after the sections rather than
+    // among them.
     navigation: {
       "Home": ["homePage"],
       "Visit": ["visitPage"],
-      "Serve": ["servePage", "safeguardingPage"],
-      "Give": ["givePage"],
-      "About": ["aboutPage", "clergy", "teamPage", "storyPage", "beliefsPage", "anglicanFaithPage"],
-      "Connect": ["connectPage", "classesPage", "smallGroupsPage", "daughtersPage", "membershipPage"],
       "Worship": ["worshipPage", "sermonsPage", "weeklyActivities"],
       "Events": ["events"],
-      "Missions": ["missionPartners"],
+      "Connect": [
+        "connectPage",
+        "classesPage",
+        "smallGroupsPage",
+        "daughtersPage",
+        "membershipPage",
+      ],
+      "Serve": ["servePage", "safeguardingPage"],
       "DeafChurch": ["deafChurch"],
+      "About": [
+        "aboutPage",
+        "clergy",
+        "teamPage",
+        "storyPage",
+        "beliefsPage",
+        "anglicanFaithPage",
+      ],
+      "Give": ["givePage"],
+      "Missions": ["missionPartners"],
       "Site Settings": ["churchInfo", "announcements"],
     },
   },

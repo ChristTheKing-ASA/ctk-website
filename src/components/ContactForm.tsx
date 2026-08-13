@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 
@@ -22,6 +22,25 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
     subject: "",
     message: "",
   });
+
+  // Nothing previously told a screen reader that a submit had failed, and
+  // focus stayed on the button, so the only signal was visual. Focus moves to
+  // the summary and it announces itself.
+  const errorSummaryRef = useRef<HTMLDivElement>(null);
+  const successRef = useRef<HTMLDivElement>(null);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+
+  const errorList = Object.entries(errors);
+
+  useEffect(() => {
+    if (submitAttempted && errorList.length > 0) {
+      errorSummaryRef.current?.focus();
+    }
+  }, [submitAttempted, errorList.length]);
+
+  useEffect(() => {
+    if (status === "success") successRef.current?.focus();
+  }, [status]);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -58,6 +77,8 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setSubmitAttempted(true);
 
     if (!validateForm()) {
       return;
@@ -106,7 +127,13 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
 
   if (status === "success") {
     return (
-      <div className="bg-sage-50 border border-sage-200 rounded-xl p-8 text-center">
+      <div
+        ref={successRef}
+        tabIndex={-1}
+        role="status"
+        aria-live="polite"
+        className="bg-sage-50 border border-sage-200 rounded-xl p-8 text-center"
+      >
         <div className="w-16 h-16 bg-sage-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <CheckCircle className="w-8 h-8 text-sage-600" />
         </div>
@@ -129,9 +156,39 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+      {submitAttempted && errorList.length > 0 && (
+        <div
+          ref={errorSummaryRef}
+          tabIndex={-1}
+          role="alert"
+          className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3"
+        >
+          <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
+          <div>
+            <p className="font-medium text-red-800">
+              {errorList.length === 1
+                ? "There is 1 problem with this form"
+                : `There are ${errorList.length} problems with this form`}
+            </p>
+            <ul className="text-sm text-red-700 mt-1 space-y-1">
+              {errorList.map(([field, message]) => (
+                <li key={field}>
+                  <a href={`#${field}`} className="underline">
+                    {message}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
       {status === "error" && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+        <div
+          role="alert"
+          className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3"
+        >
+          <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" aria-hidden="true" />
           <div>
             <p className="font-medium text-red-800">Something went wrong</p>
             <p className="text-sm text-red-600">
@@ -144,13 +201,17 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
         </div>
       )}
 
+      <p className="text-sm text-navy-700">
+        Fields marked <span aria-hidden="true">*</span> are required.
+      </p>
+
       {/* Name Field */}
       <div>
         <label
           htmlFor="name"
           className="block text-sm font-medium text-navy-900 mb-2"
         >
-          Your Name <span className="text-red-500">*</span>
+          Your Name <span className="text-red-600" aria-hidden="true">*</span>
         </label>
         <input
           type="text"
@@ -166,6 +227,8 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
                 : "border-navy-200 hover:border-navy-300"
             }`}
           placeholder="John Smith"
+          required
+          aria-required="true"
           aria-invalid={errors.name ? "true" : "false"}
           aria-describedby={errors.name ? "name-error" : undefined}
         />
@@ -182,7 +245,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
           htmlFor="email"
           className="block text-sm font-medium text-navy-900 mb-2"
         >
-          Email Address <span className="text-red-500">*</span>
+          Email Address <span className="text-red-600" aria-hidden="true">*</span>
         </label>
         <input
           type="email"
@@ -198,6 +261,8 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
                 : "border-navy-200 hover:border-navy-300"
             }`}
           placeholder="john@example.com"
+          required
+          aria-required="true"
           aria-invalid={errors.email ? "true" : "false"}
           aria-describedby={errors.email ? "email-error" : undefined}
         />
@@ -214,7 +279,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
           htmlFor="subject"
           className="block text-sm font-medium text-navy-900 mb-2"
         >
-          Subject <span className="text-red-500">*</span>
+          Subject <span className="text-red-600" aria-hidden="true">*</span>
         </label>
         <select
           id="subject"
@@ -228,6 +293,8 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
                 ? "border-red-500 focus:ring-red-500"
                 : "border-navy-200 hover:border-navy-300"
             } ${!formData.subject ? "text-navy-400" : ""}`}
+          required
+          aria-required="true"
           aria-invalid={errors.subject ? "true" : "false"}
           aria-describedby={errors.subject ? "subject-error" : undefined}
         >
@@ -253,7 +320,7 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
           htmlFor="message"
           className="block text-sm font-medium text-navy-900 mb-2"
         >
-          Message <span className="text-red-500">*</span>
+          Message <span className="text-red-600" aria-hidden="true">*</span>
         </label>
         <textarea
           id="message"
@@ -269,6 +336,8 @@ export function ContactForm({ contactEmail }: { contactEmail: string }) {
                 : "border-navy-200 hover:border-navy-300"
             }`}
           placeholder="How can we help you?"
+          required
+          aria-required="true"
           aria-invalid={errors.message ? "true" : "false"}
           aria-describedby={errors.message ? "message-error" : undefined}
         />
