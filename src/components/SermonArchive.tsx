@@ -44,7 +44,17 @@ export function SermonArchive({
   // The services tab advertises the true channel total, not the trimmed count.
   counts.service = totalServices;
 
-  const shown = videos.filter((v) => v.kind === active);
+  const filtered = videos.filter((v) => v.kind === active);
+
+  // See LatestSermon: a playing clip spans both columns on phones, so it moves
+  // to the front rather than leaving a hole and displacing itself downward.
+  const shown =
+    playing && active === "clip"
+      ? [
+          ...filtered.filter((v) => v.id === playing),
+          ...filtered.filter((v) => v.id !== playing),
+        ]
+      : filtered;
   const activeTab = TABS.find((t) => t.kind === active)!;
 
   return (
