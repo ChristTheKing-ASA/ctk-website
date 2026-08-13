@@ -1,0 +1,37 @@
+{
+  "heroTitle": "Give",
+  "heroSubtitle": "Generous Living",
+  "heroDescription": "Your generosity enables CTK to worship, serve, and make an impact locally and globally.",
+  "onlineTitle": "Give Online",
+  "onlineBody": "Secure, convenient online giving through Kindrid. Set up one-time or recurring gifts to support the ministry of CTK.",
+  "onlineCtaLabel": "Give Now",
+  "onlineSecureNote": "Secure giving powered by Kindrid",
+  "whereTitle": "Where Your Gift Goes",
+  "whereCards": [
+    {
+      "title": "Ministry at CTK",
+      "description": "Worship, discipleship, and care for our community",
+      "icon": "church"
+    },
+    {
+      "title": "Local Outreach",
+      "description": "Serving our neighbors in St. Augustine",
+      "icon": "users"
+    },
+    {
+      "title": "Global Missions",
+      "description": "Supporting our mission partners around the world",
+      "icon": "globe"
+    }
+  ],
+  "otherWaysTitle": "Other Ways to Give",
+  "inPersonTitle": "In Person",
+  "inPersonBody": "Place your gift in the offering during Sunday worship.",
+  "byMailTitle": "By Mail",
+  "byMailBody": "Send checks to:",
+  "appTitle": "Church App",
+  "appBody": "Give through our",
+  "appLinkLabel": "mobile app",
+  "missionsPrompt": "Want to see the impact of your giving?",
+  "missionsCtaLabel": "Explore Our Mission Partners"
+}

@@ -16,6 +16,7 @@ interface Partner {
   subtitle?: string;
   category: string;
   shortDescription: string;
+  website?: string;
 }
 
 interface MissionsClientProps {
@@ -133,6 +134,7 @@ export default function MissionsClient({ partners, additionalPartners }: Mission
               subtitle={partner.subtitle}
               category={partner.category}
               shortDescription={partner.shortDescription}
+              website={partner.website}
               href={`/missions/${partner.slug}`}
             />
           ))}

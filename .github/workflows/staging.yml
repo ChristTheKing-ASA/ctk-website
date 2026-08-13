@@ -1,8 +1,17 @@
-name: Deploy to GitHub Pages
+# Staging site on GitHub Pages.
+#
+# Production is Cloudflare, serving ctkasa.com from the domain root. This
+# workflow publishes a reviewable copy to
+# https://christtheking-asa.github.io/ctk-website/ so changes can be shown to
+# the parish before they reach the real site.
+#
+# It builds from the `staging` branch, not main, which is what keeps the two
+# apart: merge to staging to show something, merge to main to ship it.
+name: Deploy staging to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [staging]
   workflow_dispatch:
 
 permissions:
@@ -29,14 +38,16 @@ jobs:
       - run: npx tsc --noEmit
       - run: npm run build
         env:
-          # Remove all three once ctkasa.com points at GitHub Pages — custom
-          # domains serve from the root path and must build without a
-          # basePath. NEXT_PUBLIC_BASE_PATH feeds the image loader.
+          # GitHub Pages serves this repo from a subpath. Production is a root
+          # domain on Cloudflare and builds without these.
           NEXT_BASE_PATH: /ctk-website
           NEXT_PUBLIC_BASE_PATH: /ctk-website
-          # Keystatic currently assumes /keystatic is domain-rooted. The
-          # dependency patch reads this value for its UI and OAuth routes.
+          # Keystatic assumes /keystatic is domain-rooted. The dependency patch
+          # reads this value for its UI and OAuth routes.
           NEXT_PUBLIC_KEYSTATIC_PATH: /ctk-website/keystatic
+          # Staging is publicly reachable and duplicates ctkasa.com word for
+          # word. Without this it competes with the real site in search.
+          NEXT_PUBLIC_NOINDEX: "1"
       - run: npm run test:pages
       - uses: actions/upload-pages-artifact@v3
         with:

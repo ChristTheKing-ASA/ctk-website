@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { type ReactNode } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Globe } from "lucide-react";
 
 interface CardProps {
   children: ReactNode;
@@ -197,10 +197,17 @@ interface PartnerCardProps {
   category: string;
   shortDescription: string;
   href?: string;
+  /**
+   * Partner's own domain, already stripped of its scheme. Rendered as a hint,
+   * not a link: the whole card is a Link to the detail page, and nesting an
+   * anchor inside it would be invalid markup. The outbound link lives on the
+   * detail page.
+   */
+  website?: string;
   className?: string;
 }
 
-export function PartnerCard({ name, subtitle, category, shortDescription, href, className }: PartnerCardProps) {
+export function PartnerCard({ name, subtitle, category, shortDescription, href, website, className }: PartnerCardProps) {
   const categoryColors: Record<string, string> = {
     Local: "bg-sage-100 text-sage-700",
     National: "bg-navy-100 text-navy-700",
@@ -223,6 +230,12 @@ export function PartnerCard({ name, subtitle, category, shortDescription, href, 
         </span>
       </div>
       <p className="text-navy-600 text-sm leading-relaxed line-clamp-3">{shortDescription}</p>
+      {website && (
+        <p className="mt-3 flex items-center gap-1.5 text-navy-500 text-xs">
+          <Globe className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+          <span className="truncate">{website}</span>
+        </p>
+      )}
       {href && (
         <div className="mt-4 flex items-center gap-1 text-gold-600 font-medium text-sm group-hover:gap-2 transition-[gap]">
           <span>Learn More</span>
