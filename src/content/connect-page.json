@@ -1,0 +1,37 @@
+{
+  "heroTitle": "Get Connected",
+  "heroSubtitle": "Find Your Place",
+  "heroDescription": "We believe life is better together. Discover ways to connect, grow, and build meaningful relationships at CTK.",
+  "waysTitle": "Ways to Connect",
+  "waysSubtitle": "Get Involved",
+  "waysDescription": "Whether you're new or have been here for years, there's a place for you.",
+  "ways": [
+    {
+      "title": "Small Groups",
+      "description": "Fellowship, meals, prayer, and study in homes across Palm Coast and St. Augustine.",
+      "href": "/connect/small-groups",
+      "icon": "users"
+    },
+    {
+      "title": "Classes",
+      "description": "9-week catechism classes for new believers and those exploring the Anglican faith.",
+      "href": "/connect/classes",
+      "icon": "bookOpen"
+    },
+    {
+      "title": "Daughters of the Holy Cross",
+      "description": "A women's order focused on Prayer, Service, Study, and Evangelism.",
+      "href": "/connect/daughters-of-the-holy-cross",
+      "icon": "heart"
+    },
+    {
+      "title": "Membership",
+      "description": "Learn about becoming a member of Christ The King.",
+      "href": "/connect/membership",
+      "icon": "church"
+    }
+  ],
+  "serveTitle": "Ready to Serve?",
+  "serveBody": "We believe everyone has a gift to share. From Sunday morning hospitality to global missions, there are many ways to use your talents to serve God and others.",
+  "serveCtaLabel": "Explore Volunteer Opportunities"
+}

@@ -115,6 +115,38 @@ export async function getGivePage() {
   return await reader.singletons.givePage.read();
 }
 
+export async function getConnectPage() {
+  return await reader.singletons.connectPage.read();
+}
+
+export async function getClassesPage() {
+  return await reader.singletons.classesPage.read();
+}
+
+export async function getSmallGroupsPage() {
+  return await reader.singletons.smallGroupsPage.read();
+}
+
+export async function getDaughtersPage() {
+  return await reader.singletons.daughtersPage.read();
+}
+
+/**
+ * Volunteer totals, derived from the Serve page rather than typed.
+ *
+ * /connect advertised "15+ Volunteer Roles" and "5 Ministry Areas" while
+ * /serve rendered 4 areas and 14 roles. Two pages disagreeing about the same
+ * thing, because both were hand-written. Now one source.
+ */
+export async function getVolunteerCounts() {
+  const serve = await getServePage();
+  const areas = serve?.areas ?? [];
+  return {
+    areas: areas.length,
+    roles: areas.reduce((sum, a) => sum + (a.roles?.length ?? 0), 0),
+  };
+}
+
 export async function getServePage() {
   return await reader.singletons.servePage.read();
 }
