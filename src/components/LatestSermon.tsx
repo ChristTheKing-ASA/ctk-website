@@ -134,6 +134,18 @@ export function LatestSermon() {
     };
   }, []);
 
+  // A playing clip spans both columns on phones. Left in place it would leave
+  // an empty cell beside it and push the video below where the user tapped, so
+  // it moves to the front of the list instead. Reordering the DOM rather than
+  // relying on dense grid placement keeps reading and tab order matching what
+  // is on screen.
+  const orderedShorts = playingShort
+    ? [
+        ...shorts.filter((s) => s.id === playingShort),
+        ...shorts.filter((s) => s.id !== playingShort),
+      ]
+    : shorts;
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -253,7 +265,7 @@ export function LatestSermon() {
             </a>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {shorts.map((short) =>
+            {orderedShorts.map((short) =>
               playingShort === short.id ? (
                 /* Full width on phones: at two columns a playing clip is only
                    ~163px wide, which is too small to watch comfortably. */
@@ -284,6 +296,7 @@ export function LatestSermon() {
                       src={short.thumbnail}
                       alt=""
                       fill
+                      sizes="(max-width: 768px) 50vw, 25vw"
                       className="object-cover"
                     />
                   )}

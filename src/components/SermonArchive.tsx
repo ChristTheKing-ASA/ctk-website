@@ -44,7 +44,17 @@ export function SermonArchive({
   // The services tab advertises the true channel total, not the trimmed count.
   counts.service = totalServices;
 
-  const shown = videos.filter((v) => v.kind === active);
+  const filtered = videos.filter((v) => v.kind === active);
+
+  // See LatestSermon: a playing clip spans both columns on phones, so it moves
+  // to the front rather than leaving a hole and displacing itself downward.
+  const shown =
+    playing && active === "clip"
+      ? [
+          ...filtered.filter((v) => v.id === playing),
+          ...filtered.filter((v) => v.id !== playing),
+        ]
+      : filtered;
   const activeTab = TABS.find((t) => t.kind === active)!;
 
   return (
@@ -56,12 +66,14 @@ export function SermonArchive({
         <p className="text-navy-600">{activeTab.blurb}</p>
       </div>
 
-      {/* Tabs. Horizontally scrollable rather than wrapped, so three labels
-          plus counts never crush the layout on a narrow phone. */}
+      {/* Wrap rather than scroll. Scrolling looked like the third tab had
+          been cut off at 320-390px, and a horizontal scroller holding only
+          three items hides one of them behind a gesture nobody is prompted to
+          make. Three tabs wrap to two rows and stay entirely visible. */}
       <div
         role="tablist"
         aria-label="Filter recordings"
-        className="flex gap-2 mb-8 overflow-x-auto pb-1 -mx-4 px-4 sm:mx-0 sm:px-0"
+        className="flex flex-wrap gap-2 mb-8"
       >
         {TABS.map((tab) => (
           <button
@@ -73,7 +85,7 @@ export function SermonArchive({
               setActive(tab.kind);
               setPlaying(null);
             }}
-            className={`shrink-0 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+            className={`px-3 sm:px-4 py-2.5 min-h-11 rounded-lg text-sm font-medium transition-colors ${
               active === tab.kind
                 ? "bg-navy-900 text-white"
                 : "bg-cream-100 text-navy-700 hover:bg-cream-200"

@@ -80,3 +80,25 @@ h1, h2, h3, h4, h5, h6 {
 .skip-link:focus {
   top: 0;
 }
+
+/* Respect a reduced-motion preference. The LIVE NOW badge pulses
+   indefinitely and several elements animate on mount; for people with
+   vestibular disorders or migraine sensitivity that is not decoration.
+   Animations are reduced to a single frame rather than removed, so anything
+   relying on an animation to reach its end state still gets there. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* The sticky header would otherwise cover the top of the main region when the
+   skip link jumps to it. */
+#main-content {
+  scroll-margin-top: 5.5rem;
+}

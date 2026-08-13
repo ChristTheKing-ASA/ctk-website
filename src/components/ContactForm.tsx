@@ -13,7 +13,7 @@ interface FormErrors {
   message?: string;
 }
 
-export function ContactForm() {
+export function ContactForm({ contactEmail }: { contactEmail: string }) {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errors, setErrors] = useState<FormErrors>({});
   const [formData, setFormData] = useState({
@@ -136,8 +136,8 @@ export function ContactForm() {
             <p className="font-medium text-red-800">Something went wrong</p>
             <p className="text-sm text-red-600">
               Please try again or contact us directly at{" "}
-              <a href="mailto:ctkrector@gmail.com" className="underline">
-                ctkrector@gmail.com
+              <a href={`mailto:${contactEmail}`} className="underline break-all">
+                {contactEmail}
               </a>
             </p>
           </div>

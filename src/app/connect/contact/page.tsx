@@ -129,7 +129,7 @@ export default async function ContactPage() {
               <p className="text-navy-600 mb-6">
                 Have a question or want to learn more? Fill out the form below and we&apos;ll get back to you soon.
               </p>
-              <ContactForm />
+              <ContactForm contactEmail={churchInfo.email} />
             </div>
           </div>
         </div>
