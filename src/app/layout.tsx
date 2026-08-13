@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SiteChrome } from "@/components/layout/SiteChrome";
+import { SITE_URL } from "@/lib/site";
 import { getChurchInfo } from "@/lib/content";
 
 export const openSans = Open_Sans({
@@ -21,6 +22,11 @@ export const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  // Without this, Open Graph and canonical URLs are emitted relative, which
+  // means link previews and canonicals resolve against whatever host served
+  // the page rather than against ctkasa.com.
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "./" },
   title: {
     default: "Christ The King Anglican Church | St. Augustine, FL",
     template: "%s | Christ The King Anglican Church",

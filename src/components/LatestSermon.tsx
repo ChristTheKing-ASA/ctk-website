@@ -24,18 +24,20 @@ interface VideoInfo {
   isShort?: boolean;
 }
 
-// Check if a video is a Short using YouTube's oEmbed endpoint
-// Shorts URLs return valid oEmbed data, regular videos at /shorts/ URL return errors
-async function checkIfShort(videoId: string): Promise<boolean> {
-  try {
-    const response = await fetch(
-      `https://www.youtube.com/oembed?url=https://www.youtube.com/shorts/${videoId}&format=json`
-    );
-    // If oEmbed returns 200, it's a valid Short
-    return response.ok;
-  } catch {
-    return false;
-  }
+// Uploads playlist. Every channel has one, and reading it costs 1 quota unit
+// against search.list's 100.
+const UPLOADS_PLAYLIST_ID = `UU${CHANNEL_ID.slice(2)}`;
+
+// A Short is at most 3 minutes. Sunday services run over an hour, so duration
+// separates them cleanly.
+const SHORT_MAX_SECONDS = 180;
+
+/** Seconds from an ISO 8601 duration such as PT1H38M36S. */
+function durationToSeconds(iso: string): number {
+  const m = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(iso);
+  if (!m) return 0;
+  const [, h, min, s] = m;
+  return Number(h ?? 0) * 3600 + Number(min ?? 0) * 60 + Number(s ?? 0);
 }
 
 export function LatestSermon() {
@@ -45,76 +47,90 @@ export function LatestSermon() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
+
     async function fetchVideos() {
       try {
-        // First check for live streams
-        const liveResponse = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&eventType=live&type=video&key=${YOUTUBE_API_KEY}`
+        // Recent uploads. playlistItems.list costs 1 quota unit; the
+        // search.list call this replaces cost 100.
+        const listResponse = await fetch(
+          `https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId=${UPLOADS_PLAYLIST_ID}&maxResults=20&key=${YOUTUBE_API_KEY}`
         );
-        const liveData = await liveResponse.json();
+        const listData = await listResponse.json();
+        if (listData.error) throw new Error(listData.error.message);
 
-        if (liveData.items && liveData.items.length > 0) {
-          const liveVideo = liveData.items[0];
-          const statsResponse = await fetch(
-            `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${liveVideo.id.videoId}&key=${YOUTUBE_API_KEY}`
-          );
-          const statsData = await statsResponse.json();
-          const viewerCount = statsData.items?.[0]?.liveStreamingDetails?.concurrentViewers;
+        const ids: string[] = (listData.items ?? [])
+          .map((i: { contentDetails?: { videoId?: string } }) => i.contentDetails?.videoId)
+          .filter(Boolean);
+        if (ids.length === 0) throw new Error("No uploads returned");
 
-          setSermon({
-            id: liveVideo.id.videoId,
-            title: liveVideo.snippet.title,
-            isLive: true,
-            isUpcoming: false,
-            publishedAt: liveVideo.snippet.publishedAt,
-            viewerCount,
-          });
-          setLoading(false);
-          return;
-        }
-
-        // Get recent videos
-        const searchResponse = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&order=date&type=video&maxResults=20&key=${YOUTUBE_API_KEY}`
+        // One more unit buys duration and live status for all of them, which
+        // is what separates Shorts from services and detects a live stream.
+        const detailResponse = await fetch(
+          `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,liveStreamingDetails&id=${ids.join(
+            ","
+          )}&key=${YOUTUBE_API_KEY}`
         );
-        const searchData = await searchResponse.json();
+        const detailData = await detailResponse.json();
+        if (detailData.error) throw new Error(detailData.error.message);
 
-        if (searchData.items && searchData.items.length > 0) {
-          const videos = searchData.items.map((v: { id: { videoId: string }; snippet: { title: string; publishedAt: string; thumbnails?: { medium?: { url: string }; default?: { url: string } } } }) => ({
-            id: v.id.videoId,
-            title: v.snippet.title,
-            isLive: false,
-            isUpcoming: false,
-            publishedAt: v.snippet.publishedAt,
-            thumbnail: v.snippet.thumbnails?.medium?.url || v.snippet.thumbnails?.default?.url,
-          }));
+        type ApiVideo = {
+          id: string;
+          snippet: {
+            title: string;
+            publishedAt: string;
+            liveBroadcastContent?: string;
+            thumbnails?: { medium?: { url: string }; default?: { url: string } };
+          };
+          contentDetails: { duration: string };
+          liveStreamingDetails?: { concurrentViewers?: string };
+        };
 
-          // Check each video to see if it's a Short
-          const shortChecks = await Promise.all(
-            videos.map(async (video: VideoInfo) => {
-              const isShort = await checkIfShort(video.id);
-              return { ...video, isShort };
-            })
-          );
+        const videos: VideoInfo[] = (detailData.items ?? []).map((v: ApiVideo) => ({
+          id: v.id,
+          title: v.snippet.title,
+          isLive: v.snippet.liveBroadcastContent === "live",
+          isUpcoming: v.snippet.liveBroadcastContent === "upcoming",
+          publishedAt: v.snippet.publishedAt,
+          thumbnail:
+            v.snippet.thumbnails?.medium?.url || v.snippet.thumbnails?.default?.url,
+          isShort: durationToSeconds(v.contentDetails.duration) <= SHORT_MAX_SECONDS,
+          viewerCount: v.liveStreamingDetails?.concurrentViewers,
+        }));
 
-          const fullVideos = shortChecks.filter((v: VideoInfo) => !v.isShort);
-          const shortVideos = shortChecks.filter((v: VideoInfo) => v.isShort);
+        if (cancelled) return;
 
-          if (fullVideos.length > 0) {
-            setSermon(fullVideos[0]);
-          }
-          setShorts(shortVideos.slice(0, 4));
+        // A live stream outranks everything; otherwise the newest full-length
+        // video. Shorts are never the headline.
+        const live = videos.find((v) => v.isLive);
+        const fullVideos = videos.filter((v) => !v.isShort && !v.isLive);
+
+        if (live) {
+          setSermon(live);
+        } else if (fullVideos.length > 0) {
+          setSermon(fullVideos[0]);
+        } else {
+          setError(true);
         }
+        setShorts(videos.filter((v) => v.isShort).slice(0, 4));
       } catch (err) {
         console.error("Failed to fetch YouTube data:", err);
-        setError(true);
+        if (!cancelled) setError(true);
       }
-      setLoading(false);
+      if (!cancelled) setLoading(false);
     }
 
     fetchVideos();
-    const interval = setInterval(fetchVideos, 120000);
-    return () => clearInterval(interval);
+
+    // Refresh every 5 minutes so a service going live is picked up without a
+    // reload. At 2 units a run this is ~576 units/day per open tab, against a
+    // 10,000 daily quota. The previous 2-minute interval cost 200 units a run
+    // and drained the entire day's quota in under two hours.
+    const interval = setInterval(fetchVideos, 300000);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
   }, []);
 
   const formatDate = (dateString: string) => {
