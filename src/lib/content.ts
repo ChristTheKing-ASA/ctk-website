@@ -115,6 +115,30 @@ export async function getGivePage() {
   return await reader.singletons.givePage.read();
 }
 
+export async function getWorshipPage() {
+  return await reader.singletons.worshipPage.read();
+}
+
+export async function getSermonsPage() {
+  return await reader.singletons.sermonsPage.read();
+}
+
+export async function getAboutPage() {
+  return await reader.singletons.aboutPage.read();
+}
+
+export async function getStoryPage() {
+  return await reader.singletons.storyPage.read();
+}
+
+export async function getBeliefsPage() {
+  return await reader.singletons.beliefsPage.read();
+}
+
+export async function getAnglicanFaithPage() {
+  return await reader.singletons.anglicanFaithPage.read();
+}
+
 export async function getConnectPage() {
   return await reader.singletons.connectPage.read();
 }

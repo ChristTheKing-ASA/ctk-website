@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { getChurchInfo } from "@/lib/content";
-import { beliefs } from "@/data/church";
+import { getChurchInfo, getBeliefsPage } from "@/lib/content";
+
 import { Check } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -14,13 +14,15 @@ export const metadata: Metadata = {
 
 export default async function BeliefsPage() {
   const churchInfo = await getChurchInfo();
+  const page = await getBeliefsPage();
+  const foundations = page?.foundations ?? [];
 
   return (
     <>
       <PageHeader
-        title="What We Believe"
-        subtitle="Our Faith"
-        description="Christ The King holds to the historic Anglican faith as expressed in Scripture, the Creeds, and the formularies of the Church of England."
+        title={page?.heroTitle || "What We Believe"}
+        subtitle={page?.heroSubtitle || ""}
+        description={page?.heroDescription || ""}
         breadcrumb={[
           { label: "About", href: "/about" },
           { label: "Beliefs", href: "/about/beliefs" },
@@ -52,7 +54,7 @@ export default async function BeliefsPage() {
           </div>
 
           <div className="space-y-6">
-            {beliefs.foundations.map((belief, index) => (
+            {foundations.map((belief, index) => (
               <div
                 key={belief.title}
                 className="flex gap-6 p-6 bg-cream-50 rounded-xl border border-cream-200"

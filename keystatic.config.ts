@@ -26,9 +26,9 @@ export default config({
       "Visit": ["visitPage"],
       "Serve": ["servePage", "safeguardingPage"],
       "Give": ["givePage"],
-      "About — Our Team": ["clergy", "teamPage"],
+      "About": ["aboutPage", "clergy", "teamPage", "storyPage", "beliefsPage", "anglicanFaithPage"],
       "Connect": ["connectPage", "classesPage", "smallGroupsPage", "daughtersPage", "membershipPage"],
-      "Worship": ["weeklyActivities"],
+      "Worship": ["worshipPage", "sermonsPage", "weeklyActivities"],
       "Events": ["events"],
       "Missions": ["missionPartners"],
       "DeafChurch": ["deafChurch"],
@@ -135,6 +135,94 @@ export default config({
             itemLabel: (props) => props.fields.title.value || "Link",
           }
         ),
+      },
+    }),
+    worshipPage: singleton({
+      label: "Worship Page",
+      path: "src/content/worship-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+        sundayEyebrow: fields.text({ label: "Sunday Label" }),
+        sundayTitle: fields.text({ label: "Sunday Heading" }),
+        sundayBody: fields.text({ label: "Sunday Body", multiline: true }),
+        streamingNote: fields.text({ label: "Streaming Note" }),
+        expectTitle: fields.text({ label: "What to Expect Heading" }),
+        expectItems: fields.array(fields.text({ label: "Item" }), {
+          label: "What to Expect",
+          itemLabel: (props) => props.value || "Item",
+        }),
+        weeklyTitle: fields.text({ label: "Weekly Heading" }),
+        weeklySubtitle: fields.text({ label: "Weekly Label" }),
+        weeklyDescription: fields.text({ label: "Weekly Intro", multiline: true }),
+      },
+    }),
+    sermonsPage: singleton({
+      label: "Sermons Page",
+      path: "src/content/sermons-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+        ctaTitle: fields.text({ label: "Closing Heading" }),
+        ctaBody: fields.text({ label: "Closing Body", multiline: true }),
+        ctaLabel: fields.text({ label: "Closing Button Label" }),
+      },
+    }),
+    aboutPage: singleton({
+      label: "About Page",
+      path: "src/content/about-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+      },
+    }),
+    storyPage: singleton({
+      label: "Our Story Page",
+      path: "src/content/story-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+      },
+    }),
+    beliefsPage: singleton({
+      label: "What We Believe Page",
+      path: "src/content/beliefs-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+        intro: fields.text({ label: "Foundations Intro", multiline: true }),
+        foundations: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description", multiline: true }),
+          }),
+          {
+            label: "Foundations of the Faith",
+            description:
+              "Doctrinal statements. Reword only with what the parish has confirmed.",
+            itemLabel: (props) => props.fields.title.value || "Foundation",
+          }
+        ),
+      },
+    }),
+    anglicanFaithPage: singleton({
+      label: "Anglican Faith Page",
+      path: "src/content/anglican-faith-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
       },
     }),
     connectPage: singleton({

@@ -3,8 +3,8 @@ import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard, TeamCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { getChurchInfo, getAllClergy } from "@/lib/content";
-import { beliefs } from "@/data/church";
+import { getChurchInfo, getAllClergy, getAboutPage, getBeliefsPage } from "@/lib/content";
+
 import { Book, Users, Church, Cross } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -15,6 +15,8 @@ export const metadata: Metadata = {
 
 export default async function AboutPage() {
   const churchInfo = await getChurchInfo();
+  const page = await getAboutPage();
+  const beliefsPage = await getBeliefsPage();
   const clergyData = await getAllClergy();
 
   // Transform clergy data
@@ -31,9 +33,9 @@ export default async function AboutPage() {
   return (
     <>
       <PageHeader
-        title="About Christ The King"
-        subtitle="Our Story"
-        description="A welcoming Anglican community rooted in Scripture, shaped by liturgy, and committed to serving St. Augustine and beyond."
+        title={page?.heroTitle || "About Christ The King"}
+        subtitle={page?.heroSubtitle || ""}
+        description={page?.heroDescription || ""}
         breadcrumb={[{ label: "About", href: "/about" }]}
       />
 
@@ -129,11 +131,11 @@ export default async function AboutPage() {
         <SectionHeader
           subtitle="What We Believe"
           title="Rooted in the Anglican Tradition"
-          description={beliefs.intro}
+          description={beliefsPage?.intro || ""}
         />
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {beliefs.foundations.slice(0, 6).map((belief, index) => (
+          {(beliefsPage?.foundations ?? []).slice(0, 6).map((belief, index) => (
             <div
               key={belief.title}
               className="p-6 bg-cream-50 rounded-xl border border-cream-200"

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { getChurchInfo } from "@/lib/content";
+import { getChurchInfo, getStoryPage } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Our Story",
@@ -12,13 +12,14 @@ export const metadata: Metadata = {
 
 export default async function StoryPage() {
   const churchInfo = await getChurchInfo();
+  const page = await getStoryPage();
 
   return (
     <>
       <PageHeader
-        title="Our Story"
-        subtitle="Our History"
-        description="The journey of Christ The King Anglican Church in the nation's oldest city."
+        title={page?.heroTitle || "Our History"}
+        subtitle={page?.heroSubtitle || ""}
+        description={page?.heroDescription || ""}
         breadcrumb={[
           { label: "About", href: "/about" },
           { label: "Story", href: "/about/story" },

@@ -4,7 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { LatestSermon } from "@/components/LatestSermon";
 import { SermonArchive } from "@/components/SermonArchive";
-import { getChurchInfo } from "@/lib/content";
+import { getChurchInfo, getSermonsPage } from "@/lib/content";
 import { getSermonArchive, SERVICE_LIMIT } from "@/lib/sermons";
 import { Video, Podcast, Smartphone } from "lucide-react";
 
@@ -16,9 +16,10 @@ export const metadata: Metadata = {
 
 export default async function SermonsPage() {
   // The archive is fetched once per deploy, not per visitor. See src/lib/sermons.ts.
-  const [churchInfo, allVideos] = await Promise.all([
+  const [churchInfo, allVideos, page] = await Promise.all([
     getChurchInfo(),
     getSermonArchive(),
+    getSermonsPage(),
   ]);
 
   // Trim before serialising. Every video handed to the client component is
@@ -35,9 +36,9 @@ export default async function SermonsPage() {
   return (
     <>
       <PageHeader
-        title="Sermons"
-        subtitle="Watch & Listen"
-        description="Catch up on recent messages or explore our sermon archive."
+        title={page?.heroTitle || "Sermons"}
+        subtitle={page?.heroSubtitle || ""}
+        description={page?.heroDescription || ""}
         breadcrumb={[
           { label: "Worship", href: "/worship" },
           { label: "Sermons", href: "/worship/sermons" },
@@ -118,14 +119,11 @@ export default async function SermonsPage() {
           {/* CTA */}
           <div className="bg-navy-900 text-white rounded-xl p-8 text-center">
             <h2 className="font-display text-2xl font-bold mb-4">
-              Join Us In Person
+              {page?.ctaTitle}
             </h2>
-            <p className="text-navy-200 mb-6">
-              There&apos;s nothing like experiencing worship together. Join us this
-              Sunday at 10:00 AM.
-            </p>
+            <p className="text-navy-200 mb-6">{page?.ctaBody}</p>
             <Button href="/visit" variant="secondary">
-              Plan Your Visit
+              {page?.ctaLabel}
             </Button>
           </div>
         </div>
