@@ -2,8 +2,9 @@ import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { getChurchInfo } from "@/lib/content";
-import { Heart, Globe, Users, Home, ExternalLink, Shield } from "lucide-react";
+import { getChurchInfo, getGivePage } from "@/lib/content";
+import { Icon } from "@/lib/icons";
+import { Heart, ExternalLink, Shield } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Give",
@@ -12,14 +13,15 @@ export const metadata: Metadata = {
 };
 
 export default async function GivePage() {
-  const churchInfo = await getChurchInfo();
+  const [churchInfo, page] = await Promise.all([getChurchInfo(), getGivePage()]);
+  const whereCards = page?.whereCards ?? [];
 
   return (
     <>
       <PageHeader
-        title="Give"
-        subtitle="Generous Living"
-        description="Your generosity enables CTK to worship, serve, and make an impact locally and globally."
+        title={page?.heroTitle || "Give"}
+        subtitle={page?.heroSubtitle || ""}
+        description={page?.heroDescription || ""}
         breadcrumb={[{ label: "Give", href: "/give" }]}
       />
 
@@ -29,11 +31,10 @@ export default async function GivePage() {
           <div className="bg-navy-900 text-white rounded-2xl p-8 lg:p-12 text-center mb-12">
             <Heart className="w-12 h-12 text-gold-400 mx-auto mb-6" />
             <h2 className="font-display text-3xl font-bold mb-4">
-              Give Online
+              {page?.onlineTitle}
             </h2>
             <p className="text-navy-200 text-lg mb-8 max-w-xl mx-auto">
-              Secure, convenient online giving through Kindrid. Set up one-time
-              or recurring gifts to support the ministry of CTK.
+              {page?.onlineBody}
             </p>
             <Button
               href={churchInfo.giving.url}
@@ -42,84 +43,70 @@ export default async function GivePage() {
               size="lg"
             >
               <Heart className="w-5 h-5" />
-              Give Now
+              {page?.onlineCtaLabel}
               <ExternalLink className="w-4 h-4" />
             </Button>
             <p className="mt-4 text-sm text-navy-400 flex items-center justify-center gap-2">
               <Shield className="w-4 h-4" />
-              Secure giving powered by Kindrid
+              {page?.onlineSecureNote}
             </p>
           </div>
 
           {/* Why Give */}
-          <div className="mb-12">
-            <h2 className="font-display text-2xl font-bold text-navy-900 mb-6 text-center">
-              Where Your Gift Goes
-            </h2>
-            <div className="grid sm:grid-cols-3 gap-6">
-              <div className="bg-cream-50 p-6 rounded-xl text-center">
-                <div className="w-12 h-12 bg-gold-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Home className="w-6 h-6 text-gold-600" />
-                </div>
-                <h3 className="font-semibold text-navy-900 mb-2">
-                  Ministry at CTK
-                </h3>
-                <p className="text-navy-600 text-sm">
-                  Worship, discipleship, and care for our community
-                </p>
-              </div>
-              <div className="bg-cream-50 p-6 rounded-xl text-center">
-                <div className="w-12 h-12 bg-gold-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-6 h-6 text-gold-600" />
-                </div>
-                <h3 className="font-semibold text-navy-900 mb-2">
-                  Local Outreach
-                </h3>
-                <p className="text-navy-600 text-sm">
-                  Serving our neighbors in St. Augustine
-                </p>
-              </div>
-              <div className="bg-cream-50 p-6 rounded-xl text-center">
-                <div className="w-12 h-12 bg-gold-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Globe className="w-6 h-6 text-gold-600" />
-                </div>
-                <h3 className="font-semibold text-navy-900 mb-2">
-                  Global Missions
-                </h3>
-                <p className="text-navy-600 text-sm">
-                  Supporting 11 mission partners worldwide
-                </p>
+          {whereCards.length > 0 && (
+            <div className="mb-12">
+              <h2 className="font-display text-2xl font-bold text-navy-900 mb-6 text-center">
+                {page?.whereTitle}
+              </h2>
+              <div className="grid sm:grid-cols-3 gap-6">
+                {whereCards.map((card) => (
+                  <div
+                    key={card.title}
+                    className="bg-cream-50 p-6 rounded-xl text-center"
+                  >
+                    <div className="w-12 h-12 bg-gold-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Icon name={card.icon} className="w-6 h-6 text-gold-600" />
+                    </div>
+                    <h3 className="font-semibold text-navy-900 mb-2">
+                      {card.title}
+                    </h3>
+                    <p className="text-navy-600 text-sm">{card.description}</p>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
+          )}
 
-          {/* Other Ways to Give */}
+          {/* Other Ways to Give. The mailing address and app URL come from
+              Site Settings so they cannot drift from the footer. */}
           <div className="bg-cream-50 rounded-xl p-8">
             <h3 className="font-display text-xl font-semibold text-navy-900 mb-4">
-              Other Ways to Give
+              {page?.otherWaysTitle}
             </h3>
             <div className="space-y-4 text-navy-600">
               <div>
-                <h4 className="font-semibold text-navy-900">In Person</h4>
+                <h4 className="font-semibold text-navy-900">
+                  {page?.inPersonTitle}
+                </h4>
+                <p className="text-sm">{page?.inPersonBody}</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-navy-900">
+                  {page?.byMailTitle}
+                </h4>
                 <p className="text-sm">
-                  Place your gift in the offering during Sunday worship.
+                  {page?.byMailBody} {churchInfo.address.mailing}
                 </p>
               </div>
               <div>
-                <h4 className="font-semibold text-navy-900">By Mail</h4>
+                <h4 className="font-semibold text-navy-900">{page?.appTitle}</h4>
                 <p className="text-sm">
-                  Send checks to: {churchInfo.address.mailing}
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-navy-900">Church App</h4>
-                <p className="text-sm">
-                  Give through our{" "}
+                  {page?.appBody}{" "}
                   <a
                     href={churchInfo.giving.appUrl}
                     className="text-gold-600 hover:text-gold-700"
                   >
-                    mobile app
+                    {page?.appLinkLabel}
                   </a>
                   .
                 </p>
@@ -129,11 +116,9 @@ export default async function GivePage() {
 
           {/* Missions Link */}
           <div className="mt-12 text-center">
-            <p className="text-navy-600 mb-4">
-              Want to see the impact of your giving?
-            </p>
+            <p className="text-navy-600 mb-4">{page?.missionsPrompt}</p>
             <Button href="/missions" variant="outline">
-              Explore Our Mission Partners
+              {page?.missionsCtaLabel}
             </Button>
           </div>
         </div>

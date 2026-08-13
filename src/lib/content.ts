@@ -111,6 +111,10 @@ export async function getHomePage() {
   return await reader.singletons.homePage.read();
 }
 
+export async function getGivePage() {
+  return await reader.singletons.givePage.read();
+}
+
 export async function getDeafChurchInfo() {
   return await reader.singletons.deafChurch.read();
 }

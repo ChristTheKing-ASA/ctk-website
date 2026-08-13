@@ -23,6 +23,7 @@ export default config({
     // sidebar the same way they find it on the site.
     navigation: {
       "Home": ["homePage"],
+      "Give": ["givePage"],
       "About — Our Team": ["clergy", "teamPage"],
       "Connect": ["membershipPage"],
       "Worship": ["weeklyActivities"],
@@ -132,6 +133,55 @@ export default config({
             itemLabel: (props) => props.fields.title.value || "Link",
           }
         ),
+      },
+    }),
+    givePage: singleton({
+      label: "Give Page",
+      path: "src/content/give-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+
+        onlineTitle: fields.text({ label: "Online Giving Heading" }),
+        onlineBody: fields.text({ label: "Online Giving Body", multiline: true }),
+        onlineCtaLabel: fields.text({ label: "Online Giving Button Label" }),
+        onlineSecureNote: fields.text({ label: "Security Note" }),
+
+        whereTitle: fields.text({ label: "Where Your Gift Goes Heading" }),
+        whereCards: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            icon: iconField(),
+          }),
+          {
+            label: "Where Your Gift Goes",
+            itemLabel: (props) => props.fields.title.value || "Card",
+          }
+        ),
+
+        otherWaysTitle: fields.text({ label: "Other Ways Heading" }),
+        inPersonTitle: fields.text({ label: "In Person Heading" }),
+        inPersonBody: fields.text({ label: "In Person Body", multiline: true }),
+        byMailTitle: fields.text({ label: "By Mail Heading" }),
+        byMailBody: fields.text({
+          label: "By Mail Body",
+          description:
+            "The mailing address is added automatically from Site Settings, so do not type it here.",
+          multiline: true,
+        }),
+        appTitle: fields.text({ label: "Church App Heading" }),
+        appBody: fields.text({
+          label: "Church App Body",
+          description: "The words before the app link.",
+          multiline: true,
+        }),
+        appLinkLabel: fields.text({ label: "Church App Link Text" }),
+
+        missionsPrompt: fields.text({ label: "Missions Prompt", multiline: true }),
+        missionsCtaLabel: fields.text({ label: "Missions Button Label" }),
       },
     }),
     churchInfo: singleton({
