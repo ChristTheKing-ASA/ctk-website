@@ -4,7 +4,12 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Radio, Play } from "lucide-react";
 
-const YOUTUBE_API_KEY = "AIzaSyA6Syni8N0wQp6chAP3Q5zR1liM4xuSR58";
+// Browser key: it is sent from the visitor's browser to YouTube, so it is
+// public by necessity and cannot be hidden. It is protected by restriction
+// instead — Google only accepts it from ctkasa.com, the staging site, and
+// localhost, and only for the YouTube Data API. A copy is useless anywhere
+// else. Owned by the church's own Google project (christtheking-485406).
+const YOUTUBE_API_KEY = "AIzaSyBTTsjuKTFwBWjeRmVF1pleR0wjgHpYHqI";
 const CHANNEL_ID = "UC3qXOkET13YuCc4dNr89Q2w";
 const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@christthekinganglicanchurc8992";
 
