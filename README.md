@@ -35,6 +35,21 @@ The Keystatic editor lives at `/keystatic`; `/admin` redirects there.
 Production uses Keystatic Cloud authentication for the
 `christ-the-king/ctk-website` project.
 
+Locally, `npm run dev` serves the editor against the filesystem. That needs a
+live API route, which a static export cannot provide, so `next.config.ts` skips
+`output: export` in development and adds `.dev.ts` to `pageExtensions`. The
+handler at `src/app/api/keystatic/[[...params]]/route.dev.ts` is therefore
+recognised only by `next dev` and never reaches a production build.
+
+Verify the export path with `npm run build && npm run test:pages`, which is what
+CI runs. Without the dev route, opening any entry in the local editor hangs on a
+spinner while Keystatic fetches JSON and gets a 404 page back.
+
+Note that saving an entry renames its image to match the field key, so
+`heroImage` pointing at `greeters.jpg` becomes `heroImage.jpg` on first save.
+Keystatic rewrites the file and the JSON together, so this stays consistent;
+just don't reference those files from anywhere else by name.
+
 GitHub Pages serves this repository beneath `/ctk-website`. Keystatic does not
 natively account for a Next.js `basePath`, so `patch-package` applies the
 version-pinned compatibility patch in `patches/` after every install. The
