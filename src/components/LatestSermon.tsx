@@ -43,6 +43,7 @@ function durationToSeconds(iso: string): number {
 export function LatestSermon() {
   const [sermon, setSermon] = useState<VideoInfo | null>(null);
   const [shorts, setShorts] = useState<VideoInfo[]>([]);
+  const [playingShort, setPlayingShort] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -249,33 +250,50 @@ export function LatestSermon() {
             </a>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {shorts.map((short) => (
-              <a
-                key={short.id}
-                href={`https://www.youtube.com/shorts/${short.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative aspect-[9/16] bg-navy-100 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow"
-              >
-                {short.thumbnail && (
-                  <Image
-                    src={short.thumbnail}
-                    alt={short.title}
-                    fill
-                    className="object-cover"
+            {shorts.map((short) =>
+              playingShort === short.id ? (
+                <div
+                  key={short.id}
+                  className="relative aspect-[9/16] bg-navy-900 rounded-xl overflow-hidden shadow-lg"
+                >
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${short.id}?autoplay=1&rel=0`}
+                    title={short.title}
+                    allow="accelerometer; autoplay; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
                   />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-3">
-                  <p className="text-white text-xs font-medium line-clamp-2">{short.title}</p>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
-                  <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center">
-                    <Play className="w-5 h-5 text-navy-900 ml-0.5" fill="currentColor" />
+              ) : (
+                /* Thumbnail until clicked: four autoplaying iframes would load
+                   megabytes of player on every visit to this page. */
+                <button
+                  key={short.id}
+                  type="button"
+                  onClick={() => setPlayingShort(short.id)}
+                  aria-label={`Play ${short.title}`}
+                  className="group relative aspect-[9/16] bg-navy-100 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow text-left"
+                >
+                  {short.thumbnail && (
+                    <Image
+                      src={short.thumbnail}
+                      alt=""
+                      fill
+                      className="object-cover"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-3">
+                    <p className="text-white text-xs font-medium line-clamp-2">{short.title}</p>
                   </div>
-                </div>
-              </a>
-            ))}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity bg-black/20">
+                    <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center">
+                      <Play className="w-5 h-5 text-navy-900 ml-0.5" fill="currentColor" />
+                    </div>
+                  </div>
+                </button>
+              )
+            )}
           </div>
         </div>
       )}
