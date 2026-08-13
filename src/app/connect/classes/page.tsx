@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
-import { getChurchInfo, getClassesPage } from "@/lib/content";
+import { getChurchInfo, getClassesPage, getAllActivities } from "@/lib/content";
 import { BookOpen, Clock, Users, Check, Phone } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -11,10 +11,19 @@ export const metadata: Metadata = {
 };
 
 export default async function ClassesPage() {
-  const [churchInfo, page] = await Promise.all([
+  const [churchInfo, page, activities] = await Promise.all([
     getChurchInfo(),
     getClassesPage(),
+    getAllActivities(),
   ]);
+
+  // Ongoing studies are pulled from the same Weekly Activities entries that
+  // /worship/weekly renders, rather than restated here. The Bible study detail
+  // has already changed once (Psalms to Luke) and two copies would eventually
+  // disagree, which is exactly what happened on /worship.
+  const studies = activities.filter((a) =>
+    /study|class/i.test(a.title ?? "")
+  );
 
   return (
     <>
@@ -123,6 +132,45 @@ export default async function ClassesPage() {
               ))}
             </div>
           </div>
+
+          {/* Ongoing studies, from Weekly Activities */}
+          {studies.length > 0 && (
+            <div className="mb-12">
+              <h3 className="font-display text-2xl font-bold text-navy-900 mb-6">
+                Ongoing Studies
+              </h3>
+              <div className="grid sm:grid-cols-2 gap-6">
+                {studies.map((study) => (
+                  <div
+                    key={study.slug}
+                    className="bg-white p-6 rounded-xl border border-navy-100"
+                  >
+                    <h4 className="font-display text-lg font-semibold text-navy-900 mb-1">
+                      {study.title}
+                    </h4>
+                    <p className="text-sm text-gold-700 mb-3">
+                      {study.day} at {study.time}
+                    </p>
+                    <p className="text-navy-600 text-sm mb-3">
+                      {study.description}
+                    </p>
+                    <p className="text-sm text-navy-500">{study.location}</p>
+                    {study.contactEmail && (
+                      <p className="text-sm text-navy-600 mt-3 pt-3 border-t border-navy-100">
+                        {study.contactName}:{" "}
+                        <a
+                          href={`mailto:${study.contactEmail}`}
+                          className="text-gold-700 hover:text-gold-800 break-all"
+                        >
+                          {study.contactEmail}
+                        </a>
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Contact */}
           <div className="text-center">
