@@ -173,7 +173,8 @@ export default async function ServePage() {
             </h2>
             <p className="text-navy-600">
               Volunteers working with children complete background checks and
-              MinistrySafe training to ensure a safe environment for everyone.
+              Safeguarding Our People (SOP) training, our diocese&apos;s
+              safeguarding program, to ensure a safe environment for everyone.
             </p>
           </div>
           <Button href="/serve/safeguarding" variant="outline" className="flex-shrink-0">

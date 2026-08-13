@@ -75,12 +75,18 @@ export default function SafeguardingPage() {
                 <div className="flex items-center gap-3 mb-4">
                   <BookOpen className="w-6 h-6 text-gold-500" />
                   <h3 className="font-semibold text-navy-900">
-                    MinistrySafe Training
+                    Safeguarding Our People
                   </h3>
                 </div>
+                {/* The parish moved from MinistrySafe to the diocesan
+                    Safeguarding Our People (SOP) program. This names the right
+                    program; the specific training requirements have not been
+                    confirmed with the parish, so the wording below claims only
+                    that the training is required. */}
                 <p className="text-navy-600 text-sm">
-                  Completion of MinistrySafe training is required before serving
-                  in children&apos;s or youth ministry.
+                  Completion of Safeguarding Our People (SOP) training, our
+                  diocese&apos;s safeguarding program, is required before
+                  serving in children&apos;s or youth ministry.
                 </p>
               </div>
 
