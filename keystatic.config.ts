@@ -173,27 +173,6 @@ export default config({
         heroTitle: fields.text({ label: "Page Title" }),
         heroSubtitle: fields.text({ label: "Page Label" }),
         heroDescription: fields.text({ label: "Page Intro", multiline: true }),
-        introTitle: fields.text({ label: "Intro Heading" }),
-        introBody: fields.text({ label: "Intro Body", multiline: true }),
-        facts: fields.array(
-          fields.object({
-            label: fields.text({ label: "Label" }),
-            value: fields.text({ label: "Value" }),
-            icon: iconField(),
-          }),
-          {
-            label: "At a Glance",
-            itemLabel: (props) => props.fields.label.value || "Fact",
-          }
-        ),
-        topicsTitle: fields.text({ label: "Topics Heading" }),
-        topics: fields.array(fields.text({ label: "Topic" }), {
-          label: "Topics Covered",
-          itemLabel: (props) => props.value || "Topic",
-        }),
-        ctaTitle: fields.text({ label: "Closing Heading" }),
-        ctaBody: fields.text({ label: "Closing Body", multiline: true }),
-        ctaLabel: fields.text({ label: "Closing Button Label" }),
       },
     }),
     smallGroupsPage: singleton({
@@ -204,25 +183,6 @@ export default config({
         heroTitle: fields.text({ label: "Page Title" }),
         heroSubtitle: fields.text({ label: "Page Label" }),
         heroDescription: fields.text({ label: "Page Intro", multiline: true }),
-        introTitle: fields.text({ label: "Intro Heading" }),
-        introBody: fields.text({ label: "Intro Body", multiline: true }),
-        groups: fields.array(
-          fields.object({
-            name: fields.text({ label: "Group Name" }),
-            description: fields.text({ label: "Description", multiline: true }),
-            meets: fields.text({ label: "When it meets" }),
-            location: fields.text({ label: "Where" }),
-            icon: iconField(),
-          }),
-          {
-            label: "Groups",
-            description: "Add or remove groups here as they change.",
-            itemLabel: (props) => props.fields.name.value || "Group",
-          }
-        ),
-        ctaTitle: fields.text({ label: "Closing Heading" }),
-        ctaBody: fields.text({ label: "Closing Body", multiline: true }),
-        ctaLabel: fields.text({ label: "Closing Button Label" }),
       },
     }),
     daughtersPage: singleton({
@@ -233,23 +193,6 @@ export default config({
         heroTitle: fields.text({ label: "Page Title" }),
         heroSubtitle: fields.text({ label: "Page Label" }),
         heroDescription: fields.text({ label: "Page Intro", multiline: true }),
-        introTitle: fields.text({ label: "Intro Heading" }),
-        introBody: fields.text({ label: "Intro Body", multiline: true }),
-        pillars: fields.array(
-          fields.object({
-            title: fields.text({ label: "Title" }),
-            description: fields.text({ label: "Description", multiline: true }),
-            icon: iconField(),
-          }),
-          {
-            label: "Rule of Life",
-            itemLabel: (props) => props.fields.title.value || "Pillar",
-          }
-        ),
-        membershipTitle: fields.text({ label: "Membership Heading" }),
-        membershipBody: fields.text({ label: "Membership Body", multiline: true }),
-        contactName: fields.text({ label: "Contact Name" }),
-        contactEmail: fields.text({ label: "Contact Email" }),
       },
     }),
     servePage: singleton({

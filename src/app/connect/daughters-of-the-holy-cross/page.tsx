@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { getDaughtersPage } from "@/lib/content";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Heart, BookOpen, Users, Megaphone, Mail, Phone, ExternalLink } from "lucide-react";
@@ -9,13 +10,14 @@ export const metadata: Metadata = {
     "The Faith Chapter of the Daughters of the Holy Cross at Christ The King Anglican Church.",
 };
 
-export default function DaughtersPage() {
+export default async function DaughtersPage() {
+  const page = await getDaughtersPage();
   return (
     <>
       <PageHeader
-        title="Daughters of the Holy Cross"
-        subtitle="Women's Order"
-        description="A women's religious order devoted to Prayer, Service, Study, and Evangelism."
+        title={page?.heroTitle || "Daughters of the Holy Cross"}
+        subtitle={page?.heroSubtitle || ""}
+        description={page?.heroDescription || ""}
         breadcrumb={[
           { label: "Connect", href: "/connect" },
           { label: "Daughters of the Holy Cross", href: "/connect/daughters-of-the-holy-cross" },

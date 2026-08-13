@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
-import { getChurchInfo } from "@/lib/content";
+import { getChurchInfo, getClassesPage } from "@/lib/content";
 import { BookOpen, Clock, Users, Check, Phone } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -11,14 +11,17 @@ export const metadata: Metadata = {
 };
 
 export default async function ClassesPage() {
-  const churchInfo = await getChurchInfo();
+  const [churchInfo, page] = await Promise.all([
+    getChurchInfo(),
+    getClassesPage(),
+  ]);
 
   return (
     <>
       <PageHeader
-        title="Catechism Classes"
-        subtitle="Grow in Faith"
-        description="Whether you're new to Christianity or exploring the Anglican tradition, our classes provide a foundation for lifelong discipleship."
+        title={page?.heroTitle || "Catechism Classes"}
+        subtitle={page?.heroSubtitle || ""}
+        description={page?.heroDescription || ""}
         breadcrumb={[
           { label: "Connect", href: "/connect" },
           { label: "Classes", href: "/connect/classes" },
