@@ -109,7 +109,7 @@ export function SermonArchive({
               }`}
             >
               <iframe
-                src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0`}
+                src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0&cc_load_policy=1`}
                 title={video.title}
                 allow="accelerometer; autoplay; encrypted-media; picture-in-picture"
                 allowFullScreen

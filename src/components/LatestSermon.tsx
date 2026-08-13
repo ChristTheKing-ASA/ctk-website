@@ -222,7 +222,10 @@ export function LatestSermon() {
           <iframe
             width="100%"
             height="100%"
-            src={`https://www.youtube.com/embed/${sermon.id}${sermon.isLive ? '?autoplay=1' : ''}`}
+            // Captions on by default; see DeafChurchVideo for why.
+            src={`https://www.youtube-nocookie.com/embed/${sermon.id}?cc_load_policy=1&rel=0${
+              sermon.isLive ? "&autoplay=1" : ""
+            }`}
             title={sermon.title}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -259,7 +262,7 @@ export function LatestSermon() {
                   className="relative aspect-[9/16] bg-navy-900 rounded-xl overflow-hidden shadow-lg col-span-2 md:col-span-1 max-w-xs mx-auto w-full md:max-w-none"
                 >
                   <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${short.id}?autoplay=1&rel=0`}
+                    src={`https://www.youtube-nocookie.com/embed/${short.id}?autoplay=1&rel=0&cc_load_policy=1`}
                     title={short.title}
                     allow="accelerometer; autoplay; encrypted-media; picture-in-picture"
                     allowFullScreen

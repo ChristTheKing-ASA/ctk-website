@@ -12,7 +12,10 @@ export function DeafChurchVideo({ videoId = DEFAULT_VIDEO_ID }: DeafChurchVideoP
         <iframe
           width="100%"
           height="100%"
-          src={`https://www.youtube.com/embed/${videoId}`}
+          // cc_load_policy=1 turns captions on by default. This parish runs a
+          // ministry for the Deaf community; captions should not be something a
+          // Deaf visitor has to find and switch on for every video.
+          src={`https://www.youtube-nocookie.com/embed/${videoId}?cc_load_policy=1&rel=0`}
           title="DeafChurch Together"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

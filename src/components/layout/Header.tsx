@@ -12,6 +12,13 @@ export function Header() {
   const router = useRouter();
 
   const handleDeafChurchClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Let the browser handle modified clicks. Cancelling them unconditionally
+    // meant cmd/ctrl+click replaced the current tab instead of opening a new
+    // one, which is not something a link is allowed to do.
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
+      return;
+    }
+
     e.preventDefault();
 
     // Get button position for confetti origin
@@ -19,21 +26,26 @@ export function Header() {
     const x = (rect.left + rect.width / 2) / window.innerWidth;
     const y = (rect.top + rect.height / 2) / window.innerHeight;
 
-    // Dynamically import confetti only when needed (~90KB saved from initial bundle)
-    const confetti = (await import("canvas-confetti")).default;
+    // Confetti is decoration. If its chunk fails to load we still have to
+    // navigate, or the cancelled default leaves the nav item dead.
+    try {
+      // Dynamically imported only when needed (~90KB off the initial bundle)
+      const confetti = (await import("canvas-confetti")).default;
 
-    // Micro confetti burst from the button
-    confetti({
-      particleCount: 40,
-      spread: 55,
-      origin: { x, y },
-      colors: ['#fbbf24', '#f59e0b', '#d97706', '#102a43', '#334e68'],
-      ticks: 80,
-      gravity: 1.2,
-      scalar: 0.7,
-      startVelocity: 20,
-      disableForReducedMotion: true,
-    });
+      confetti({
+        particleCount: 40,
+        spread: 55,
+        origin: { x, y },
+        colors: ['#fbbf24', '#f59e0b', '#d97706', '#102a43', '#334e68'],
+        ticks: 80,
+        gravity: 1.2,
+        scalar: 0.7,
+        startVelocity: 20,
+        disableForReducedMotion: true,
+      });
+    } catch {
+      // no confetti, still navigate
+    }
 
     // Navigate after a tiny delay so confetti is visible
     setTimeout(() => {

@@ -146,7 +146,7 @@ export default async function TeamMemberPage({ params }: PageProps) {
                     </div>
                   </div>
                 )}
-                {member.education && (
+                {member.education && member.education.length > 0 && (
                   <div className="flex items-start gap-3">
                     <BookOpen className="w-5 h-5 text-gold-500 mt-0.5" />
                     <div>
