@@ -252,9 +252,11 @@ export function LatestSermon() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {shorts.map((short) =>
               playingShort === short.id ? (
+                /* Full width on phones: at two columns a playing clip is only
+                   ~163px wide, which is too small to watch comfortably. */
                 <div
                   key={short.id}
-                  className="relative aspect-[9/16] bg-navy-900 rounded-xl overflow-hidden shadow-lg"
+                  className="relative aspect-[9/16] bg-navy-900 rounded-xl overflow-hidden shadow-lg col-span-2 md:col-span-1 max-w-xs mx-auto w-full md:max-w-none"
                 >
                   <iframe
                     src={`https://www.youtube-nocookie.com/embed/${short.id}?autoplay=1&rel=0`}
