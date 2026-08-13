@@ -4,19 +4,9 @@ import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { getChurchInfo } from "@/lib/content";
-import {
-  Shield,
-  Phone,
-  Globe,
-  Users,
-  HandHeart,
-  Music,
-  Coffee,
-  Baby,
-  Wrench,
-  Heart,
-} from "lucide-react";
+import { getChurchInfo, getServePage, getMissionPartnerCounts } from "@/lib/content";
+import { Icon } from "@/lib/icons";
+import { Shield, Phone, Globe, Users, HandHeart, Heart } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Serve",
@@ -24,51 +14,28 @@ export const metadata: Metadata = {
     "Find your place to serve at Christ The King - volunteer opportunities, missions, and outreach.",
 };
 
-const volunteerAreas = [
-  {
-    name: "Worship",
-    description: "Serve during Sunday services as an acolyte, altar guild member, or in music ministry.",
-    icon: Music,
-    roles: ["Acolyte", "Altar Guild", "Music Ministry", "Sound/Video"],
-  },
-  {
-    name: "Hospitality",
-    description: "Create a welcoming environment for visitors and members alike.",
-    icon: Coffee,
-    roles: ["Greeters", "Ushers", "Coffee Hour", "Special Events"],
-  },
-  {
-    name: "Children & Youth",
-    description: "Help shape the next generation through teaching and care.",
-    icon: Baby,
-    roles: ["Sunday School", "Nursery", "Youth Leaders"],
-    requiresTraining: true,
-  },
-  {
-    name: "Operations",
-    description: "Keep our facilities beautiful and functional.",
-    icon: Wrench,
-    roles: ["Grounds & Garden", "Building Care", "Kitchen"],
-  },
-];
-
 export default async function ServePage() {
-  const churchInfo = await getChurchInfo();
+  const [churchInfo, page, counts] = await Promise.all([
+    getChurchInfo(),
+    getServePage(),
+    getMissionPartnerCounts(),
+  ]);
+  const areas = page?.areas ?? [];
 
   return (
     <>
       <PageHeader
-        title="Serve"
-        subtitle="Use Your Gifts"
-        description="Everyone has a gift to share. Whether at CTK, in our community, or around the world—find your place to serve."
+        title={page?.heroTitle || "Serve"}
+        subtitle={page?.heroSubtitle || ""}
+        description={page?.heroDescription || ""}
         breadcrumb={[{ label: "Serve", href: "/serve" }]}
       />
 
       {/* Ways to Serve - Hub Navigation */}
       <Section background="white">
         <SectionHeader
-          subtitle="Get Involved"
-          title="Ways to Serve"
+          subtitle={page?.areasSubtitle || ""}
+          title={page?.areasTitle || ""}
           description="From Sunday morning to global missions, there's a place for you."
         />
 
@@ -81,7 +48,7 @@ export default async function ServePage() {
           />
           <FeatureCard
             title="Missions"
-            description="Support our 11 mission partners locally and around the world."
+            description={`Support our ${counts.total} mission partners locally and around the world.`}
             icon={<Globe className="w-6 h-6" />}
             href="/missions"
           />
@@ -103,14 +70,14 @@ export default async function ServePage() {
         />
 
         <div className="grid md:grid-cols-2 gap-6">
-          {volunteerAreas.map((area) => (
+          {areas.map((area) => (
             <div
               key={area.name}
               className="bg-white p-6 rounded-xl border border-navy-100"
             >
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <area.icon className="w-6 h-6 text-gold-600" />
+                  <Icon name={area.icon} className="w-6 h-6 text-gold-600" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
@@ -126,7 +93,7 @@ export default async function ServePage() {
                   </div>
                   <p className="text-navy-600 text-sm mb-4">{area.description}</p>
                   <div className="flex flex-wrap gap-2">
-                    {area.roles.map((role) => (
+                    {(area.roles ?? []).map((role) => (
                       <span
                         key={role}
                         className="bg-cream-100 px-3 py-1 rounded-full text-sm text-navy-700"
@@ -145,11 +112,9 @@ export default async function ServePage() {
         <div className="mt-12 bg-white rounded-xl p-8 border border-navy-100 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
             <h3 className="font-display text-xl font-semibold text-navy-900 mb-2">
-              Ready to Get Involved?
+              {page?.ctaTitle}
             </h3>
-            <p className="text-navy-600">
-              Contact us to learn more about volunteer opportunities.
-            </p>
+            <p className="text-navy-600">{page?.ctaBody}</p>
           </div>
           <a
             href={`tel:${churchInfo.phone.replace(/\./g, "")}`}
@@ -171,11 +136,7 @@ export default async function ServePage() {
             <h2 className="font-display text-2xl font-bold text-navy-900 mb-2">
               Safeguarding
             </h2>
-            <p className="text-navy-600">
-              Volunteers working with children complete background checks and
-              Safeguarding Our People (SOP) training, our diocese&apos;s
-              safeguarding program, to ensure a safe environment for everyone.
-            </p>
+            <p className="text-navy-600">{page?.safeguardingNote}</p>
           </div>
           <Button href="/serve/safeguarding" variant="outline" className="flex-shrink-0">
             Learn More
@@ -203,21 +164,21 @@ export default async function ServePage() {
               Missions & Outreach
             </h2>
             <p className="text-navy-200 mb-6 leading-relaxed">
-              CTK partners with 11 organizations to serve locally in St. Augustine,
-              nationally across the U.S., and globally in places like Kenya, Nigeria,
-              and the Netherlands.
+              CTK partners with {counts.total} organizations to serve locally in
+              St. Augustine, nationally across the U.S., and globally in places
+              like Kenya, Nigeria, and the Netherlands.
             </p>
             <div className="grid grid-cols-3 gap-4 mb-8">
               <div className="text-center">
-                <p className="text-3xl font-bold text-gold-400">4</p>
+                <p className="text-3xl font-bold text-gold-400">{counts.local}</p>
                 <p className="text-navy-300 text-sm">Local Partners</p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold text-gold-400">2</p>
+                <p className="text-3xl font-bold text-gold-400">{counts.national}</p>
                 <p className="text-navy-300 text-sm">National</p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold text-gold-400">5</p>
+                <p className="text-3xl font-bold text-gold-400">{counts.global}</p>
                 <p className="text-navy-300 text-sm">Global</p>
               </div>
             </div>

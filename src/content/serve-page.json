@@ -1,0 +1,42 @@
+{
+  "heroTitle": "Serve",
+  "heroSubtitle": "Use Your Gifts",
+  "heroDescription": "Every member has something to offer. Find a place to serve that fits your gifts and your season of life.",
+  "areasTitle": "Ways to Serve",
+  "areasSubtitle": "Get Involved",
+  "areas": [
+    {
+      "name": "Worship",
+      "description": "Serve during Sunday services as an acolyte, altar guild member, or in music ministry.",
+      "icon": "music",
+      "roles": ["Acolyte", "Altar Guild", "Music Ministry", "Sound/Video"],
+      "requiresTraining": false
+    },
+    {
+      "name": "Hospitality",
+      "description": "Create a welcoming environment for visitors and members alike.",
+      "icon": "users",
+      "roles": ["Greeters", "Ushers", "Coffee Hour", "Special Events"],
+      "requiresTraining": false
+    },
+    {
+      "name": "Children & Youth",
+      "description": "Help shape the next generation through teaching and care.",
+      "icon": "heart",
+      "roles": ["Sunday School", "Nursery", "Youth Leaders"],
+      "requiresTraining": true
+    },
+    {
+      "name": "Operations",
+      "description": "Keep our facilities beautiful and functional.",
+      "icon": "church",
+      "roles": ["Grounds & Garden", "Building Care", "Kitchen"],
+      "requiresTraining": false
+    }
+  ],
+  "safeguardingNote": "Volunteers working with children complete background checks and Safeguarding Our People (SOP) training, our diocese's safeguarding program, to ensure a safe environment for everyone.",
+  "safeguardingCtaLabel": "Safeguarding",
+  "ctaTitle": "Ready to Get Involved?",
+  "ctaBody": "Let us know where you'd like to serve and we'll connect you with the right person.",
+  "ctaLabel": "Contact Us"
+}

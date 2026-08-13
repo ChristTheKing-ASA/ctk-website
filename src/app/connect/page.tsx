@@ -1,9 +1,15 @@
 import { Metadata } from "next";
+import {
+  getConnectPage,
+  getVolunteerCounts,
+  getMissionPartnerCounts,
+} from "@/lib/content";
+import { Icon } from "@/lib/icons";
 import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Users, BookOpen, Heart, UserPlus, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Connect",
@@ -11,49 +17,41 @@ export const metadata: Metadata = {
     "Get connected at Christ The King - small groups, classes, membership, and more.",
 };
 
-export default function ConnectPage() {
+export default async function ConnectPage() {
+  const [page, volunteers, partners] = await Promise.all([
+    getConnectPage(),
+    getVolunteerCounts(),
+    getMissionPartnerCounts(),
+  ]);
+  const ways = page?.ways ?? [];
+
   return (
     <>
       <PageHeader
-        title="Get Connected"
-        subtitle="Find Your Place"
-        description="We believe life is better together. Discover ways to connect, grow, and build meaningful relationships at CTK."
+        title={page?.heroTitle || "Get Connected"}
+        subtitle={page?.heroSubtitle || ""}
+        description={page?.heroDescription || ""}
         breadcrumb={[{ label: "Connect", href: "/connect" }]}
       />
 
       {/* Ways to Connect */}
       <Section background="white">
         <SectionHeader
-          subtitle="Get Involved"
-          title="Ways to Connect"
-          description="Whether you're new or have been here for years, there's a place for you."
+          subtitle={page?.waysSubtitle || ""}
+          title={page?.waysTitle || ""}
+          description={page?.waysDescription || ""}
         />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <FeatureCard
-            title="Small Groups"
-            description="Fellowship, meals, prayer, and study in homes across Palm Coast and St. Augustine."
-            icon={<Users className="w-6 h-6" />}
-            href="/connect/small-groups"
-          />
-          <FeatureCard
-            title="Classes"
-            description="9-week catechism classes for new believers and those exploring the Anglican faith."
-            icon={<BookOpen className="w-6 h-6" />}
-            href="/connect/classes"
-          />
-          <FeatureCard
-            title="Daughters of the Holy Cross"
-            description="A women's order focused on Prayer, Service, Study, and Evangelism."
-            icon={<Heart className="w-6 h-6" />}
-            href="/connect/daughters-of-the-holy-cross"
-          />
-          <FeatureCard
-            title="Membership"
-            description="Learn about becoming a member of Christ The King."
-            icon={<UserPlus className="w-6 h-6" />}
-            href="/connect/membership"
-          />
+          {ways.map((way) => (
+            <FeatureCard
+              key={way.title}
+              title={way.title}
+              description={way.description}
+              icon={<Icon name={way.icon} className="w-6 h-6" />}
+              href={way.href}
+            />
+          ))}
         </div>
       </Section>
 
@@ -86,28 +84,30 @@ export default function ConnectPage() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="font-display text-3xl font-bold text-white mb-4">
-              Ready to Serve?
+              {page?.serveTitle}
             </h2>
-            <p className="text-navy-200 text-lg mb-6">
-              We believe everyone has a gift to share. From Sunday morning
-              hospitality to global missions, there are many ways to use your
-              talents to serve God and others.
-            </p>
+            <p className="text-navy-200 text-lg mb-6">{page?.serveBody}</p>
             <Button href="/serve" variant="secondary" size="lg">
-              Explore Volunteer Opportunities
+              {page?.serveCtaLabel}
             </Button>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-navy-800 p-6 rounded-xl text-center">
-              <p className="text-3xl font-bold text-gold-400 mb-1">15+</p>
+              <p className="text-3xl font-bold text-gold-400 mb-1">
+                {volunteers.roles}
+              </p>
               <p className="text-navy-200 text-sm">Volunteer Roles</p>
             </div>
             <div className="bg-navy-800 p-6 rounded-xl text-center">
-              <p className="text-3xl font-bold text-gold-400 mb-1">5</p>
+              <p className="text-3xl font-bold text-gold-400 mb-1">
+                {volunteers.areas}
+              </p>
               <p className="text-navy-200 text-sm">Ministry Areas</p>
             </div>
             <div className="bg-navy-800 p-6 rounded-xl text-center">
-              <p className="text-3xl font-bold text-gold-400 mb-1">11</p>
+              <p className="text-3xl font-bold text-gold-400 mb-1">
+                {partners.total}
+              </p>
               <p className="text-navy-200 text-sm">Mission Partners</p>
             </div>
             <div className="bg-navy-800 p-6 rounded-xl text-center">

@@ -24,10 +24,11 @@ export default config({
     navigation: {
       "Home": ["homePage"],
       "Visit": ["visitPage"],
+      "Serve": ["servePage", "safeguardingPage"],
       "Give": ["givePage"],
-      "About — Our Team": ["clergy", "teamPage"],
-      "Connect": ["membershipPage"],
-      "Worship": ["weeklyActivities"],
+      "About": ["aboutPage", "clergy", "teamPage", "storyPage", "beliefsPage", "anglicanFaithPage"],
+      "Connect": ["connectPage", "classesPage", "smallGroupsPage", "daughtersPage", "membershipPage"],
+      "Worship": ["worshipPage", "sermonsPage", "weeklyActivities"],
       "Events": ["events"],
       "Missions": ["missionPartners"],
       "DeafChurch": ["deafChurch"],
@@ -134,6 +135,228 @@ export default config({
             itemLabel: (props) => props.fields.title.value || "Link",
           }
         ),
+      },
+    }),
+    worshipPage: singleton({
+      label: "Worship Page",
+      path: "src/content/worship-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+        sundayEyebrow: fields.text({ label: "Sunday Label" }),
+        sundayTitle: fields.text({ label: "Sunday Heading" }),
+        sundayBody: fields.text({ label: "Sunday Body", multiline: true }),
+        streamingNote: fields.text({ label: "Streaming Note" }),
+        expectTitle: fields.text({ label: "What to Expect Heading" }),
+        expectItems: fields.array(fields.text({ label: "Item" }), {
+          label: "What to Expect",
+          itemLabel: (props) => props.value || "Item",
+        }),
+        weeklyTitle: fields.text({ label: "Weekly Heading" }),
+        weeklySubtitle: fields.text({ label: "Weekly Label" }),
+        weeklyDescription: fields.text({ label: "Weekly Intro", multiline: true }),
+      },
+    }),
+    sermonsPage: singleton({
+      label: "Sermons Page",
+      path: "src/content/sermons-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+        ctaTitle: fields.text({ label: "Closing Heading" }),
+        ctaBody: fields.text({ label: "Closing Body", multiline: true }),
+        ctaLabel: fields.text({ label: "Closing Button Label" }),
+      },
+    }),
+    aboutPage: singleton({
+      label: "About Page",
+      path: "src/content/about-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+      },
+    }),
+    storyPage: singleton({
+      label: "Our Story Page",
+      path: "src/content/story-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+      },
+    }),
+    beliefsPage: singleton({
+      label: "What We Believe Page",
+      path: "src/content/beliefs-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+        intro: fields.text({ label: "Foundations Intro", multiline: true }),
+        foundations: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description", multiline: true }),
+          }),
+          {
+            label: "Foundations of the Faith",
+            description:
+              "Doctrinal statements. Reword only with what the parish has confirmed.",
+            itemLabel: (props) => props.fields.title.value || "Foundation",
+          }
+        ),
+      },
+    }),
+    anglicanFaithPage: singleton({
+      label: "Anglican Faith Page",
+      path: "src/content/anglican-faith-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+      },
+    }),
+    connectPage: singleton({
+      label: "Connect Page",
+      path: "src/content/connect-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+        waysTitle: fields.text({ label: "Ways to Connect Heading" }),
+        waysSubtitle: fields.text({ label: "Ways to Connect Label" }),
+        waysDescription: fields.text({ label: "Ways to Connect Intro", multiline: true }),
+        ways: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            href: fields.text({ label: "Link" }),
+            icon: iconField(),
+          }),
+          {
+            label: "Ways to Connect",
+            itemLabel: (props) => props.fields.title.value || "Way",
+          }
+        ),
+        serveTitle: fields.text({ label: "Serve Panel Heading" }),
+        serveBody: fields.text({ label: "Serve Panel Body", multiline: true }),
+        serveCtaLabel: fields.text({ label: "Serve Panel Button Label" }),
+      },
+    }),
+    classesPage: singleton({
+      label: "Classes Page",
+      path: "src/content/classes-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+      },
+    }),
+    smallGroupsPage: singleton({
+      label: "Small Groups Page",
+      path: "src/content/small-groups-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+      },
+    }),
+    daughtersPage: singleton({
+      label: "Daughters of the Holy Cross",
+      path: "src/content/daughters-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+      },
+    }),
+    servePage: singleton({
+      label: "Serve Page",
+      path: "src/content/serve-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+
+        areasTitle: fields.text({ label: "Ways to Serve Heading" }),
+        areasSubtitle: fields.text({ label: "Ways to Serve Label" }),
+        areas: fields.array(
+          fields.object({
+            name: fields.text({ label: "Area Name" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            icon: iconField(),
+            roles: fields.array(fields.text({ label: "Role" }), {
+              label: "Roles",
+              itemLabel: (props) => props.value || "Role",
+            }),
+            requiresTraining: fields.checkbox({
+              label: "Requires safeguarding training",
+            }),
+          }),
+          {
+            label: "Volunteer Areas",
+            itemLabel: (props) => props.fields.name.value || "Area",
+          }
+        ),
+
+        safeguardingNote: fields.text({
+          label: "Safeguarding Note",
+          description:
+            "Shown beside the Ways to Serve list. Names the training volunteers with children must complete.",
+          multiline: true,
+        }),
+        safeguardingCtaLabel: fields.text({ label: "Safeguarding Button Label" }),
+
+        ctaTitle: fields.text({ label: "Get Involved Heading" }),
+        ctaBody: fields.text({ label: "Get Involved Body", multiline: true }),
+        ctaLabel: fields.text({ label: "Get Involved Button Label" }),
+      },
+    }),
+    safeguardingPage: singleton({
+      label: "Safeguarding Page",
+      path: "src/content/safeguarding-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+        directorLabel: fields.text({ label: "Director Role Label" }),
+        directorName: fields.text({ label: "Director Name" }),
+        commitmentTitle: fields.text({ label: "Commitment Heading" }),
+        commitmentBody: fields.text({ label: "Commitment Body", multiline: true }),
+        requirementsTitle: fields.text({ label: "Requirements Heading" }),
+        requirements: fields.array(
+          fields.object({
+            title: fields.text({ label: "Requirement" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            icon: iconField(),
+          }),
+          {
+            label: "Volunteer Requirements",
+            description:
+              "Safeguarding policy. Change this only with wording the parish or diocese has confirmed.",
+            itemLabel: (props) => props.fields.title.value || "Requirement",
+          }
+        ),
+        rolesTitle: fields.text({ label: "Roles List Heading" }),
+        roles: fields.array(fields.text({ label: "Role" }), {
+          label: "Roles Requiring Training",
+          itemLabel: (props) => props.value || "Role",
+        }),
       },
     }),
     visitPage: singleton({

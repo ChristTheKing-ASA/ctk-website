@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { getChurchInfo } from "@/lib/content";
+import { getChurchInfo, getAnglicanFaithPage } from "@/lib/content";
 import { Book, Church, Globe, Heart } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -13,13 +13,14 @@ export const metadata: Metadata = {
 
 export default async function AnglicanFaithPage() {
   const churchInfo = await getChurchInfo();
+  const page = await getAnglicanFaithPage();
 
   return (
     <>
       <PageHeader
-        title="The Anglican Faith"
-        subtitle="Our Heritage"
-        description="Anglicanism is a worldwide body of Christians responding to God's revelation through Jesus Christ—rooted in tradition, yet contemporary in practice."
+        title={page?.heroTitle || "The Anglican Faith"}
+        subtitle={page?.heroSubtitle || ""}
+        description={page?.heroDescription || ""}
         breadcrumb={[
           { label: "About", href: "/about" },
           { label: "Anglican Faith", href: "/about/anglican-faith" },

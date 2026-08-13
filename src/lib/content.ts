@@ -115,6 +115,70 @@ export async function getGivePage() {
   return await reader.singletons.givePage.read();
 }
 
+export async function getWorshipPage() {
+  return await reader.singletons.worshipPage.read();
+}
+
+export async function getSermonsPage() {
+  return await reader.singletons.sermonsPage.read();
+}
+
+export async function getAboutPage() {
+  return await reader.singletons.aboutPage.read();
+}
+
+export async function getStoryPage() {
+  return await reader.singletons.storyPage.read();
+}
+
+export async function getBeliefsPage() {
+  return await reader.singletons.beliefsPage.read();
+}
+
+export async function getAnglicanFaithPage() {
+  return await reader.singletons.anglicanFaithPage.read();
+}
+
+export async function getConnectPage() {
+  return await reader.singletons.connectPage.read();
+}
+
+export async function getClassesPage() {
+  return await reader.singletons.classesPage.read();
+}
+
+export async function getSmallGroupsPage() {
+  return await reader.singletons.smallGroupsPage.read();
+}
+
+export async function getDaughtersPage() {
+  return await reader.singletons.daughtersPage.read();
+}
+
+/**
+ * Volunteer totals, derived from the Serve page rather than typed.
+ *
+ * /connect advertised "15+ Volunteer Roles" and "5 Ministry Areas" while
+ * /serve rendered 4 areas and 14 roles. Two pages disagreeing about the same
+ * thing, because both were hand-written. Now one source.
+ */
+export async function getVolunteerCounts() {
+  const serve = await getServePage();
+  const areas = serve?.areas ?? [];
+  return {
+    areas: areas.length,
+    roles: areas.reduce((sum, a) => sum + (a.roles?.length ?? 0), 0),
+  };
+}
+
+export async function getServePage() {
+  return await reader.singletons.servePage.read();
+}
+
+export async function getSafeguardingPage() {
+  return await reader.singletons.safeguardingPage.read();
+}
+
 export async function getVisitPage() {
   return await reader.singletons.visitPage.read();
 }

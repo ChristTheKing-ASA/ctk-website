@@ -1,0 +1,36 @@
+{
+  "heroTitle": "What We Believe",
+  "heroSubtitle": "Our Faith",
+  "heroDescription": "The historic Christian faith, held and practised in the Anglican tradition.",
+  "intro": "Christ The King holds to the historic Anglican faith as expressed in the following:",
+  "foundations": [
+    {
+      "title": "Scripture",
+      "description": "The canonical books of the Old and New Testaments as the inspired Word of God, containing all things necessary for salvation."
+    },
+    {
+      "title": "Sacraments",
+      "description": "Baptism and the Holy Communion (Eucharist) as the two sacraments ordained by Christ himself."
+    },
+    {
+      "title": "Historic Episcopate",
+      "description": "The Historic Episcopate as integral to the apostolic faith and practice."
+    },
+    {
+      "title": "The Creeds",
+      "description": "The three Catholic Creeds: the Apostles' Creed, the Nicene Creed, and the Athanasian Creed."
+    },
+    {
+      "title": "Church Councils",
+      "description": "The teaching of the first four Councils of the undivided Church, and the Christological clarifications of councils five through seven."
+    },
+    {
+      "title": "Book of Common Prayer",
+      "description": "The 1662 Book of Common Prayer as the doctrinal standard for Anglican worship."
+    },
+    {
+      "title": "Thirty-Nine Articles",
+      "description": "The Thirty-Nine Articles of Religion (1571) as expressing authentic Anglican belief."
+    }
+  ]
+}

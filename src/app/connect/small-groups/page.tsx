@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
-import { getChurchInfo } from "@/lib/content";
+import { getChurchInfo, getSmallGroupsPage } from "@/lib/content";
 import { Users, MapPin, Heart, BookOpen, UtensilsCrossed, Phone } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -10,14 +10,17 @@ export const metadata: Metadata = {
 };
 
 export default async function SmallGroupsPage() {
-  const churchInfo = await getChurchInfo();
+  const [churchInfo, page] = await Promise.all([
+    getChurchInfo(),
+    getSmallGroupsPage(),
+  ]);
 
   return (
     <>
       <PageHeader
-        title="Small Groups"
-        subtitle="Life Together"
-        description="Fellowship, meals, prayer, study, and even a sewing ministry—find your place in a small group."
+        title={page?.heroTitle || "Small Groups"}
+        subtitle={page?.heroSubtitle || ""}
+        description={page?.heroDescription || ""}
         breadcrumb={[
           { label: "Connect", href: "/connect" },
           { label: "Small Groups", href: "/connect/small-groups" },
