@@ -46,4 +46,4 @@ export const STATIC_ROUTES = [
 ] as const;
 
 /** Pages that exist but should never appear in search results. */
-export const EXCLUDED_ROUTES = ["/keystatic", "/admin"] as const;
+export const EXCLUDED_ROUTES = ["/keystatic"] as const;

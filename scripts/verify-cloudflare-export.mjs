@@ -4,7 +4,6 @@ import { join } from "node:path";
 const requiredPages = [
   "out/index.html",
   "out/404.html",
-  "out/admin/index.html",
   "out/keystatic/index.html",
   "out/keystatic/cloud/oauth/callback/index.html",
 ];
@@ -31,9 +30,10 @@ if (javascript.includes("/ctk-website/keystatic")) {
   throw new Error("Cloudflare export still contains the GitHub Pages base path");
 }
 
-const adminPage = readFileSync("out/admin/index.html", "utf8");
-if (!adminPage.includes("NEXT_REDIRECT;replace;/keystatic")) {
-  throw new Error("The exported /admin page no longer redirects to Keystatic");
+// /admin is deliberately absent: it used to call redirect(), which a static
+// export cannot emit, so it shipped the not-found page with a 200 status.
+if (existsSync("out/admin/index.html")) {
+  throw new Error("out/admin should not exist; the alias was removed on purpose");
 }
 
 const recoveryPages = [

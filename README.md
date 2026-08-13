@@ -31,7 +31,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Content editor
 
-The Keystatic editor lives at `/keystatic`; `/admin` redirects there.
+The Keystatic editor lives at `/keystatic`.
+
+There is deliberately no `/admin` route. It used to exist and call `redirect()`,
+which a static export cannot emit, so it built to an error shell that returned
+the not-found page with a 200 status. Removed rather than reinstated: it was an
+alias nothing linked to, and not advertising an editor path is one less thing to
+probe.
 Production uses Keystatic Cloud authentication for the
 `christ-the-king/ctk-website` project.
 
