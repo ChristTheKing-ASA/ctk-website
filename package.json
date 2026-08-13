@@ -13,7 +13,8 @@
     "test:run": "vitest run",
     "test:cloudflare": "node scripts/verify-cloudflare-export.mjs",
     "test:pages": "node scripts/verify-pages-export.mjs",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "snapshot": "node scripts/snapshot-content.mjs"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",

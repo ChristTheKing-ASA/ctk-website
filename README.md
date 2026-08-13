@@ -56,6 +56,28 @@ Note that saving an entry renames its image to match the field key, so
 Keystatic rewrites the file and the JSON together, so this stays consistent;
 just don't reference those files from anywhere else by name.
 
+## Restoring content
+
+Everything the parish edits is in git, because Keystatic Cloud commits every
+save. So a bad edit is recoverable the same way any commit is.
+
+Known-good point: the `snapshot-2026-08-13` tag.
+
+Put the content back without touching code:
+
+    git checkout snapshot-2026-08-13 -- src/content public/images
+    git commit -m "Restore content to the 13 August snapshot"
+
+Undo one bad save instead of everything:
+
+    git log --oneline -- src/content        # find it
+    git revert <commit>
+
+`npm run snapshot` copies `src/content` and `public/images` to a dated folder in
+`~/Documents/PROJECTS/~backups/ctk-website/`, outside the repo. Git is the better
+restore path and should be tried first; the copy is for the case where the repo
+itself is lost or its history is no longer trustworthy.
+
 ## Where it deploys
 
 Production is Cloudflare, serving `ctkasa.com` from the domain root with no
