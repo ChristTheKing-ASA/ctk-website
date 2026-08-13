@@ -3,7 +3,9 @@ import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { LatestSermon } from "@/components/LatestSermon";
+import { SermonArchive } from "@/components/SermonArchive";
 import { getChurchInfo } from "@/lib/content";
+import { getSermonArchive, SERVICE_LIMIT } from "@/lib/sermons";
 import { Video, Podcast, Smartphone } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -13,7 +15,22 @@ export const metadata: Metadata = {
 };
 
 export default async function SermonsPage() {
-  const churchInfo = await getChurchInfo();
+  // The archive is fetched once per deploy, not per visitor. See src/lib/sermons.ts.
+  const [churchInfo, allVideos] = await Promise.all([
+    getChurchInfo(),
+    getSermonArchive(),
+  ]);
+
+  // Trim before serialising. Every video handed to the client component is
+  // embedded in the page whether or not it renders, and the ~370 full-service
+  // recordings would triple the page weight for a tab most visitors never open.
+  // The older services stay one link away on YouTube.
+  const archive = [
+    ...allVideos.filter((v) => v.kind !== "service"),
+    ...allVideos.filter((v) => v.kind === "service").slice(0, SERVICE_LIMIT),
+  ].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+
+  const totalServices = allVideos.filter((v) => v.kind === "service").length;
 
   return (
     <>
@@ -33,6 +50,18 @@ export default async function SermonsPage() {
           <div className="mb-12">
             <LatestSermon />
           </div>
+
+          {/* Archive. Static, so every title is in the HTML for search engines
+              rather than appearing only after a browser fetch. */}
+          {archive.length > 0 && (
+            <div className="mb-12">
+              <SermonArchive
+                videos={archive}
+                totalServices={totalServices}
+                channelUrl="https://www.youtube.com/@christthekinganglicanchurc8992"
+              />
+            </div>
+          )}
 
           {/* Ways to Watch */}
           <div className="grid md:grid-cols-3 gap-6 mb-12">
