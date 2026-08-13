@@ -1,8 +1,9 @@
 import { Metadata } from "next";
+import { normalizeExternalUrl } from "@/lib/utils";
 import { PageHeader } from "@/components/ui/Section";
 import { Section } from "@/components/ui/Section";
 import { getAllActivities } from "@/lib/content";
-import { Clock, MapPin, Mail, Phone } from "lucide-react";
+import { Clock, MapPin, Mail, Phone, ExternalLink } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Weekly Gatherings",
@@ -20,6 +21,8 @@ export default async function WeeklyPage() {
     time: a.time || "",
     description: a.description || "",
     location: a.location || "",
+    resourceLabel: a.resourceLabel || "",
+    resourceUrl: a.resourceUrl || "",
     contacts: a.contactName
       ? [
           {
@@ -105,6 +108,22 @@ export default async function WeeklyPage() {
                     ))}
                   </div>
                 </div>
+              )}
+
+              {/* Optional resource: a prayer app, a book, a Zoom room. */}
+              {activity.resourceUrl && (
+                <a
+                  href={normalizeExternalUrl(activity.resourceUrl) ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-gold-700 hover:text-gold-800 min-h-11"
+                >
+                  <ExternalLink className="w-4 h-4 shrink-0" aria-hidden="true" />
+                  <span>
+                    {activity.resourceLabel || "Open resource"}
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </span>
+                </a>
               )}
             </div>
           ))}
