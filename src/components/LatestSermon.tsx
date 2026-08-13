@@ -24,97 +24,114 @@ interface VideoInfo {
   isShort?: boolean;
 }
 
-// Check if a video is a Short using YouTube's oEmbed endpoint
-// Shorts URLs return valid oEmbed data, regular videos at /shorts/ URL return errors
-async function checkIfShort(videoId: string): Promise<boolean> {
-  try {
-    const response = await fetch(
-      `https://www.youtube.com/oembed?url=https://www.youtube.com/shorts/${videoId}&format=json`
-    );
-    // If oEmbed returns 200, it's a valid Short
-    return response.ok;
-  } catch {
-    return false;
-  }
+// Uploads playlist. Every channel has one, and reading it costs 1 quota unit
+// against search.list's 100.
+const UPLOADS_PLAYLIST_ID = `UU${CHANNEL_ID.slice(2)}`;
+
+// A Short is at most 3 minutes. Sunday services run over an hour, so duration
+// separates them cleanly.
+const SHORT_MAX_SECONDS = 180;
+
+/** Seconds from an ISO 8601 duration such as PT1H38M36S. */
+function durationToSeconds(iso: string): number {
+  const m = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(iso);
+  if (!m) return 0;
+  const [, h, min, s] = m;
+  return Number(h ?? 0) * 3600 + Number(min ?? 0) * 60 + Number(s ?? 0);
 }
 
 export function LatestSermon() {
   const [sermon, setSermon] = useState<VideoInfo | null>(null);
   const [shorts, setShorts] = useState<VideoInfo[]>([]);
+  const [playingShort, setPlayingShort] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
+
     async function fetchVideos() {
       try {
-        // First check for live streams
-        const liveResponse = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&eventType=live&type=video&key=${YOUTUBE_API_KEY}`
+        // Recent uploads. playlistItems.list costs 1 quota unit; the
+        // search.list call this replaces cost 100.
+        const listResponse = await fetch(
+          `https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId=${UPLOADS_PLAYLIST_ID}&maxResults=20&key=${YOUTUBE_API_KEY}`
         );
-        const liveData = await liveResponse.json();
+        const listData = await listResponse.json();
+        if (listData.error) throw new Error(listData.error.message);
 
-        if (liveData.items && liveData.items.length > 0) {
-          const liveVideo = liveData.items[0];
-          const statsResponse = await fetch(
-            `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${liveVideo.id.videoId}&key=${YOUTUBE_API_KEY}`
-          );
-          const statsData = await statsResponse.json();
-          const viewerCount = statsData.items?.[0]?.liveStreamingDetails?.concurrentViewers;
+        const ids: string[] = (listData.items ?? [])
+          .map((i: { contentDetails?: { videoId?: string } }) => i.contentDetails?.videoId)
+          .filter(Boolean);
+        if (ids.length === 0) throw new Error("No uploads returned");
 
-          setSermon({
-            id: liveVideo.id.videoId,
-            title: liveVideo.snippet.title,
-            isLive: true,
-            isUpcoming: false,
-            publishedAt: liveVideo.snippet.publishedAt,
-            viewerCount,
-          });
-          setLoading(false);
-          return;
-        }
-
-        // Get recent videos
-        const searchResponse = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&order=date&type=video&maxResults=20&key=${YOUTUBE_API_KEY}`
+        // One more unit buys duration and live status for all of them, which
+        // is what separates Shorts from services and detects a live stream.
+        const detailResponse = await fetch(
+          `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,liveStreamingDetails&id=${ids.join(
+            ","
+          )}&key=${YOUTUBE_API_KEY}`
         );
-        const searchData = await searchResponse.json();
+        const detailData = await detailResponse.json();
+        if (detailData.error) throw new Error(detailData.error.message);
 
-        if (searchData.items && searchData.items.length > 0) {
-          const videos = searchData.items.map((v: { id: { videoId: string }; snippet: { title: string; publishedAt: string; thumbnails?: { medium?: { url: string }; default?: { url: string } } } }) => ({
-            id: v.id.videoId,
-            title: v.snippet.title,
-            isLive: false,
-            isUpcoming: false,
-            publishedAt: v.snippet.publishedAt,
-            thumbnail: v.snippet.thumbnails?.medium?.url || v.snippet.thumbnails?.default?.url,
-          }));
+        type ApiVideo = {
+          id: string;
+          snippet: {
+            title: string;
+            publishedAt: string;
+            liveBroadcastContent?: string;
+            thumbnails?: { medium?: { url: string }; default?: { url: string } };
+          };
+          contentDetails: { duration: string };
+          liveStreamingDetails?: { concurrentViewers?: string };
+        };
 
-          // Check each video to see if it's a Short
-          const shortChecks = await Promise.all(
-            videos.map(async (video: VideoInfo) => {
-              const isShort = await checkIfShort(video.id);
-              return { ...video, isShort };
-            })
-          );
+        const videos: VideoInfo[] = (detailData.items ?? []).map((v: ApiVideo) => ({
+          id: v.id,
+          title: v.snippet.title,
+          isLive: v.snippet.liveBroadcastContent === "live",
+          isUpcoming: v.snippet.liveBroadcastContent === "upcoming",
+          publishedAt: v.snippet.publishedAt,
+          thumbnail:
+            v.snippet.thumbnails?.medium?.url || v.snippet.thumbnails?.default?.url,
+          isShort: durationToSeconds(v.contentDetails.duration) <= SHORT_MAX_SECONDS,
+          viewerCount: v.liveStreamingDetails?.concurrentViewers,
+        }));
 
-          const fullVideos = shortChecks.filter((v: VideoInfo) => !v.isShort);
-          const shortVideos = shortChecks.filter((v: VideoInfo) => v.isShort);
+        if (cancelled) return;
 
-          if (fullVideos.length > 0) {
-            setSermon(fullVideos[0]);
-          }
-          setShorts(shortVideos.slice(0, 4));
+        // A live stream outranks everything; otherwise the newest full-length
+        // video. Shorts are never the headline.
+        const live = videos.find((v) => v.isLive);
+        const fullVideos = videos.filter((v) => !v.isShort && !v.isLive);
+
+        if (live) {
+          setSermon(live);
+        } else if (fullVideos.length > 0) {
+          setSermon(fullVideos[0]);
+        } else {
+          setError(true);
         }
+        setShorts(videos.filter((v) => v.isShort).slice(0, 4));
       } catch (err) {
         console.error("Failed to fetch YouTube data:", err);
-        setError(true);
+        if (!cancelled) setError(true);
       }
-      setLoading(false);
+      if (!cancelled) setLoading(false);
     }
 
     fetchVideos();
-    const interval = setInterval(fetchVideos, 120000);
-    return () => clearInterval(interval);
+
+    // Refresh every 5 minutes so a service going live is picked up without a
+    // reload. At 2 units a run this is ~576 units/day per open tab, against a
+    // 10,000 daily quota. The previous 2-minute interval cost 200 units a run
+    // and drained the entire day's quota in under two hours.
+    const interval = setInterval(fetchVideos, 300000);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
   }, []);
 
   const formatDate = (dateString: string) => {
@@ -233,33 +250,52 @@ export function LatestSermon() {
             </a>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {shorts.map((short) => (
-              <a
-                key={short.id}
-                href={`https://www.youtube.com/shorts/${short.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative aspect-[9/16] bg-navy-100 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow"
-              >
-                {short.thumbnail && (
-                  <Image
-                    src={short.thumbnail}
-                    alt={short.title}
-                    fill
-                    className="object-cover"
+            {shorts.map((short) =>
+              playingShort === short.id ? (
+                /* Full width on phones: at two columns a playing clip is only
+                   ~163px wide, which is too small to watch comfortably. */
+                <div
+                  key={short.id}
+                  className="relative aspect-[9/16] bg-navy-900 rounded-xl overflow-hidden shadow-lg col-span-2 md:col-span-1 max-w-xs mx-auto w-full md:max-w-none"
+                >
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${short.id}?autoplay=1&rel=0`}
+                    title={short.title}
+                    allow="accelerometer; autoplay; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
                   />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-3">
-                  <p className="text-white text-xs font-medium line-clamp-2">{short.title}</p>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
-                  <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center">
-                    <Play className="w-5 h-5 text-navy-900 ml-0.5" fill="currentColor" />
+              ) : (
+                /* Thumbnail until clicked: four autoplaying iframes would load
+                   megabytes of player on every visit to this page. */
+                <button
+                  key={short.id}
+                  type="button"
+                  onClick={() => setPlayingShort(short.id)}
+                  aria-label={`Play ${short.title}`}
+                  className="group relative aspect-[9/16] bg-navy-100 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow text-left"
+                >
+                  {short.thumbnail && (
+                    <Image
+                      src={short.thumbnail}
+                      alt=""
+                      fill
+                      className="object-cover"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-3">
+                    <p className="text-white text-xs font-medium line-clamp-2">{short.title}</p>
                   </div>
-                </div>
-              </a>
-            ))}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity bg-black/20">
+                    <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center">
+                      <Play className="w-5 h-5 text-navy-900 ml-0.5" fill="currentColor" />
+                    </div>
+                  </div>
+                </button>
+              )
+            )}
           </div>
         </div>
       )}
