@@ -1,0 +1,65 @@
+{
+  "heroTitle": "Plan Your Visit",
+  "heroSubtitle": "Welcome to CTK",
+  "heroDescription": "We're so glad you're considering joining us! Here's everything you need to know for your first Sunday.",
+  "sundayTitle": "Join Us This Sunday",
+  "serviceTimeLabel": "Service Time",
+  "serviceTimeNote": "Also streaming live on YouTube",
+  "locationLabel": "Location",
+  "locationNote": "Just south of SR206",
+  "parkingLabel": "Parking",
+  "parkingBody": "Free parking available in our lot. Handicap accessible spaces near the entrance.",
+  "directionsCtaLabel": "Get Directions",
+  "expectTitle": "What to Expect",
+  "expectSubtitle": "Your First Visit",
+  "expectDescription": "We want you to feel comfortable and welcome from the moment you arrive.",
+  "expectCards": [
+    {
+      "title": "Worship Style",
+      "description": "We practice blended worship, combining traditional hymns with contemporary Christian music. Our services follow the Anglican liturgy with Scripture readings, prayers, a sermon, and Holy Communion every week.",
+      "icon": "music"
+    },
+    {
+      "title": "Holy Communion",
+      "description": "We celebrate Holy Eucharist (Communion) every Sunday. All baptized Christians who love the Lord are welcome to receive. If you're not ready to receive, you're welcome to come forward for a blessing.",
+      "icon": "heart"
+    },
+    {
+      "title": "Dress Code",
+      "description": "Come as you are! Any attire is welcome, from \"Sunday best\" to jeans and t-shirts to shorts and flip flops. We're just glad you're here.",
+      "icon": "users"
+    }
+  ],
+  "familyEyebrow": "For Families",
+  "familyTitle": "Children & Youth",
+  "familyIntro": "We love having kids in worship! Here's what we offer for families:",
+  "familyImage": "/images/ministries/sunday-school.jpg",
+  "familyImageAlt": "Children's Sunday School at CTK",
+  "familyItems": [
+    {
+      "title": "Nursery",
+      "description": "Available for infants through kindergarten",
+      "icon": "heart"
+    },
+    {
+      "title": "Sunday School",
+      "description": "1st to 5th graders are dismissed before the sermon and return for Communion",
+      "icon": "bookOpen"
+    },
+    {
+      "title": "Teens",
+      "description": "6th to 12th graders worship with their families",
+      "icon": "users"
+    }
+  ],
+  "childSafetyTitle": "Child Safety",
+  "childSafetyBody": "The safety of your children is our top priority. All volunteers who work with children undergo background screening and MinistrySafe training.",
+  "childSafetyCtaLabel": "Learn More About Safeguarding",
+  "fellowshipTitle": "Stay for Fellowship",
+  "fellowshipBody": "After the service, we invite you to stay for refreshments and fellowship. It's a great time to meet people, ask questions, and learn more about the CTK community.",
+  "fellowshipCtaLabel": "Ways to Get Connected",
+  "nextStepsTitle": "Ready to Take the Next Step?",
+  "nextStepsBody": "If you're interested in learning more about the Anglican faith or becoming a member, we offer a 9-week Catechism class for new believers and those exploring.",
+  "nextStepsPrimaryCtaLabel": "Learn About Classes",
+  "nextStepsSecondaryCtaLabel": "Contact Us"
+}

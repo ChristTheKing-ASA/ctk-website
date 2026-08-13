@@ -1,4 +1,12 @@
 import { config, fields, collection, singleton } from "@keystatic/core";
+import { ICON_OPTIONS, DEFAULT_ICON } from "./src/lib/icons";
+
+const iconField = (label = "Icon") =>
+  fields.select({
+    label,
+    options: ICON_OPTIONS,
+    defaultValue: DEFAULT_ICON,
+  });
 
 export default config({
   // In dev, edit content against the local filesystem. In production,
@@ -14,6 +22,9 @@ export default config({
     // Mirror the site's section headings so editors can find a page in the
     // sidebar the same way they find it on the site.
     navigation: {
+      "Home": ["homePage"],
+      "Visit": ["visitPage"],
+      "Give": ["givePage"],
       "About — Our Team": ["clergy", "teamPage"],
       "Connect": ["membershipPage"],
       "Worship": ["weeklyActivities"],
@@ -24,6 +35,239 @@ export default config({
     },
   },
   singletons: {
+    homePage: singleton({
+      label: "Home Page",
+      path: "src/content/home-page",
+      format: { data: "json" },
+      schema: {
+        heroImage: fields.image({
+          label: "Hero Photo",
+          description:
+            "Fills the whole top of the homepage. Use at least 2400 x 1400 pixels, landscape. JPG. Anything smaller looks blurry on a large screen. Keep faces near the middle: the edges get cropped on phones.",
+          directory: "public/images/church",
+          publicPath: "/images/church",
+        }),
+        heroImageAlt: fields.text({
+          label: "Hero Photo Description",
+          description: "Describes the photo for screen readers and search engines.",
+        }),
+        heroNameLine1: fields.text({ label: "Church Name, Line 1" }),
+        heroNameLine2: fields.text({ label: "Church Name, Line 2" }),
+        missionEyebrow: fields.text({
+          label: "Mission Label",
+          description: "Small text above the mission statement.",
+        }),
+        missionHeadline: fields.text({ label: "Mission Statement" }),
+        pillars: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            icon: iconField(),
+          }),
+          {
+            label: "Mission Pillars",
+            description:
+              "Shown as three cards over the hero photo. Hidden on phones, where the mission statement carries the message.",
+            itemLabel: (props) => props.fields.title.value || "Pillar",
+          }
+        ),
+        heroPrimaryCtaLabel: fields.text({ label: "Primary Button Label" }),
+        heroPrimaryCtaHref: fields.text({ label: "Primary Button Link" }),
+        heroSecondaryCtaLabel: fields.text({ label: "Secondary Button Label" }),
+        heroSecondaryCtaHref: fields.text({ label: "Secondary Button Link" }),
+
+        anglicanEyebrow: fields.text({ label: "Tradition Label" }),
+        anglicanTitle: fields.text({ label: "Tradition Heading" }),
+        anglicanBody: fields.text({ label: "Tradition Body", multiline: true }),
+        anglicanCards: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description" }),
+            icon: iconField(),
+          }),
+          {
+            label: "Tradition Highlights",
+            itemLabel: (props) => props.fields.title.value || "Highlight",
+          }
+        ),
+        anglicanCtaLabel: fields.text({ label: "Tradition Button Label" }),
+        anglicanCtaHref: fields.text({ label: "Tradition Button Link" }),
+
+        rectorEyebrow: fields.text({ label: "Rector Section Label" }),
+        rectorQuote: fields.text({ label: "Rector Quote", multiline: true }),
+        rectorBody: fields.text({ label: "Rector Section Body", multiline: true }),
+        rectorPrimaryCtaLabel: fields.text({ label: "Rector Button Label" }),
+        rectorSecondaryCtaLabel: fields.text({ label: "Rector Secondary Button Label" }),
+
+        ministriesEyebrow: fields.text({ label: "Ministries Label" }),
+        ministriesTitle: fields.text({ label: "Ministries Heading" }),
+        ministriesDescription: fields.text({
+          label: "Ministries Description",
+          multiline: true,
+        }),
+        deafChurchBody: fields.text({
+          label: "DeafChurch Card Body",
+          description:
+            "Follows the DeafChurch tagline, which is edited under DeafChurch.",
+          multiline: true,
+        }),
+        deafChurchCtaLabel: fields.text({ label: "DeafChurch Button Label" }),
+        missionsBody: fields.text({
+          label: "Missions Card Body",
+          description:
+            "The partner counts above this are calculated from the Mission Partners list, so they stay correct on their own.",
+          multiline: true,
+        }),
+        missionsCtaLabel: fields.text({ label: "Missions Button Label" }),
+
+        quickLinksEyebrow: fields.text({ label: "Quick Links Label" }),
+        quickLinksTitle: fields.text({ label: "Quick Links Heading" }),
+        quickLinks: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            href: fields.text({ label: "Link" }),
+            icon: iconField(),
+          }),
+          {
+            label: "Quick Links",
+            itemLabel: (props) => props.fields.title.value || "Link",
+          }
+        ),
+      },
+    }),
+    visitPage: singleton({
+      label: "Visit Page",
+      path: "src/content/visit-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+
+        sundayTitle: fields.text({ label: "Sunday Section Heading" }),
+        serviceTimeLabel: fields.text({ label: "Service Time Label" }),
+        serviceTimeNote: fields.text({
+          label: "Service Time Note",
+          description: "The service time itself is edited in Site Settings.",
+        }),
+        locationLabel: fields.text({ label: "Location Label" }),
+        locationNote: fields.text({
+          label: "Location Note",
+          description: "The address is edited in Site Settings.",
+        }),
+        parkingLabel: fields.text({ label: "Parking Label" }),
+        parkingBody: fields.text({ label: "Parking Details", multiline: true }),
+        directionsCtaLabel: fields.text({ label: "Directions Button Label" }),
+
+        expectTitle: fields.text({ label: "What to Expect Heading" }),
+        expectSubtitle: fields.text({ label: "What to Expect Label" }),
+        expectDescription: fields.text({
+          label: "What to Expect Intro",
+          multiline: true,
+        }),
+        expectCards: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            icon: iconField(),
+          }),
+          {
+            label: "What to Expect Cards",
+            itemLabel: (props) => props.fields.title.value || "Card",
+          }
+        ),
+
+        familyEyebrow: fields.text({ label: "Families Label" }),
+        familyTitle: fields.text({ label: "Families Heading" }),
+        familyIntro: fields.text({ label: "Families Intro", multiline: true }),
+        familyImage: fields.image({
+          label: "Families Photo",
+          description:
+            "Use at least 1400 x 1400 pixels. JPG. It is cropped to a square on computers and a wide strip on phones, so keep the subject centred. The photo here before this note was 334 pixels wide and looked out of focus for exactly that reason.",
+          directory: "public/images/ministries",
+          publicPath: "/images/ministries",
+        }),
+        familyImageAlt: fields.text({ label: "Families Photo Description" }),
+        familyItems: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            icon: iconField(),
+          }),
+          {
+            label: "What We Offer Families",
+            itemLabel: (props) => props.fields.title.value || "Item",
+          }
+        ),
+        childSafetyTitle: fields.text({ label: "Child Safety Heading" }),
+        childSafetyBody: fields.text({
+          label: "Child Safety Body",
+          multiline: true,
+        }),
+        childSafetyCtaLabel: fields.text({ label: "Child Safety Button Label" }),
+
+        fellowshipTitle: fields.text({ label: "Fellowship Heading" }),
+        fellowshipBody: fields.text({ label: "Fellowship Body", multiline: true }),
+        fellowshipCtaLabel: fields.text({ label: "Fellowship Button Label" }),
+
+        nextStepsTitle: fields.text({ label: "Next Steps Heading" }),
+        nextStepsBody: fields.text({ label: "Next Steps Body", multiline: true }),
+        nextStepsPrimaryCtaLabel: fields.text({ label: "Next Steps Button Label" }),
+        nextStepsSecondaryCtaLabel: fields.text({
+          label: "Next Steps Secondary Button Label",
+        }),
+      },
+    }),
+    givePage: singleton({
+      label: "Give Page",
+      path: "src/content/give-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+
+        onlineTitle: fields.text({ label: "Online Giving Heading" }),
+        onlineBody: fields.text({ label: "Online Giving Body", multiline: true }),
+        onlineCtaLabel: fields.text({ label: "Online Giving Button Label" }),
+        onlineSecureNote: fields.text({ label: "Security Note" }),
+
+        whereTitle: fields.text({ label: "Where Your Gift Goes Heading" }),
+        whereCards: fields.array(
+          fields.object({
+            title: fields.text({ label: "Title" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            icon: iconField(),
+          }),
+          {
+            label: "Where Your Gift Goes",
+            itemLabel: (props) => props.fields.title.value || "Card",
+          }
+        ),
+
+        otherWaysTitle: fields.text({ label: "Other Ways Heading" }),
+        inPersonTitle: fields.text({ label: "In Person Heading" }),
+        inPersonBody: fields.text({ label: "In Person Body", multiline: true }),
+        byMailTitle: fields.text({ label: "By Mail Heading" }),
+        byMailBody: fields.text({
+          label: "By Mail Body",
+          description:
+            "The mailing address is added automatically from Site Settings, so do not type it here.",
+          multiline: true,
+        }),
+        appTitle: fields.text({ label: "Church App Heading" }),
+        appBody: fields.text({
+          label: "Church App Body",
+          description: "The words before the app link.",
+          multiline: true,
+        }),
+        appLinkLabel: fields.text({ label: "Church App Link Text" }),
+
+        missionsPrompt: fields.text({ label: "Missions Prompt", multiline: true }),
+        missionsCtaLabel: fields.text({ label: "Missions Button Label" }),
+      },
+    }),
     churchInfo: singleton({
       label: "Church Info",
       path: "src/content/church-info",
@@ -53,6 +297,11 @@ export default config({
         denominationUrl: fields.url({ label: "Denomination URL" }),
         scriptureText: fields.text({ label: "Scripture Text", multiline: true }),
         scriptureReference: fields.text({ label: "Scripture Reference" }),
+        visionStatement: fields.text({
+          label: "Vision Statement",
+          description: "Shown under the mission heading on the homepage.",
+          multiline: true,
+        }),
       },
     }),
     teamPage: singleton({
@@ -135,6 +384,8 @@ export default config({
         phone: fields.text({ label: "Phone" }),
         image: fields.image({
           label: "Photo",
+          description:
+            "Head and shoulders, portrait orientation. Use at least 800 x 1000 pixels. JPG. Without one, the card shows the person's initials instead.",
           directory: "public/images/team",
           publicPath: "/images/team",
         }),

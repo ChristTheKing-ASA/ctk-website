@@ -1,0 +1,91 @@
+{
+  "heroImage": "/images/church/greeters.jpg",
+  "heroImageAlt": "A family arriving for Sunday worship at Christ The King Anglican Church",
+  "heroNameLine1": "Christ The King",
+  "heroNameLine2": "Anglican Church",
+  "missionEyebrow": "Our Mission",
+  "missionHeadline": "Love God. Become Disciples. Serve Others.",
+  "pillars": [
+    {
+      "title": "Love God",
+      "description": "With all your heart, soul, mind, and strength",
+      "icon": "heart"
+    },
+    {
+      "title": "Become Disciples",
+      "description": "Growing in spiritual maturity modeled on Christ",
+      "icon": "bookOpen"
+    },
+    {
+      "title": "Serve Others",
+      "description": "Expressing divine love through humble service",
+      "icon": "handHeart"
+    }
+  ],
+  "heroPrimaryCtaLabel": "Plan Your Visit",
+  "heroPrimaryCtaHref": "/visit",
+  "heroSecondaryCtaLabel": "Watch Online",
+  "heroSecondaryCtaHref": "/worship/sermons",
+  "anglicanEyebrow": "Our Tradition",
+  "anglicanTitle": "What is Anglicanism?",
+  "anglicanBody": "Anglicanism is a worldwide body of Christians responding to God's revelation through Jesus Christ. It brings together the authority of the Bible, the historic faith, and the beauty of structured prayer. Rooted in tradition, yet contemporary in practice. United in substance, yet diverse in expression. We are a global family living out our faith in local communities.",
+  "anglicanCards": [
+    {
+      "title": "Scripture",
+      "description": "The authority of God's Word",
+      "icon": "book"
+    },
+    {
+      "title": "Tradition",
+      "description": "The historic faith of the Church",
+      "icon": "church"
+    },
+    {
+      "title": "Community",
+      "description": "A global family, local expression",
+      "icon": "globe"
+    }
+  ],
+  "anglicanCtaLabel": "Learn More About Anglicanism",
+  "anglicanCtaHref": "/about/anglican-faith",
+  "rectorEyebrow": "A Word from Our Rector",
+  "rectorQuote": "I wanted to eat, sleep, and breathe the Bible. The Anglican tradition provided a trustworthy model for patterning my life around Scripture, forming in me Bible-shaped worship and prayer.",
+  "rectorBody": "At Christ The King, we believe the Anglican tradition offers a beautiful path for following Jesus, one that is rooted in Scripture, shaped by liturgy, and lived out in community. Whether you're new to faith or have walked with Christ for years, we invite you to journey with us.",
+  "rectorPrimaryCtaLabel": "Meet Fr. Craig",
+  "rectorSecondaryCtaLabel": "About Our Church",
+  "ministriesEyebrow": "Making a Difference",
+  "ministriesTitle": "Featured Ministries",
+  "ministriesDescription": "Discover how CTK is serving our community and the world.",
+  "deafChurchBody": "Christ The King serves as an Anchor Church, helping establish in-person community for the Deaf across Northeast Florida.",
+  "deafChurchCtaLabel": "Learn More About DeafChurch",
+  "missionsBody": "Through faithful giving, CTK supports mission partners across St. Augustine, the United States, and around the world, from feeding the hungry to reaching unreached peoples.",
+  "missionsCtaLabel": "Explore Our Missions",
+  "quickLinksEyebrow": "Get Started",
+  "quickLinksTitle": "How Can We Help?",
+  "quickLinks": [
+    {
+      "title": "Plan Your Visit",
+      "description": "Everything you need to know for your first Sunday with us.",
+      "href": "/visit",
+      "icon": "mapPin"
+    },
+    {
+      "title": "Watch Sermons",
+      "description": "Catch up on recent messages or browse our sermon archive.",
+      "href": "/worship/sermons",
+      "icon": "play"
+    },
+    {
+      "title": "Get Connected",
+      "description": "Join a small group, class, or find your place to serve.",
+      "href": "/connect",
+      "icon": "users"
+    },
+    {
+      "title": "Give Online",
+      "description": "Support the ministry of CTK through secure online giving.",
+      "href": "/give",
+      "icon": "heart"
+    }
+  ]
+}

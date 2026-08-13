@@ -62,10 +62,12 @@ export default async function WorshipPage() {
               <Button href="/visit" variant="primary">
                 Plan Your Visit
               </Button>
-              <Button href={churchInfo.social.youtube} external variant="outline">
-                <Video className="w-4 h-4" />
-                Watch Live
-              </Button>
+              {churchInfo.social.youtube && (
+                <Button href={churchInfo.social.youtube} external variant="outline">
+                  <Video className="w-4 h-4" />
+                  Watch Live
+                </Button>
+              )}
             </div>
           </div>
 

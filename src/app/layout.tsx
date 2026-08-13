@@ -62,10 +62,13 @@ export const metadata: Metadata = {
     description:
       "A welcoming Anglican community in St. Augustine, Florida. Join us for worship Sundays at 10:00 AM.",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  // The staging copy on GitHub Pages is publicly reachable and would otherwise
+  // compete with ctkasa.com in search results for the same content. The staging
+  // workflow sets NEXT_PUBLIC_NOINDEX so only production is indexable.
+  robots:
+    process.env.NEXT_PUBLIC_NOINDEX === "1"
+      ? { index: false, follow: false, nocache: true }
+      : { index: true, follow: true },
   icons: {
     icon: "/favicon.png",
     apple: "/favicon.png",

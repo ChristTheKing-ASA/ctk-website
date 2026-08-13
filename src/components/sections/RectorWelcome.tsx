@@ -1,11 +1,16 @@
 import Image from "next/image";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { getClergyBySlug } from "@/lib/content";
+import { getClergyBySlug, getHomePage } from "@/lib/content";
 import { Quote } from "lucide-react";
 
 export async function RectorWelcome() {
-  const rectorData = await getClergyBySlug("craig-sanders");
+  // Identity comes from the clergy collection so it cannot drift from the Team
+  // page; only the surrounding copy is homepage content.
+  const [rectorData, home] = await Promise.all([
+    getClergyBySlug("craig-sanders"),
+    getHomePage(),
+  ]);
 
   if (!rectorData) return null;
 
@@ -14,7 +19,7 @@ export async function RectorWelcome() {
     name: rectorData.name || "",
     title: rectorData.title || "",
     image: rectorData.image || "",
-    quote: "I wanted to eat, sleep, and breathe the Bible. The Anglican tradition provided a trustworthy model for patterning my life around Scripture, forming in me Bible-shaped worship and prayer.",
+    quote: home?.rectorQuote || "",
   };
 
   return (
@@ -44,7 +49,7 @@ export async function RectorWelcome() {
         {/* Content */}
         <div>
           <p className="text-gold-600 font-semibold text-sm uppercase tracking-wider mb-4">
-            A Word from Our Rector
+            {home?.rectorEyebrow}
           </p>
 
           <div className="relative mb-6">
@@ -61,19 +66,14 @@ export async function RectorWelcome() {
             <p className="text-gold-600 font-medium">{rector.title}</p>
           </div>
 
-          <p className="text-navy-600 mb-8 leading-relaxed">
-            At Christ The King, we believe the Anglican tradition offers a beautiful path
-            for following Jesus—one that is rooted in Scripture, shaped by liturgy, and
-            lived out in community. Whether you&apos;re new to faith or have walked with
-            Christ for years, we invite you to journey with us.
-          </p>
+          <p className="text-navy-600 mb-8 leading-relaxed">{home?.rectorBody}</p>
 
           <div className="flex flex-wrap gap-4">
             <Button href={`/about/team/${rector.slug}`} variant="primary">
-              Meet Fr. Craig
+              {home?.rectorPrimaryCtaLabel}
             </Button>
             <Button href="/about" variant="ghost">
-              About Our Church →
+              {home?.rectorSecondaryCtaLabel}
             </Button>
           </div>
         </div>
