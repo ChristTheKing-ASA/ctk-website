@@ -43,7 +43,7 @@ export default config({
         heroImage: fields.image({
           label: "Hero Photo",
           description:
-            "Fills the top of the homepage. Use a wide, high-resolution photo; it is displayed very large.",
+            "Fills the whole top of the homepage. Use at least 2400 x 1400 pixels, landscape. JPG. Anything smaller looks blurry on a large screen. Keep faces near the middle: the edges get cropped on phones.",
           directory: "public/images/church",
           publicPath: "/images/church",
         }),
@@ -184,7 +184,7 @@ export default config({
         familyImage: fields.image({
           label: "Families Photo",
           description:
-            "Displayed large and cropped to a square on desktop. Use a high-resolution photo, at least 1400px wide, or it will look soft.",
+            "Use at least 1400 x 1400 pixels. JPG. It is cropped to a square on computers and a wide strip on phones, so keep the subject centred. The photo here before this note was 334 pixels wide and looked out of focus for exactly that reason.",
           directory: "public/images/ministries",
           publicPath: "/images/ministries",
         }),
@@ -384,6 +384,8 @@ export default config({
         phone: fields.text({ label: "Phone" }),
         image: fields.image({
           label: "Photo",
+          description:
+            "Head and shoulders, portrait orientation. Use at least 800 x 1000 pixels. JPG. Without one, the card shows the person's initials instead.",
           directory: "public/images/team",
           publicPath: "/images/team",
         }),
