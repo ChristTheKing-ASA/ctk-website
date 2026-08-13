@@ -102,8 +102,11 @@ export default async function VisitPage() {
 
           {/* Map Embed */}
           <div className="rounded-xl overflow-hidden shadow-lg h-[400px] lg:h-auto">
+            {/* Keyless embed. The Maps Embed API needs an API key, which then
+                ships in the page source for anyone to copy. This endpoint needs
+                none and renders the same map. */}
             <iframe
-              src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(
+              src={`https://www.google.com/maps?output=embed&q=${encodeURIComponent(
                 `Christ The King Anglican Church, ${churchInfo.address.street}, ${churchInfo.address.city}, ${churchInfo.address.state}`
               )}`}
               width="100%"
