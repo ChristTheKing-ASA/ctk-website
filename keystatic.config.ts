@@ -52,7 +52,7 @@ export default config({
       ],
       "Give": ["givePage"],
       "Missions": ["missionPartners"],
-      "Site Settings": ["churchInfo", "announcements"],
+      "Site Settings": ["churchInfo"],
     },
   },
   singletons: {
@@ -677,6 +677,12 @@ export default config({
         contactName: fields.text({ label: "Contact Name (optional)" }),
         contactEmail: fields.text({ label: "Contact Email (optional)" }),
         contactPhone: fields.text({ label: "Contact Phone (optional)" }),
+        resourceLabel: fields.text({
+          label: "Resource Link Text (optional)",
+          description:
+            "Shown as a link on the activity, for a prayer app, a book, or a Zoom room.",
+        }),
+        resourceUrl: fields.url({ label: "Resource Link URL (optional)" }),
       },
     }),
     events: collection({
@@ -720,19 +726,6 @@ export default config({
         }),
         contactName: fields.text({ label: "Contact Name (optional)" }),
         contactEmail: fields.text({ label: "Contact Email (optional)" }),
-      },
-    }),
-    announcements: collection({
-      label: "Announcements",
-      slugField: "title",
-      path: "src/content/announcements/*",
-      format: { data: "json" },
-      schema: {
-        title: fields.slug({ name: { label: "Title" } }),
-        date: fields.date({ label: "Date" }),
-        content: fields.text({ label: "Content", multiline: true }),
-        expiresAt: fields.date({ label: "Expires At (optional)" }),
-        important: fields.checkbox({ label: "Mark as Important" }),
       },
     }),
   },

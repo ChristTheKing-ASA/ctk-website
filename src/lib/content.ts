@@ -275,20 +275,3 @@ export async function getAllEvents() {
     .sort(compareEventsByDate);
 }
 
-export async function getAllAnnouncements() {
-  const slugs = await reader.collections.announcements.list();
-  const announcements = await Promise.all(
-    slugs.map(async (slug) => {
-      const data = await reader.collections.announcements.read(slug);
-      return { slug, ...data };
-    })
-  );
-  // Filter out expired announcements and sort by date
-  const now = new Date().toISOString().split("T")[0];
-  return announcements
-    .filter((a) => a && (!a.expiresAt || a.expiresAt >= now))
-    .sort((a, b) => {
-      if (!a?.date || !b?.date) return 0;
-      return b.date.localeCompare(a.date);
-    });
-}

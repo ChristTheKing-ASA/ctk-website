@@ -3,5 +3,7 @@
   "day": "Tuesday",
   "time": "10:00 AM",
   "description": "Join us for a time of prayer following the Daily Office",
-  "location": "In-person"
+  "location": "In-person",
+  "resourceLabel": "Follow along with The Daily Office",
+  "resourceUrl": "https://dailyoffice2019.com"
 }
