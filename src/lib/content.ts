@@ -115,6 +115,14 @@ export async function getGivePage() {
   return await reader.singletons.givePage.read();
 }
 
+export async function getServePage() {
+  return await reader.singletons.servePage.read();
+}
+
+export async function getSafeguardingPage() {
+  return await reader.singletons.safeguardingPage.read();
+}
+
 export async function getVisitPage() {
   return await reader.singletons.visitPage.read();
 }

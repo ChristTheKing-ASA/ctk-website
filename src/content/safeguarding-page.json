@@ -1,0 +1,40 @@
+{
+  "heroTitle": "Safeguarding",
+  "heroSubtitle": "Child Safety",
+  "directorLabel": "Director of Safeguarding",
+  "directorName": "The Rev. Langdon Pegram",
+  "commitmentTitle": "Our Commitment",
+  "commitmentBody": "At Christ The King, the safety of children, youth, and vulnerable adults is paramount. We take proactive steps to create a safe environment where everyone can worship, learn, and grow.",
+  "requirementsTitle": "Volunteer Requirements",
+  "requirements": [
+    {
+      "title": "Background Screening",
+      "description": "All volunteers who work with children and youth undergo a comprehensive background check.",
+      "icon": "church"
+    },
+    {
+      "title": "Safeguarding Our People",
+      "description": "Completion of Safeguarding Our People (SOP) training, our diocese's safeguarding program, is required before serving in children's or youth ministry.",
+      "icon": "bookOpen"
+    },
+    {
+      "title": "Two-Adult Rule",
+      "description": "We maintain a two-adult minimum in all settings with children and youth.",
+      "icon": "users"
+    },
+    {
+      "title": "Clear Policies",
+      "description": "Written policies and procedures guide all children's and youth activities.",
+      "icon": "church"
+    }
+  ],
+  "heroDescription": "Protecting the children and vulnerable adults in our community is a sacred responsibility.",
+  "rolesTitle": "Roles Requiring Safeguarding Training",
+  "roles": [
+    "Sunday School Teachers",
+    "Sunday School Assistants",
+    "Nursery Volunteers",
+    "Youth Ministry Leaders",
+    "Children's Ministry Coordinators"
+  ]
+}

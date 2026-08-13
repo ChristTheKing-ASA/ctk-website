@@ -24,6 +24,7 @@ export default config({
     navigation: {
       "Home": ["homePage"],
       "Visit": ["visitPage"],
+      "Serve": ["servePage", "safeguardingPage"],
       "Give": ["givePage"],
       "About — Our Team": ["clergy", "teamPage"],
       "Connect": ["membershipPage"],
@@ -134,6 +135,82 @@ export default config({
             itemLabel: (props) => props.fields.title.value || "Link",
           }
         ),
+      },
+    }),
+    servePage: singleton({
+      label: "Serve Page",
+      path: "src/content/serve-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+
+        areasTitle: fields.text({ label: "Ways to Serve Heading" }),
+        areasSubtitle: fields.text({ label: "Ways to Serve Label" }),
+        areas: fields.array(
+          fields.object({
+            name: fields.text({ label: "Area Name" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            icon: iconField(),
+            roles: fields.array(fields.text({ label: "Role" }), {
+              label: "Roles",
+              itemLabel: (props) => props.value || "Role",
+            }),
+            requiresTraining: fields.checkbox({
+              label: "Requires safeguarding training",
+            }),
+          }),
+          {
+            label: "Volunteer Areas",
+            itemLabel: (props) => props.fields.name.value || "Area",
+          }
+        ),
+
+        safeguardingNote: fields.text({
+          label: "Safeguarding Note",
+          description:
+            "Shown beside the Ways to Serve list. Names the training volunteers with children must complete.",
+          multiline: true,
+        }),
+        safeguardingCtaLabel: fields.text({ label: "Safeguarding Button Label" }),
+
+        ctaTitle: fields.text({ label: "Get Involved Heading" }),
+        ctaBody: fields.text({ label: "Get Involved Body", multiline: true }),
+        ctaLabel: fields.text({ label: "Get Involved Button Label" }),
+      },
+    }),
+    safeguardingPage: singleton({
+      label: "Safeguarding Page",
+      path: "src/content/safeguarding-page",
+      format: { data: "json" },
+      schema: {
+        heroTitle: fields.text({ label: "Page Title" }),
+        heroSubtitle: fields.text({ label: "Page Label" }),
+        heroDescription: fields.text({ label: "Page Intro", multiline: true }),
+        directorLabel: fields.text({ label: "Director Role Label" }),
+        directorName: fields.text({ label: "Director Name" }),
+        commitmentTitle: fields.text({ label: "Commitment Heading" }),
+        commitmentBody: fields.text({ label: "Commitment Body", multiline: true }),
+        requirementsTitle: fields.text({ label: "Requirements Heading" }),
+        requirements: fields.array(
+          fields.object({
+            title: fields.text({ label: "Requirement" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            icon: iconField(),
+          }),
+          {
+            label: "Volunteer Requirements",
+            description:
+              "Safeguarding policy. Change this only with wording the parish or diocese has confirmed.",
+            itemLabel: (props) => props.fields.title.value || "Requirement",
+          }
+        ),
+        rolesTitle: fields.text({ label: "Roles List Heading" }),
+        roles: fields.array(fields.text({ label: "Role" }), {
+          label: "Roles Requiring Training",
+          itemLabel: (props) => props.value || "Role",
+        }),
       },
     }),
     visitPage: singleton({
