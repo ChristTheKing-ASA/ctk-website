@@ -33,17 +33,17 @@
   "familyEyebrow": "For Families",
   "familyTitle": "Children & Youth",
   "familyIntro": "We love having kids in worship! Here's what we offer for families:",
-  "familyImage": "/images/ministries/sunday-school.jpg",
+  "familyImage": "/images/ministries/familyImage.jpg",
   "familyImageAlt": "Children's Sunday School at CTK",
   "familyItems": [
     {
       "title": "Nursery",
-      "description": "Available for infants through kindergarten",
+      "description": "Available for infants through Pre-K",
       "icon": "heart"
     },
     {
       "title": "Sunday School",
-      "description": "1st to 5th graders are dismissed before the sermon and return for Communion",
+      "description": "Elementary children (Kindergarten to 5th graders) are dismissed before the sermon and return for Communion",
       "icon": "bookOpen"
     },
     {
