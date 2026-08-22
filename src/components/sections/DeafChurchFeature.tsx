@@ -32,8 +32,9 @@ export function DeafChurchFeature() {
           </h2>
 
           <p className="text-navy-200 text-lg mb-6 leading-relaxed">
-            CTK is an anchor church for DeafChurch First Coast, bringing Anglican
-            worship to the Deaf community through weekly ASL services.
+            Christ The King is the host church for DeafChurch First Coast,
+            bringing Anglican worship to the Deaf community through weekly ASL
+            services.
           </p>
 
           <Button href="/deafchurch" variant="secondary">

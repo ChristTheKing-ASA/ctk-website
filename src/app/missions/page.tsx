@@ -1,5 +1,6 @@
 import { Metadata } from "next";
-import { getAllMissionPartners } from "@/lib/content";
+import { getAllMissionPartners, getDeafChurchInfo } from "@/lib/content";
+import { deafChurchCardBody, deafChurchPublicCopy } from "@/lib/deafchurch";
 import { normalizeExternalUrl, displayUrl } from "@/lib/utils";
 import { missionPartners } from "@/data/church";
 import MissionsClient from "./MissionsClient";
@@ -10,7 +11,11 @@ export const metadata: Metadata = {
 };
 
 export default async function MissionsPage() {
-  const cmsPartners = await getAllMissionPartners();
+  const [cmsPartners, deafChurchData] = await Promise.all([
+    getAllMissionPartners(),
+    getDeafChurchInfo(),
+  ]);
+  const deafChurch = deafChurchPublicCopy(deafChurchData);
 
   // Transform CMS data to expected format
   const partners = cmsPartners.map((p) => {
@@ -28,5 +33,12 @@ export default async function MissionsPage() {
   // Use additional partners from static data (these are simple, rarely change)
   const additionalPartners = missionPartners.additional;
 
-  return <MissionsClient partners={partners} additionalPartners={additionalPartners} />;
+  return (
+    <MissionsClient
+      partners={partners}
+      additionalPartners={additionalPartners}
+      deafChurchName={deafChurch.name}
+      deafChurchDescription={deafChurchCardBody(deafChurchData)}
+    />
+  );
 }
