@@ -3,8 +3,13 @@ import Image from "next/image";
 import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
+import { TeamCard } from "@/components/ui/Card";
 import { DeafChurchVideo } from "@/components/DeafChurchVideo";
-import { getDeafChurchInfo } from "@/lib/content";
+import {
+  getDeafChurchInfo,
+  getDeafChurchPeople,
+} from "@/lib/content";
+import { deafChurchPublicCopy } from "@/lib/deafchurch";
 import {
   HandHeart,
   Users,
@@ -17,17 +22,23 @@ import {
   Quote,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "DeafChurch First Coast",
-  description:
-    "DeafChurch First Coast - bringing Anglican worship to the Deaf community in American Sign Language. Christ The King is an anchor church for this regional ministry.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getDeafChurchInfo();
+  const copy = deafChurchPublicCopy(data);
+  return {
+    title: copy.name,
+    description: copy.description || copy.tagline,
+  };
+}
 
 export default async function DeafChurchPage() {
-  const deafChurchData = await getDeafChurchInfo();
+  const [deafChurchData, people] = await Promise.all([
+    getDeafChurchInfo(),
+    getDeafChurchPeople(),
+  ]);
 
+  const copy = deafChurchPublicCopy(deafChurchData);
   const deafChurch = {
-    tagline: deafChurchData?.tagline || "",
     founderName: deafChurchData?.founderName || "",
     founderEmail: deafChurchData?.founderEmail || "",
     familyInfo: deafChurchData?.familyInfo || "",
@@ -38,19 +49,18 @@ export default async function DeafChurchPage() {
   return (
     <>
       <PageHeader
-        title="DeafChurch First Coast"
+        title={copy.name}
         subtitle="Deaf Ministry"
-        description={deafChurch.tagline}
+        description={copy.tagline}
         breadcrumb={[{ label: "DeafChurch", href: "/deafchurch" }]}
       />
 
-      {/* About Section - FIRST */}
       <Section background="white">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <div className="inline-flex items-center gap-2 bg-gold-100 text-gold-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
               <HandHeart className="w-4 h-4" />
-              CTK is an Anchor Church
+              {copy.badge}
             </div>
 
             <h2 className="font-display text-3xl font-bold text-navy-900 mb-6">
@@ -58,10 +68,7 @@ export default async function DeafChurchPage() {
             </h2>
 
             <p className="text-navy-600 text-lg mb-6 leading-relaxed">
-              DeafChurch First Coast is a church plant serving the Deaf Community
-              across Northeast Florida. Christ The King serves as an Anchor Church
-              in the DeafChurch Together movement, helping establish in-person
-              community in addition to online worship.
+              {copy.description}
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -84,7 +91,7 @@ export default async function DeafChurchPage() {
               Christian faith in the Anglican tradition. The model establishes a
               regional Deaf Liturgical Church movement based on multiple sites as
               part of a single parish, connecting Deaf communities with Anglican
-              anchor churches.
+              host churches.
             </p>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-navy-800 p-4 rounded-lg text-center">
@@ -93,7 +100,7 @@ export default async function DeafChurchPage() {
               </div>
               <div className="bg-navy-800 p-4 rounded-lg text-center">
                 <Church className="w-6 h-6 text-gold-400 mx-auto mb-2" />
-                <p className="text-sm text-navy-200">Anchor Churches</p>
+                <p className="text-sm text-navy-200">Host Churches</p>
               </div>
               <div className="bg-navy-800 p-4 rounded-lg text-center">
                 <Users className="w-6 h-6 text-gold-400 mx-auto mb-2" />
@@ -108,10 +115,30 @@ export default async function DeafChurchPage() {
         </div>
       </Section>
 
-      {/* Fr. Bob Quote - SECOND */}
+      {people.length > 0 && (
+        <Section background="cream">
+          <SectionHeader
+            subtitle="Who Serves Here"
+            title="The Plant Team"
+            description="The people leading DeafChurch First Coast from Christ The King."
+          />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {people.map((person) => (
+              <TeamCard
+                key={person.slug}
+                name={person.name || ""}
+                title={person.title || ""}
+                image={person.image || undefined}
+                shortBio={person.shortBio || ""}
+                href={`/about/team/${person.slug}`}
+              />
+            ))}
+          </div>
+        </Section>
+      )}
+
       <Section background="navy">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Quote Side */}
           <div>
             <blockquote className="relative">
               <Quote className="w-10 h-10 text-gold-500/30 absolute -top-2 -left-2" />
@@ -127,7 +154,6 @@ export default async function DeafChurchPage() {
             </blockquote>
           </div>
 
-          {/* Image Side */}
           <div className="relative">
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
               <Image
@@ -142,7 +168,6 @@ export default async function DeafChurchPage() {
         </div>
       </Section>
 
-      {/* The Story */}
       <Section background="cream">
         <div className="max-w-4xl mx-auto">
           <SectionHeader
@@ -205,7 +230,6 @@ export default async function DeafChurchPage() {
         </div>
       </Section>
 
-      {/* Weekly Services */}
       <Section background="white" id="services">
         <div className="max-w-4xl mx-auto text-center">
           <SectionHeader
@@ -214,7 +238,6 @@ export default async function DeafChurchPage() {
             description="Experience Anglican liturgy in American Sign Language, streaming live on YouTube."
           />
 
-          {/* YouTube Embed */}
           <div className="mb-8">
             <DeafChurchVideo videoId={deafChurch.videoId} />
           </div>
@@ -231,7 +254,6 @@ export default async function DeafChurchPage() {
         </div>
       </Section>
 
-      {/* Get Involved */}
       <Section background="navy" id="get-involved">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-display text-3xl font-bold text-white mb-6">
@@ -242,10 +264,6 @@ export default async function DeafChurchPage() {
             support this ministry, we&apos;d love to connect with you.
           </p>
 
-          {/* Not inline-block: shrink-to-fit took the min-content width of an
-              email address with no break opportunity in it, making the card
-              360px wide and scrolling the whole page sideways on a 320px
-              phone. */}
           <div className="bg-navy-800 p-6 sm:p-8 rounded-xl max-w-md">
             <h3 className="text-gold-400 font-semibold mb-4">Contact</h3>
             <p className="text-white font-display text-lg mb-2">
@@ -262,18 +280,23 @@ export default async function DeafChurchPage() {
         </div>
       </Section>
 
-      {/* CTA */}
       <Section background="cream">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-display text-2xl font-bold text-navy-900 mb-4">
-            Learn More About Fr. Bob
+            Meet the team
           </h2>
           <p className="text-navy-600 mb-6">
-            Read more about Fr. Bob&apos;s journey and ministry.
+            Read more about Marva, Deacon Kathy, Fr. Bob, and the rest of the
+            staff and clergy at Christ The King.
           </p>
-          <Button href="/about/team/bob-ayres" variant="outline">
-            View Full Bio
-          </Button>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button href="/about/team" variant="primary">
+              Staff and Clergy
+            </Button>
+            <Button href="/about/team/bob-ayres" variant="outline">
+              Fr. Bob&apos;s bio
+            </Button>
+          </div>
         </div>
       </Section>
     </>
