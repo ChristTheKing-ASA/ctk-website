@@ -187,6 +187,24 @@ export async function getDeafChurchInfo() {
   return await reader.singletons.deafChurch.read();
 }
 
+export async function getDeafChurchPeople() {
+  const info = await getDeafChurchInfo();
+  const slugs = (info?.people ?? []).filter(
+    (slug): slug is string => typeof slug === "string" && slug.length > 0
+  );
+
+  const people = await Promise.all(
+    slugs.map(async (slug) => {
+      const data = await getClergyBySlug(slug);
+      return data ? { slug, ...data } : null;
+    })
+  );
+
+  return people.filter(
+    (person): person is NonNullable<typeof person> => person !== null
+  );
+}
+
 /**
  * Counts of mission partners by category, for the homepage summary.
  *
@@ -274,4 +292,3 @@ export async function getAllEvents() {
     )
     .sort(compareEventsByDate);
 }
-

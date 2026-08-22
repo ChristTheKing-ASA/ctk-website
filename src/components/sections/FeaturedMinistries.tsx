@@ -5,6 +5,7 @@ import {
   getHomePage,
   getMissionPartnerCounts,
 } from "@/lib/content";
+import { deafChurchCardBody, deafChurchPublicCopy } from "@/lib/deafchurch";
 import { HandHeart, ArrowRight, Users, Globe } from "lucide-react";
 
 export async function FeaturedMinistries() {
@@ -14,12 +15,11 @@ export async function FeaturedMinistries() {
     getMissionPartnerCounts(),
   ]);
 
-  const deafChurch = {
-    name: deafChurchData?.name || "DeafChurch First Coast",
-    tagline:
-      deafChurchData?.tagline ||
-      "Bringing Anglican worship to the Deaf community in American Sign Language",
-  };
+  const deafChurch = deafChurchPublicCopy(deafChurchData);
+  const deafChurchBody = deafChurchCardBody(
+    deafChurchData,
+    home?.deafChurchBody
+  );
 
   const categories = [
     { label: "Local", count: counts.local },
@@ -52,7 +52,7 @@ export async function FeaturedMinistries() {
             </h3>
 
             <p className="text-navy-200 mb-6 leading-relaxed">
-              {deafChurch.tagline}. {home?.deafChurchBody}
+              {deafChurchBody}
             </p>
 
             <div className="flex flex-wrap gap-4 mb-8">
