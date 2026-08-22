@@ -4,7 +4,13 @@ import { PageHeader } from "@/components/ui/Section";
 import { Section, SectionHeader } from "@/components/ui/Section";
 import { FeatureCard } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { getChurchInfo, getServePage, getMissionPartnerCounts } from "@/lib/content";
+import {
+  getChurchInfo,
+  getDeafChurchInfo,
+  getServePage,
+  getMissionPartnerCounts,
+} from "@/lib/content";
+import { deafChurchCardBody, deafChurchPublicCopy } from "@/lib/deafchurch";
 import { Icon } from "@/lib/icons";
 import { Shield, Phone, Globe, Users, HandHeart, Heart } from "lucide-react";
 
@@ -15,12 +21,15 @@ export const metadata: Metadata = {
 };
 
 export default async function ServePage() {
-  const [churchInfo, page, counts] = await Promise.all([
+  const [churchInfo, page, counts, deafChurchData] = await Promise.all([
     getChurchInfo(),
     getServePage(),
     getMissionPartnerCounts(),
+    getDeafChurchInfo(),
   ]);
   const areas = page?.areas ?? [];
+  const deafChurch = deafChurchPublicCopy(deafChurchData);
+  const deafChurchBody = deafChurchCardBody(deafChurchData);
 
   return (
     <>
@@ -197,13 +206,10 @@ export default async function ServePage() {
               Deaf Ministry
             </p>
             <h2 className="font-display text-3xl font-bold text-navy-900 mb-4">
-              DeafChurch First Coast
+              {deafChurch.name}
             </h2>
             <p className="text-navy-600 mb-6 leading-relaxed">
-              CTK serves as an Anchor Church for DeafChurch Together, bringing
-              Anglican liturgy to the Deaf community through weekly ASL services.
-              Founded by Fr. Bob and Deacon Kathy Ayres, this ministry connects
-              Deaf believers across Northeast Florida.
+              {deafChurchBody}
             </p>
             <div className="flex flex-wrap gap-4">
               <Button href="/deafchurch" variant="primary">
