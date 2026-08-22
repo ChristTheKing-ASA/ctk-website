@@ -22,9 +22,16 @@ interface Partner {
 interface MissionsClientProps {
   partners: Partner[];
   additionalPartners: { name: string; type: string }[];
+  deafChurchName: string;
+  deafChurchDescription: string;
 }
 
-export default function MissionsClient({ partners, additionalPartners }: MissionsClientProps) {
+export default function MissionsClient({
+  partners,
+  additionalPartners,
+  deafChurchName,
+  deafChurchDescription,
+}: MissionsClientProps) {
   const [activeCategory, setActiveCategory] = useState<Category>("all");
 
   const filteredPartners =
@@ -82,12 +89,10 @@ export default function MissionsClient({ partners, additionalPartners }: Mission
                 Featured Ministry
               </div>
               <h2 className="font-display text-2xl font-bold mb-4">
-                DeafChurch First Coast
+                {deafChurchName}
               </h2>
               <p className="text-navy-200 mb-6">
-                CTK serves as an anchor church for DeafChurch First Coast, bringing
-                Anglican worship to the Deaf community across Northeast Florida
-                through weekly ASL services.
+                {deafChurchDescription}
               </p>
               <Button href="/deafchurch" variant="secondary">
                 Learn About DeafChurch
