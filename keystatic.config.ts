@@ -129,7 +129,7 @@ export default config({
         deafChurchBody: fields.text({
           label: "DeafChurch Card Body",
           description:
-            "Follows the DeafChurch tagline, which is edited under DeafChurch.",
+            "Fallback only. The site shows the Description under DeafChurch when that field has text.",
           multiline: true,
         }),
         deafChurchCtaLabel: fields.text({ label: "DeafChurch Button Label" }),
@@ -589,12 +589,34 @@ export default config({
       schema: {
         name: fields.text({ label: "Ministry Name" }),
         tagline: fields.text({ label: "Tagline" }),
-        description: fields.text({ label: "Description", multiline: true }),
+        description: fields.text({
+          label: "Description",
+          description:
+            "This is the copy visitors see on the DeafChurch page, the homepage card, Serve, and Missions. Saving it here is what updates those pages.",
+          multiline: true,
+        }),
+        badge: fields.text({
+          label: "CTK's Role",
+          description:
+            "Short label on the DeafChurch page. Example: Host Church.",
+        }),
         featuredVideoId: fields.text({ label: "Featured YouTube Video ID" }),
         founderName: fields.text({ label: "Founder Name" }),
         founderEmail: fields.text({ label: "Founder Email" }),
         familyInfo: fields.text({ label: "Family Info" }),
         publicationTitle: fields.text({ label: "Publication Title" }),
+        people: fields.array(
+          fields.relationship({
+            label: "Person",
+            collection: "clergy",
+          }),
+          {
+            label: "People on this page",
+            description:
+              "Cards on /deafchurch. Pick anyone from Clergy & Staff — Marva, Kathy, Fr. Bob, or whoever serves this plant. The Our Team page still lists the full roster.",
+            itemLabel: (props) => props.value || "Person",
+          }
+        ),
       },
     }),
   },
