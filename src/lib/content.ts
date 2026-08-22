@@ -1,5 +1,6 @@
 import { createReader } from "@keystatic/core/reader";
 import keystaticConfig from "../../keystatic.config";
+import { DEFAULT_DEAFCHURCH_PEOPLE } from "@/lib/deafchurch";
 import { compareEventsByDate, isUpcomingEvent } from "@/lib/events";
 
 export const reader = createReader(process.cwd(), keystaticConfig);
@@ -188,10 +189,11 @@ export async function getDeafChurchInfo() {
 }
 
 export async function getDeafChurchPeople() {
-  const info = await getDeafChurchInfo();
-  const slugs = (info?.people ?? []).filter(
-    (slug): slug is string => typeof slug === "string" && slug.length > 0
-  );
+  // Plant team is not a Keystatic field. Adding `people` / `badge` to the
+  // singleton made Keystatic Cloud reject the file ("key badge is not allowed")
+  // because Cloud still validates against the schema it already knew. Keep the
+  // roster in code; Craig edits bios on Clergy & Staff.
+  const slugs = [...DEFAULT_DEAFCHURCH_PEOPLE];
 
   const people = await Promise.all(
     slugs.map(async (slug) => {
@@ -292,4 +294,3 @@ export async function getAllEvents() {
     )
     .sort(compareEventsByDate);
 }
-
