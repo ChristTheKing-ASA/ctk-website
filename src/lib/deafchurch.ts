@@ -1,3 +1,9 @@
+export const DEFAULT_DEAFCHURCH_PEOPLE = [
+  "marva-sellers",
+  "the-rev-kathy-ayres",
+  "bob-ayres",
+] as const;
+
 export type DeafChurchCopySource = {
   name?: string | null;
   tagline?: string | null;

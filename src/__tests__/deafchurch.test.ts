@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import deafChurch from "../content/deafchurch.json";
-import { deafChurchCardBody, deafChurchPublicCopy } from "@/lib/deafchurch";
+import {
+  DEFAULT_DEAFCHURCH_PEOPLE,
+  deafChurchCardBody,
+  deafChurchPublicCopy,
+} from "@/lib/deafchurch";
 import marva from "../content/clergy/marva-sellers.json";
 import kathy from "../content/clergy/the-rev-kathy-ayres.json";
 
@@ -28,10 +32,15 @@ describe("DeafChurch CMS copy", () => {
   });
 
   it("lists Marva and Kathy on the DeafChurch page roster", () => {
-    expect(deafChurch.people).toEqual(
+    expect(DEFAULT_DEAFCHURCH_PEOPLE).toEqual(
       expect.arrayContaining(["marva-sellers", "the-rev-kathy-ayres"])
     );
     expect(marva.name).toMatch(/Marva/);
     expect(kathy.name).toMatch(/Kathy/);
+  });
+
+  it("does not store keys Keystatic Cloud has rejected", () => {
+    expect(deafChurch).not.toHaveProperty("badge");
+    expect(deafChurch).not.toHaveProperty("people");
   });
 });
