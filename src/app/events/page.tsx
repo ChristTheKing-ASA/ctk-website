@@ -2,11 +2,8 @@ import type { Metadata } from "next";
 import { Button } from "@/components/ui/Button";
 import { PageHeader, Section } from "@/components/ui/Section";
 import { getAllEvents, getChurchInfo } from "@/lib/content";
-import {
-  formatEventDate,
-  getEventCategoryLabel,
-  getEventDateBadge,
-} from "@/lib/events";
+import { EventDateBadge } from "@/components/EventDateBadge";
+import { formatEventDate, getEventCategoryLabel } from "@/lib/events";
 import {
   ArrowUpRight,
   CalendarDays,
@@ -73,24 +70,6 @@ function EventActions({ event }: { event: Event }) {
   );
 }
 
-function DateBadge({ date }: { date: string }) {
-  const { month, day } = getEventDateBadge(date);
-
-  return (
-    <div
-      className="flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-2xl bg-navy-900 text-white"
-      aria-hidden="true"
-    >
-      <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gold-300">
-        {month}
-      </span>
-      <span className="font-display text-3xl font-semibold leading-none">
-        {day}
-      </span>
-    </div>
-  );
-}
-
 export default async function EventsPage() {
   const [events, churchInfo] = await Promise.all([
     getAllEvents(),
@@ -132,7 +111,7 @@ export default async function EventsPage() {
               </div>
               <div className="p-6 sm:p-8">
                 <div className="flex flex-col gap-6 sm:flex-row">
-                  <DateBadge date={nextEvent.date} />
+                  <EventDateBadge date={nextEvent.date} />
                   <div className="min-w-0 flex-1">
                     <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-navy-500">
                       {getEventCategoryLabel(nextEvent.category)}
@@ -198,7 +177,7 @@ export default async function EventsPage() {
                   className="rounded-2xl border border-navy-100 bg-white p-6"
                 >
                   <div className="flex items-start gap-5">
-                    <DateBadge date={event.date} />
+                    <EventDateBadge date={event.date} />
                     <div className="min-w-0 flex-1">
                       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gold-700">
                         {getEventCategoryLabel(event.category)}
