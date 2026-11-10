@@ -2,7 +2,7 @@ name: PR preview
 
 # Every pull request gets its own preview deployment on workers.dev so
 # reviewers can test the built site before anything reaches production.
-# Production remains GitHub Pages, deployed only on push to main.
+# Production is Cloudflare, deployed on push to main by Workers Builds.
 
 on:
   pull_request:

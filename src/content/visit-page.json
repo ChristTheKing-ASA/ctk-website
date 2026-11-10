@@ -34,7 +34,7 @@
   "familyTitle": "Children & Youth",
   "familyIntro": "We love having kids in worship! Here's what we offer for families:",
   "familyImage": "/images/ministries/familyImage.jpg",
-  "familyImageAlt": "Children's Sunday School at CTK",
+  "familyImageAlt": "Children's Worship at CTK",
   "familyItems": [
     {
       "title": "Nursery",
@@ -42,7 +42,7 @@
       "icon": "heart"
     },
     {
-      "title": "Sunday School",
+      "title": "Children's Worship",
       "description": "Elementary children (Kindergarten to 5th graders) are dismissed before the sermon and return for Communion",
       "icon": "bookOpen"
     },

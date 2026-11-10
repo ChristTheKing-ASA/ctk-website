@@ -1,0 +1,12 @@
+{
+  "name": "Christ The King Anglican Church",
+  "short_name": "Christ The King",
+  "description": "A welcoming Anglican community in St. Augustine, Florida.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#102a43",
+  "icons": [
+    { "src": "/favicon.png", "type": "image/png", "sizes": "32x47" }
+  ]
+}

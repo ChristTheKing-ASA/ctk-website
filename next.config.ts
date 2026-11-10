@@ -15,9 +15,9 @@ const nextConfig: NextConfig = {
   pageExtensions: isDev
     ? ["ts", "tsx", "js", "jsx", "dev.ts", "dev.tsx"]
     : ["ts", "tsx", "js", "jsx"],
-  // Set while the site is served from wallscaler.github.io/ctk-website;
-  // remove once ctkasa.com points at GitHub Pages (custom domains serve
-  // from the root path).
+  // Empty in production: ctkasa.com is served from the domain root on
+  // Cloudflare. Only the GitHub Pages staging build sets this, because Pages
+  // serves the repo from /ctk-website.
   basePath: process.env.NEXT_BASE_PATH || "",
   trailingSlash: true,
   images: {
