@@ -15,7 +15,7 @@
  */
 import { cpSync, existsSync, mkdirSync, writeFileSync, readdirSync } from "node:fs";
 import { execSync } from "node:child_process";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { homedir } from "node:os";
 
 const SOURCES = ["src/content", "public/images"];

@@ -23,7 +23,7 @@
       "name": "Children & Youth",
       "description": "Help shape the next generation through teaching and care.",
       "icon": "heart",
-      "roles": ["Sunday School", "Nursery", "Youth Leaders"],
+      "roles": ["Children's Worship", "Nursery", "Youth Leaders"],
       "requiresTraining": true
     },
     {

@@ -1,0 +1,9 @@
+# Response headers for every page, applied by Cloudflare static assets.
+# No Content-Security-Policy here on purpose: the Keystatic editor and the
+# YouTube embeds need a policy written and tested against both, not guessed.
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

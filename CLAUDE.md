@@ -11,11 +11,14 @@ Repo: `ChristTheKing-ASA/ctk-website`. Collaborators: wallscaler (Fred), WazDevZ
   `staging` branch by `.github/workflows/staging.yml`. Builds with `NEXT_BASE_PATH=/ctk-website` and
   `NEXT_PUBLIC_NOINDEX=1`, so it is `noindex, nofollow` and does not compete with the real site in
   search. Merge to `staging` to show the parish something; merge to `main` to ship it.
-- **No PR previews exist.** An earlier version of this file described per-PR Cloudflare URLs at
-  `pr-<n>-ctk-website.fredesere.workers.dev` via a `preview.yml`. That workflow is not in the repo on
-  any branch and those URLs 404. Do not rely on it without building it first.
+- **PR previews**: `.github/workflows/preview.yml` uploads every pull request to
+  `https://pr-<n>-ctk-website.fredesere.workers.dev` and comments the URL on the PR. Verified working
+  2026-11-10 (PR 62).
 - Cloudflare Workers Builds git integration also runs on PRs and reports a `Workers Builds` check.
-  It produces no reviewable URL; the check is a build signal only.
+  It is a build signal only; use the preview URL above to review.
+- **Daily rebuild**: `.github/workflows/daily-rebuild.yml` rebuilds and deploys `main` every morning.
+  The site is a static export, so "upcoming events" and the sermon archive are fixed at build time.
+  Without the daily run they go stale between Keystatic saves.
 
 ## Keystatic CMS
 
