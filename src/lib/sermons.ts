@@ -61,7 +61,17 @@ function classify(durationSeconds: number, title: string): SermonKind {
 }
 
 async function fetchJson(url: string) {
-  const res = await fetch(url, { headers: { Referer: REFERER } });
+  // The short lifetime matters. With no option at all, Next stores the
+  // response in .next/cache/fetch-cache for a year, and any build that restores
+  // that cache (Cloudflare does) replays it. That froze the live archive at
+  // 10 August 2026 while the channel kept publishing. `no-store` is not an
+  // option: a static export refuses uncached fetches and the archive comes
+  // back empty. One minute is long enough to share within a build and short
+  // enough that the next build always asks YouTube again.
+  const res = await fetch(url, {
+    headers: { Referer: REFERER },
+    next: { revalidate: 60 },
+  });
   const json = await res.json();
   if (json.error) throw new Error(json.error.message ?? "YouTube API error");
   return json;

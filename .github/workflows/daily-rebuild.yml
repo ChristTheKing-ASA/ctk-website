@@ -1,0 +1,49 @@
+# Rebuild and redeploy production once a day.
+#
+# The site is a static export, so anything that depends on today's date is
+# decided at build time: which events are still upcoming, and what the sermon
+# archive contains. Without this, the site only rebuilt when someone saved in
+# Keystatic, so past events lingered and the archive fell behind.
+#
+# Pushes to main are still deployed by Cloudflare Workers Builds. This workflow
+# only covers the days when nobody pushes.
+#
+# Note: GitHub pauses scheduled workflows after 60 days with no repository
+# activity. A Keystatic save counts as activity. If the site is ever left
+# untouched that long, re-enable this from the Actions tab.
+name: Daily rebuild
+
+on:
+  schedule:
+    # 09:17 UTC, about 4 to 5 AM in St. Augustine. After midnight Eastern, so
+    # yesterday's events have ended in both UTC and local time.
+    - cron: "17 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-rebuild
+  cancel-in-progress: true
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Same shape as the Cloudflare build: domain root, no basePath.
+      - run: npm run build
+      - run: npm run test:cloudflare
+      - name: Deploy to Cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler deploy
