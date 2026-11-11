@@ -25,8 +25,21 @@ function parseEventDate(date: string) {
   return new Date(`${date}T12:00:00Z`);
 }
 
+const churchDateFormatter = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "America/New_York",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+
+/**
+ * Today's date as YYYY-MM-DD in the parish's own time zone.
+ *
+ * Not UTC: by 7 or 8 PM in St. Augustine it is already tomorrow in UTC, which
+ * would move an evening service to "past" while people are still driving to it.
+ */
 export function getTodayDateKey(now = new Date()) {
-  return now.toISOString().slice(0, 10);
+  return churchDateFormatter.format(now);
 }
 
 export function isUpcomingEvent(
@@ -35,6 +48,21 @@ export function isUpcomingEvent(
 ) {
   if (!event.date) return false;
   return (event.endDate || event.date) >= today;
+}
+
+/**
+ * Splits events into what is still ahead (soonest first) and what has
+ * happened (most recent first).
+ */
+export function splitEventsByDate<T extends DatedEvent>(
+  events: T[],
+  today = getTodayDateKey()
+) {
+  const sorted = [...events].sort(compareEventsByDate);
+  return {
+    upcoming: sorted.filter((event) => isUpcomingEvent(event, today)),
+    past: sorted.filter((event) => !isUpcomingEvent(event, today)).reverse(),
+  };
 }
 
 export function compareEventsByDate(a: DatedEvent, b: DatedEvent) {
