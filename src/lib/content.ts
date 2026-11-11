@@ -276,7 +276,14 @@ export async function getAllActivities() {
   return activities.filter(Boolean);
 }
 
-export async function getAllEvents() {
+/**
+ * Every dated event, past ones included, soonest first.
+ *
+ * The pages hand this whole list to the browser and let it decide what is
+ * upcoming and what is past. The site is only rebuilt when someone saves in
+ * the CMS, so a split made here would be frozen at the last save.
+ */
+export async function getAllEventsIncludingPast() {
   const slugs = await reader.collections.events.list();
   const events = await Promise.all(
     slugs.map(async (slug) => {
@@ -288,9 +295,18 @@ export async function getAllEvents() {
   return events
     .filter(
       (event): event is NonNullable<typeof event> & { date: string } =>
-        event !== null &&
-        typeof event.date === "string" &&
-        isUpcomingEvent(event)
+        event !== null && typeof event.date === "string"
     )
     .sort(compareEventsByDate);
+}
+
+export type SiteEvent = Awaited<
+  ReturnType<typeof getAllEventsIncludingPast>
+>[number];
+
+/** Upcoming events only, as of the moment the site was built. */
+export async function getAllEvents() {
+  return (await getAllEventsIncludingPast()).filter((event) =>
+    isUpcomingEvent(event)
+  );
 }

@@ -14,11 +14,15 @@ Repo: `ChristTheKing-ASA/ctk-website`. Collaborators: wallscaler (Fred), WazDevZ
 - **PR previews**: `.github/workflows/preview.yml` uploads every pull request to
   `https://pr-<n>-ctk-website.fredesere.workers.dev` and comments the URL on the PR. Verified working
   2026-11-10 (PR 62).
-- Cloudflare Workers Builds git integration also runs on PRs and reports a `Workers Builds` check.
-  It is a build signal only; use the preview URL above to review.
-- **Daily rebuild**: `.github/workflows/daily-rebuild.yml` rebuilds and deploys `main` every morning.
-  The site is a static export, so "upcoming events" and the sermon archive are fixed at build time.
-  Without the daily run they go stale between Keystatic saves.
+- **Every pushed branch goes live.** The Cloudflare account that serves `ctkasa.com` (the parish's
+  account, not the one PR previews use) builds and deploys every branch that is pushed, not only
+  `main`. Opening a PR therefore changes the live site. Review locally before pushing, and check
+  `ctkasa.com` itself after any push. Tracked for a fix in the Cloudflare settings.
+- The repo's `CLOUDFLARE_*` secrets point at the preview account. A GitHub Action cannot deploy
+  production with them.
+- **No scheduled rebuild.** The site only rebuilds on a push or a Keystatic save. Events do not
+  depend on that: the browser decides what is upcoming and what is past (`splitEventsByDate`,
+  `useTodayDateKey`). The sermon archive does, so it is as fresh as the last build.
 
 ## Keystatic CMS
 

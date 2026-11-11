@@ -52,3 +52,37 @@ describe("event helpers", () => {
     expect(getEventCategoryLabel()).toBe("Parish Life");
   });
 });
+
+describe("past and upcoming split", () => {
+  it("uses the parish time zone, not UTC, to decide what day it is", async () => {
+    const { getTodayDateKey } = await import("@/lib/events");
+    // 9 PM Saturday in St. Augustine is already Sunday in UTC.
+    expect(getTodayDateKey(new Date("2026-11-15T02:00:00Z"))).toBe("2026-11-14");
+  });
+
+  it("moves an event to past the day after it ends, newest past first", async () => {
+    const { splitEventsByDate } = await import("@/lib/events");
+    const events = [
+      { date: "2026-11-22" },
+      { date: "2026-10-04" },
+      { date: "2026-11-14" },
+      { date: "2026-10-28", endDate: "2026-11-15" },
+    ];
+
+    const onTheDay = splitEventsByDate(events, "2026-11-14");
+    expect(onTheDay.upcoming.map((e) => e.date)).toEqual([
+      "2026-10-28",
+      "2026-11-14",
+      "2026-11-22",
+    ]);
+    expect(onTheDay.past.map((e) => e.date)).toEqual(["2026-10-04"]);
+
+    const dayAfter = splitEventsByDate(events, "2026-11-16");
+    expect(dayAfter.upcoming.map((e) => e.date)).toEqual(["2026-11-22"]);
+    expect(dayAfter.past.map((e) => e.date)).toEqual([
+      "2026-11-14",
+      "2026-10-28",
+      "2026-10-04",
+    ]);
+  });
+});
